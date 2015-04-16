@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="415.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HodikGUI.MainWindowController">
+   <children>
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="454.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <SplitPane layoutY="27.0" prefHeight="378.0" prefWidth="600.0">
+         <items>
+            <SplitPane dividerPositions="0.4397993311036789" prefHeight="160.0" prefWidth="200.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="261.0">
+                     <children>
+                        <SplitPane dividerPositions="0.7620320855614974" layoutY="-3.0" orientation="VERTICAL" prefHeight="388.0" prefWidth="267.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="289.0" prefWidth="248.0">
+                                 <children>
+                                    <TabPane prefHeight="289.0" prefWidth="260.0" side="LEFT" tabClosingPolicy="UNAVAILABLE">
+                                      <tabs>
+                                        <Tab text="Editing">
+                                          <content>
+                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                   <children>
+                                                      <TextArea prefHeight="289.0" prefWidth="232.0" promptText="//Start writing a program for Hodik here" />
+                                                   </children></AnchorPane>
+                                          </content>
+                                        </Tab>
+                                        <Tab text="Debug">
+                                          <content>
+                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                          </content>
+                                        </Tab>
+                                      </tabs>
+                                    </TabPane>
+                                 </children></AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <TabPane layoutX="-1.0" prefHeight="88.0" prefWidth="260.0" tabClosingPolicy="UNAVAILABLE">
+                                      <tabs>
+                                        <Tab text="Output">
+                                          <content>
+                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                          </content>
+                                        </Tab>
+                                          <Tab text="Smth">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                            </content>
+                                          </Tab>
+                                      </tabs>
+                                    </TabPane>
+                                 </children></AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <SplitPane dividerPositions="0.7074468085106383" orientation="VERTICAL" prefHeight="378.0" prefWidth="332.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="264.0" prefWidth="321.0">
+                                 <children>
+                                    <ImageView fitHeight="263.0" fitWidth="332.0" layoutX="-1.0" pickOnBounds="true">
+                                       <image>
+                                          <Image url="@NGC_2264.jpg" />
+                                       </image>
+                                    </ImageView>
+                                 </children></AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="107.0" prefWidth="318.0">
+                                 <children>
+                                    <TitledPane animated="false" collapsible="false" prefHeight="107.0" prefWidth="332.0" text="Instruments">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <TabPane layoutY="-1.0" prefHeight="78.0" prefWidth="324.0" tabClosingPolicy="UNAVAILABLE">
+                                                  <tabs>
+                                                    <Tab text="Steps">
+                                                      <content>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                      </content>
+                                                    </Tab>
+                                                    <Tab text="Arithmetic">
+                                                      <content>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                      </content>
+                                                    </Tab>
+                                                      <Tab text="Constants">
+                                                        <content>
+                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                        </content>
+                                                      </Tab>
+                                                      <Tab text="Fork">
+                                                        <content>
+                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                        </content>
+                                                      </Tab>
+                                                  </tabs>
+                                                </TabPane>
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </TitledPane>
+                                 </children></AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </items>
+      </SplitPane>
+      <Accordion layoutX="-152.0" layoutY="17.0" />
+      <ComboBox layoutX="456.0" layoutY="2.0" prefHeight="25.0" prefWidth="144.0" promptText="Open a planet map" />
+   </children>
+</AnchorPane>
