@@ -1,9 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tool | Templates
- * and open the template in the editor.
+ * This will be the main file instead of 'HodikGit' 
+ * and will lie in the 'hodikgit' package
  */
-package HodikGUI;
+
+
+package HodikGUI; // all other gui files will be imported from that package
+                  // [or if there are too many files maybe each type of a window
+                  // should lie in its own package]
 
 import java.io.InputStream;
 import java.util.logging.Level;
@@ -27,6 +30,8 @@ import javafx.stage.Stage;
 public class HodikFXMain extends Application {
     
     private Stage stage;
+    //private Integrator integrator;
+    
     private final double MINIMUM_WINDOW_WIDTH = 600.0;
     private final double MINIMUM_WINDOW_HEIGHT = 415.0;
     
@@ -35,10 +40,14 @@ public class HodikFXMain extends Application {
     public void start(Stage primaryStage) {   
         try {
             stage = primaryStage;
-            stage.setMinWidth(MINIMUM_WINDOW_WIDTH);
-            stage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
+            stage.setFullScreen(true);
+            //stage.setMinWidth(MINIMUM_WINDOW_WIDTH);
+            //stage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
             stage.setTitle("Welcome to Hodik IDE!");
-            loadMainWindow();
+            
+            loadStartWindow();
+            //integrator = new Integrator();
+           
             primaryStage.show();
         } catch (Exception ex) {
             Logger.getLogger(HodikFXMain.class.getName()).log(Level.SEVERE, null, ex);
@@ -62,6 +71,24 @@ public class HodikFXMain extends Application {
         }
     }
     
+    private void loadStartWindow() {
+        try {
+            StartWindowController startWindow = (StartWindowController) replaceSceneContent("StartWindow.fxml");
+            startWindow.setApp(this);
+        } catch (Exception ex) {
+            Logger.getLogger(HodikFXMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void loadPlanetChoosingWindow() {
+        try {
+            PlanetChoosingWindowController planetWindow = (PlanetChoosingWindowController) replaceSceneContent("PlanetChoosingWindow.fxml");
+            planetWindow.setApp(this);
+        } catch (Exception ex) {
+            Logger.getLogger(HodikFXMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     //add loading other windows
     
     private Initializable replaceSceneContent(String fxml) throws Exception {
@@ -75,9 +102,10 @@ public class HodikFXMain extends Application {
         } finally {
             in.close();
         } 
-        Scene scene = new Scene(page, 600, 415); //should be a full screen 
+        Scene scene = new Scene(page, stage.getWidth(), stage.getHeight());
         stage.setScene(scene);
-        stage.sizeToScene();
+        
+        //stage.sizeToScene();
         return (Initializable) loader.getController();
     }
 }

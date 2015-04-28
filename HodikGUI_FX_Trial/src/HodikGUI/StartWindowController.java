@@ -1,5 +1,5 @@
 /*
- * Main IDE Window
+ * Choosing the robot [loading saved programs] or creating a new one
  */
 package HodikGUI;
 
@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -15,11 +14,10 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author Julia
  */
-public class MainWindowController extends AnchorPane implements Initializable {
+public class StartWindowController extends AnchorPane implements Initializable {
 
     @FXML
-    TextArea editor;
-    //add other elements 
+    //add elements 
     
     private HodikFXMain application;
     
@@ -28,15 +26,14 @@ public class MainWindowController extends AnchorPane implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       //initialize elements here 
-       // (move from the fxml and set proper values:
-       // panels, menubar and etc should not have fixed sizes, but should 
-       // occupy some parts regarding their parent elements)
-    }  
+        // TODO
+    }   
     
     public void setApp(HodikFXMain application){
         this.application = application;
     }
+    
+    // If one of the previous programs was chosen, then the MainWindow is called here
     
     //add events' handlers
 }
