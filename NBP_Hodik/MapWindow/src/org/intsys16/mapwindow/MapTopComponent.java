@@ -5,6 +5,18 @@
  */
 package org.intsys16.mapwindow;
 
+import java.awt.BorderLayout;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -37,12 +49,43 @@ import org.openide.util.NbBundle.Messages;
 })
 public final class MapTopComponent extends TopComponent {
 
+    private static JFXPanel fxPanel;
+    
     public MapTopComponent() {
         initComponents();
         setName(Bundle.CTL_MapTopComponent());
         setToolTipText(Bundle.HINT_MapTopComponent());
 
+        setLayout(new BorderLayout());
+        init();          
     }
+    
+
+    public void init() {
+        fxPanel = new JFXPanel();
+        add(fxPanel, BorderLayout.CENTER);
+        
+             
+        //! is very important !
+        // this keeps javafx application thread alive when all jfx windows 
+        // are closed (without it we'll see the blank page if reopening the window)
+        Platform.setImplicitExit(false); 
+        
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                createScene();
+            }
+        });
+    }
+    
+    private void createScene() {
+        Group root = new Group();
+        //
+        //fxPanel.setScene(scene);
+    }
+    
+
 
     /**
      * This method is called from within the constructor to initialize the form.

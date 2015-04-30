@@ -73,10 +73,10 @@ public class StartWindowController extends AnchorPane implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //does not load an image
 //        root.setBackground(new Background(new BackgroundImage(
-//                new Image("http://www.wallpapersam.com/wallpapers/2013/03/Planet-Asteroid-Stars-485x728.jpg"), 
+//                new Image(getClass().getResourceAsStream("stw_bg.png")), 
 //                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, null)));
         
-        root.setBackground(new Background(new BackgroundFill(Color.AZURE, null, null)));
+        //root.setBackground(new Background(new BackgroundFill(Color.AZURE, null, null)));
         loadButton.setVisible(false);
         createButton.setDisable(true);
         
