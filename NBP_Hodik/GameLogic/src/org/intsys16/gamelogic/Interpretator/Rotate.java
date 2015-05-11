@@ -5,8 +5,8 @@
  */
 package org.intsys16.gamelogic.Interpretator;
 
-import hodikgit.Direction;
-import robots.good_robot;
+import org.intsys16.gamelogic.FieldControl.Direction;
+import org.intsys16.gamelogic.RobotsControl.good_robot;
 
 /**
  *

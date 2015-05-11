@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 package org.intsys16.gamelogic.RobotsControl;
-import interpretator.Interpretator;
-import robots.Unit;
-import robots.good_robot;
+import org.intsys16.gamelogic.Interpretator.Interpretator;
+import org.intsys16.gamelogic.FieldControl.Field_object;
+import org.intsys16.gamelogic.FieldControl.Field;
+import org.intsys16.gamelogic.FieldControl.Coordinate;
 
 //import robots.good_robot;
 

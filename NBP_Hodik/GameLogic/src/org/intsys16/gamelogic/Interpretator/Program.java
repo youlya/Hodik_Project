@@ -5,7 +5,7 @@
  */
 package org.intsys16.gamelogic.Interpretator;
 
-import interpretator.cmd.CMD;
+
 import java.util.ArrayList;
 
 /**

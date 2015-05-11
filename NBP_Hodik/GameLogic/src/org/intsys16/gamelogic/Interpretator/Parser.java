@@ -5,11 +5,9 @@
  */
 package org.intsys16.gamelogic.Interpretator;
 
-import hodikgit.Coordinate;
-import interpretator.cmd.CMD;
-import hodikgit.Direction;
-import interpretator.cmd.Rotate;
-import interpretator.cmd.Step;
+import org.intsys16.gamelogic.FieldControl.Coordinate;
+import org.intsys16.gamelogic.FieldControl.Direction;
+import org.intsys16.gamelogic.RobotsControl.good_robot;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +18,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import robots.good_robot;
+
 
 /**
  *

@@ -5,11 +5,10 @@
  */
 package org.intsys16.gamelogic.RobotsControl;
 
-import hodikgit.Coordinate;
-import hodikgit.Field;
-import hodikgit.Field_object;
-import hodikgit.Integrator;
-import interpretator.Interpretator;
+import org.intsys16.gamelogic.FieldControl.Coordinate;
+import org.intsys16.gamelogic.FieldControl.Field;
+import org.intsys16.gamelogic.FieldControl.Field_object;
+import org.intsys16.gamelogic.Interpretator.Interpretator;
 
 /**
  *

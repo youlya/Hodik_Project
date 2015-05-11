@@ -5,12 +5,10 @@
  */
 package org.intsys16.gamelogic.RobotsControl;
 
-import hodikgit.Algorithm;
-import hodikgit.Coordinate;
-import hodikgit.Direction;
-import hodikgit.Field;
-import hodikgit.Integrator;
-import interpretator.Interpretator;
+import org.intsys16.gamelogic.FieldControl.Coordinate;
+import org.intsys16.gamelogic.FieldControl.Direction;
+import org.intsys16.gamelogic.FieldControl.Field;
+import org.intsys16.gamelogic.Interpretator.Interpretator;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;

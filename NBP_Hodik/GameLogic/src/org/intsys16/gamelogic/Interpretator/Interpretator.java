@@ -5,14 +5,13 @@
  */
 package org.intsys16.gamelogic.Interpretator;
 
-import hodikgit.Coordinate;
-import interpretator.cmd.CMD;
+import org.intsys16.gamelogic.FieldControl.Coordinate;
+import org.intsys16.gamelogic.RobotsControl.good_robot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import robots.good_robot;
 
 /**
  *

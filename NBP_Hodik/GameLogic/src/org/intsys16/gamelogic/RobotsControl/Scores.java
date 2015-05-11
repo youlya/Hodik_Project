@@ -6,7 +6,6 @@
 package org.intsys16.gamelogic.RobotsControl;
 import java.io.File;
 import java.util.ArrayList;
-import robots.good_robot;
 /**
  *
  * @author r545-2 Syzko Anastasia

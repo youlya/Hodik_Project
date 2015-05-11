@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package org.intsys16.gamelogic.FieldControl;
-import interpretator.Interpretator;
+import org.intsys16.gamelogic.Interpretator.Interpretator;
 /**
  *
  * @author jbenua
