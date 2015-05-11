@@ -6,6 +6,7 @@
 package org.intsys16.mapwindow;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.windows.WindowManager;
 
 /**
  * Top component which displays something.
@@ -35,7 +37,7 @@ import org.openide.util.NbBundle.Messages;
         iconBase = "org/intsys16/mapwindow/map24.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(mode = "rightSlidingSide", openAtStartup = true)
+@TopComponent.Registration(mode = "properties", openAtStartup = true)
 @ActionID(category = "Window", id = "org.intsys16.mapwindow.MapTopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
@@ -55,9 +57,11 @@ public final class MapTopComponent extends TopComponent {
         initComponents();
         setName(Bundle.CTL_MapTopComponent());
         setToolTipText(Bundle.HINT_MapTopComponent());
+        
 
+        
         setLayout(new BorderLayout());
-        init();          
+        init();     
     }
     
 
