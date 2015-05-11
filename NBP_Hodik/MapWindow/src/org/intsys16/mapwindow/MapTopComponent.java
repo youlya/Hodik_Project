@@ -65,10 +65,12 @@ public final class MapTopComponent extends TopComponent {
         fxPanel = new JFXPanel();
         add(fxPanel, BorderLayout.CENTER);
         
-             
-        //! is very important !
-        // this keeps javafx application thread alive when all jfx windows 
-        // are closed (without it we'll see the blank page if reopening the window)
+        /**
+         * @notice
+         * this method set to false keeps javafx application thread alive 
+         * when all jfx windows are closed
+         * (without it we'll see the blank page if reopen the window)
+         */
         Platform.setImplicitExit(false); 
         
         Platform.runLater(new Runnable() {
@@ -81,7 +83,7 @@ public final class MapTopComponent extends TopComponent {
     
     private void createScene() {
         Group root = new Group();
-        //
+        /** @todo beautiful choosing a planet as in the example  */
         //fxPanel.setScene(scene);
     }
     

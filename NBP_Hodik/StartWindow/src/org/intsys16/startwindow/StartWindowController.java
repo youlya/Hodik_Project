@@ -7,25 +7,19 @@ import static java.lang.System.currentTimeMillis;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.Vector;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
@@ -62,7 +56,7 @@ public class StartWindowController extends AnchorPane implements Initializable {
     private Button loadButton;
     @FXML
     private TextField newrobotName;
-    private final int PLANETS_NUMBER = 5;
+    private final int PLANETS_NUMBER = 5; /** @todo load this number from the integrator */
     //add elements 
     
     
@@ -71,38 +65,52 @@ public class StartWindowController extends AnchorPane implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //does not load an image
-//        root.setBackground(new Background(new BackgroundImage(
-//                new Image(getClass().getResourceAsStream("stw_bg.png")), 
-//                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, null)));
+        drawBackground();
         
-        //root.setBackground(new Background(new BackgroundFill(Color.AZURE, null, null)));
         loadButton.setVisible(false);
         createButton.setDisable(true);
-        
-        //to load from integrator
+       
+        /** @todo load from the integrator */
         ObservableList<String> robot_names = FXCollections.observableArrayList(
           "Hodik", "Sue", "Matthew", "Hannah", "Stephan", "Denise", "Mike", "Tatyana");
+        //
+        
         robotsList.setItems(robot_names);
         robotsList.setPlaceholder(new Label("No robots yet"));
-        robotsList.getSelectionModel().clearSelection();
+        robotsList.getSelectionModel().clearSelection(); /** @why works after cleaning and rebuilding the project */
          
-        Random rand = new Random(currentTimeMillis());
+        Random rand = new Random(currentTimeMillis()); /** @temporary */
         
+        /**
+         *  @notice
+         *  lambda expressions work when sources level is not less then 1.8
+         *  ( 'moduleName'/Properties/Sources/)
+         */
         robotsList.setOnMouseClicked((event) -> {
             Object selectedRobot = robotsList.getSelectionModel().getSelectedItem();
+            
             label_programs.setText("Programs available for " + selectedRobot + ":");
+            label_programs.setTextFill(Color.WHITE);         
             label_programs.autosize();
-            //to load from integrator for the selected robot
+            
+            /** @todo load from the integrator for the selected robot */
             final ObservableList<String> programs = FXCollections.observableArrayList();
+            //
+            
+            /** @temporary for demonstrating the event listener works */
             programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
             programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
             programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            // delete when loading from the integrator is done
             
             vbox.getChildren().clear();
             for (int i = 0; i < programs.size(); i++)
-                vbox.getChildren().add(new CheckBox(programs.get(i)));
-            
+            {
+                CheckBox chb = new CheckBox(programs.get(i));
+                chb.setTextFill(Color.WHITE);
+                vbox.getChildren().add(chb);
+            }
+        
             loadButton.setVisible(true);
             loadButton.setDisable(true);
         });
@@ -113,12 +121,14 @@ public class StartWindowController extends AnchorPane implements Initializable {
             for (int i = 0; i < vbox.getChildren().size(); i++)
                 programs.add((CheckBox) vbox.getChildren().get(i));
             
+            
             // if anything is selected then enable the load button
         });
         
         newrobotName.setOnKeyTyped((event) -> {
             createButton.setDisable(false);
             label_hintAboutMap.setText("After the creation you should choose a planet where to start.");
+            label_hintAboutMap.setTextFill(Color.WHITE);
             if (newrobotName.getText().isEmpty())
             {
                 createButton.setDisable(true);
@@ -126,7 +136,34 @@ public class StartWindowController extends AnchorPane implements Initializable {
             }
         });
         
+      
+ 
+        /** @todo edit and move to the MapWindow module */
+//        Vector<Image> planets = new Vector();
+//        Vector<ImageView> pl_view = new Vector();
+//        for (int i = 1; i <= PLANETS_NUMBER; i++)
+//        {
+//            planets.add(new Image(getClass().getResourceAsStream("@pl" + i + ".png"))) ;
+//            pl_view.add(new ImageView(planets.get(i-1)));
+//        }
+//        
+//        for (int i = 0; i < pl_view.size(); i++)
+//        {
+//            root.getChildren().add(pl_view.get(i));
+//            pl_view.get(i).setEffect(new Reflection());
+//        }
+    }   
+    private void drawBackground() {
+        root.setBackground(new Background(new BackgroundImage(
+                new Image(getClass().getResourceAsStream("bg.jpg")), 
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, 
+                new BackgroundSize(root.getWidth(), root.getHeight(), true, true, true, true))));
         
+        drawWelcome();
+        //root.setBackground(new Background(new BackgroundFill(Color.AZURE, null, null)));
+    }
+    
+    private void drawWelcome() {       
         DropShadow dropshadow = new DropShadow();
         dropshadow.setOffsetY(3.0f);
         dropshadow.setColor(Color.color(0.4f, 0.4f, 0.4f));
@@ -147,23 +184,8 @@ public class StartWindowController extends AnchorPane implements Initializable {
         text.setText("Welcome to the Hodik IDE !");
         text.setFont(Font.font(null, FontWeight.BOLD, 32));
         root.getChildren().add(text);
-               
-//        Vector<Image> planets = new Vector();
-//        Vector<ImageView> pl_view = new Vector();
-//        for (int i = 1; i <= PLANETS_NUMBER; i++)
-//        {
-//            planets.add(new Image("@pl" + i + ".png")) ;  //throws exception
-//            pl_view.add(new ImageView(planets.get(i-1)));
-//        }
-//        
-//        for (int i = 0; i < pl_view.size(); i++)
-//        {
-//            root.getChildren().add(pl_view.get(i));
-//            pl_view.get(i).setEffect(new Reflection());
-//        }
-    }   
-    
-    
+    }
+            
    
     
   

@@ -77,11 +77,13 @@ public final class StartTopComponent extends TopComponent {
     public void init() {
         fxPanel = new JFXPanel();
         add(fxPanel, BorderLayout.CENTER);
-        
-             
-        //! is very important !
-        // this keeps javafx application thread alive when all jfx windows 
-        // are closed (without it we'll see the blank page if reopening the window)
+                    
+        /**
+         * @notice
+         * this method set to false keeps javafx application thread alive 
+         * when all jfx windows are closed
+         * (without it we'll see the blank page if reopen the window)
+         */
         Platform.setImplicitExit(false); 
         
         Platform.runLater(new Runnable() {
