@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.intsys16.startmessage.StMessageWindowController">
+   <children>
+      <AnchorPane id="AnchorPane" fx:id="anchor" layoutY="25.0" AnchorPane.topAnchor="25.0">
+         <children>
+            <Label id="Label" fx:id="welcomeText" layoutX="25.0" prefWidth="300" wrapText="true" textFill="ANTIQUEWHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>           
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

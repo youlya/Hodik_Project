@@ -3,102 +3,83 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.intsys16.mapwindow;
+package org.intsys16.startmessage;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.io.IOException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
-import org.intsys16.integrator.api.Integrator;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
-import org.openide.windows.WindowManager;
 
 /**
  * Top component which displays something.
  */
 @ConvertAsProperties(
-        dtd = "-//org.intsys16.mapwindow//Map//EN",
+        dtd = "-//org.intsys16.startmessage//StMsg//EN",
         autostore = false
 )
 @TopComponent.Description(
-        preferredID = "MapTopComponent",
-        iconBase = "org/intsys16/mapwindow/map24.png",
+        preferredID = "StMsgTopComponent",
+        //iconBase="SET/PATH/TO/ICON/HERE", 
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(mode = "properties", openAtStartup = false)
-@ActionID(category = "Window", id = "org.intsys16.mapwindow.MapTopComponent")
+@TopComponent.Registration(mode = "properties", openAtStartup = true)
+@ActionID(category = "Window", id = "org.intsys16.startmessage.StMsgTopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
-        displayName = "#CTL_MapAction",
-        preferredID = "MapTopComponent"
+        displayName = "#CTL_StMsgAction",
+        preferredID = "StMsgTopComponent"
 )
 @Messages({
-    "CTL_MapAction=Map Window",
-    "CTL_MapTopComponent=Map Window",
-    "HINT_MapTopComponent=This is a Map window"
+    "CTL_StMsgAction=Show start message",
+    "CTL_StMsgTopComponent=Start Message",
+    "HINT_StMsgTopComponent=This is a Start Message window"
 })
-public final class MapTopComponent extends TopComponent {
+public final class StMsgTopComponent extends TopComponent {
 
     private static JFXPanel fxPanel;
-    private static Integrator integrator = Integrator.getIntegrator();
-    private static final Logger logger = Logger.getLogger(MapTopComponent.class.getName());
+    private StMessageWindowController controller;
     
-    public MapTopComponent() {
+    public StMsgTopComponent() {
         initComponents();
-        setName(Bundle.CTL_MapTopComponent());
-        setToolTipText(Bundle.HINT_MapTopComponent());
+        setName(Bundle.CTL_StMsgTopComponent());
+        setToolTipText(Bundle.HINT_StMsgTopComponent());
         setLayout(new BorderLayout());
         init();     
     }
     
-
     public void init() {
         fxPanel = new JFXPanel();
         add(fxPanel, BorderLayout.CENTER);
-        
-        /**
-         * @notice
-         * this method set to false keeps javafx application thread alive 
-         * when all jfx windows are closed
-         * (without it we'll see the blank page if reopen the window)
-         */
-        Platform.setImplicitExit(false); 
-        
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                createScene();
-            }
-        });
+        Platform.setImplicitExit(false);
+        Platform.runLater(() -> createScene());      
     }
     
-    private void createScene() {
-       /** @debug to show that we work with one Integrator instance from different 
-        independent modules */
-       integrator.createNewRobot("Vika");
-       logger.log(Level.INFO, "From MapTop {0}", integrator.getRobotsNames().toString());
-       /** @debug end */
-       
-       Group root = new Group();
-       /** @todo beautiful choosing a planet as in the example  */
-       //fxPanel.setScene(scene);
-    }
-    
+     private void createScene() {
+        try {
+            URL location = getClass().getResource("StMessageWindow.fxml");
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(location);
+            fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 
+            Parent root = (Parent) fxmlLoader.load(location.openStream());
+            fxPanel.setScene(new Scene(root));
+            controller = (StMessageWindowController) fxmlLoader.getController();
+
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -112,7 +93,7 @@ public final class MapTopComponent extends TopComponent {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 411, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

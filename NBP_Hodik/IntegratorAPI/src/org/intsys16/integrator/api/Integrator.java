@@ -22,6 +22,8 @@ public abstract class Integrator {
     public abstract ObservableList<String> getLastProgramsTitles(); // ранее открытые 
     public abstract ObservableList<String> getRobotProgramsTitles(String robotName);
     public abstract void createNewRobot(String newRobotName);  // или возвращает Object
+    public abstract int getPlanetsNumber();
+    public abstract ObservableList<String> getPlanetsNames();
     // etc
     
     public static Integrator getIntegrator() {
@@ -69,12 +71,32 @@ public abstract class Integrator {
             ObservableList<String> programs = FXCollections.observableArrayList();
             programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
             programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));       
-            return programs;
+            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));   
+            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));  
+            
+            if (robotsNames.indexOf(robotName) % 2 == 0) {
+                ObservableList<String> emptyProgramsList =
+                        FXCollections.observableArrayList();
+                return emptyProgramsList;
+            }
+            else
+                return programs;
         }
         @Override
         public void createNewRobot(String newRobotName) {
             robotsNames.add(newRobotName);
+        }
+        @Override
+        public int getPlanetsNumber() {
+            return 5;
+        }
+        @Override
+        public ObservableList<String> getPlanetsNames() {
+            ObservableList<String> planets = FXCollections.observableArrayList(
+                "Planet1", "Planet2", "Planet3", "Planet4", "Planet5");
+            return planets; 
         }
     }
 }

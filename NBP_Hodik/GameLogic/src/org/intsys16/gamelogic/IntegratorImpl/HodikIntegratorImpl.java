@@ -21,6 +21,7 @@ import org.intsys16.gamelogic.XMLParser.loadLevel;
  *
  * @author Julia
  */
+/** To see changes after editing this file you need to clean and build the project */
 @ServiceProvider(
         service = Integrator.class,
         path = "HodikIntegrator")  //for the quick access via Lookups.forPath()
@@ -59,8 +60,18 @@ public class HodikIntegratorImpl extends Integrator {
         ObservableList<String> programs = FXCollections.observableArrayList();
         programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
         programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));       
-        return programs;
+        programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10)); 
+        
+        if (robotsNames.indexOf(robotName) % 2 == 0) {  // для разнообразия)
+            ObservableList<String> emptyProgramsList =
+                    FXCollections.observableArrayList();
+            return emptyProgramsList;
+        }
+        else
+            return programs;
     }
     @Override
     public void createNewRobot(String newRobotName) {  // или возвращает робота
@@ -68,6 +79,16 @@ public class HodikIntegratorImpl extends Integrator {
         robotsNames.add(newRobotName);
         units.add(new Unit("NewRob"));
         units.get(0).add_robot();
+    }
+    @Override
+    public int getPlanetsNumber() {
+        return 5;
+    }
+    @Override
+    public ObservableList<String> getPlanetsNames() {
+        ObservableList<String> planets = FXCollections.observableArrayList(
+            "Planet1", "Planet2", "Planet3", "Planet4", "Planet5");
+        return planets; 
     }
     
     // From hodikgit.integrator
