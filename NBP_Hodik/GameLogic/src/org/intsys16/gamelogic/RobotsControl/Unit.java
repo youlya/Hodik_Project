@@ -22,15 +22,15 @@ public class Unit {
     String name;
     Map<String, Algorithm> progs;
     ArrayList <good_robot> robots;
-    Unit(String n)
+    public Unit(String n)
     {
         name=n;
         robots=new ArrayList();
         progs=new HashMap<>();
     }
     
-    void add_robot(Field a, Integrator i, Interpretator in, Coordinate coord, Direction d,  int xp){
-        good_robot r=new good_robot(a, i, in, coord, xp, d, this);
+    public void add_robot(/** @debug Field a, Interpretator in, Coordinate coord, Direction d,  int xp */){
+        good_robot r=new good_robot(/** @debug a, in, coord, xp, d, this */);
         robots.add(r);
     }
     

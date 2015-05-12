@@ -6,10 +6,7 @@
 package org.intsys16.startwindow;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -19,21 +16,12 @@ import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Reflection;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import static javafx.scene.input.DataFormat.URL;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
+import org.intsys16.integrator.api.Integrator;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.LifecycleManager;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.util.Lookup;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 
@@ -65,6 +53,8 @@ public final class StartTopComponent extends TopComponent {
 
     private static JFXPanel fxPanel;
     private StartWindowController controller;
+    private static Integrator integrator = Integrator.getIntegrator();
+    private static final Logger logger = Logger.getLogger(StartTopComponent.class.getName());
     
     public StartTopComponent() {
         initComponents();

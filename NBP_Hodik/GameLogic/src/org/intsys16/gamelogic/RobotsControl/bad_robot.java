@@ -18,9 +18,10 @@ public class bad_robot extends Field_object{
     int xp;
     String act_type;
     int damage;
-    bad_robot(Field f, Integrator i, Interpretator in, Coordinate coord, int x, int d, String type)
+    bad_robot(Field f, Interpretator in, Coordinate coord, int x, int d, String type)
     {
-        super(f, i, in, coord);
+        /** @debug 
+        * super(f, in, coord); */
         xp=x;
         damage=d;
         act_type=type;

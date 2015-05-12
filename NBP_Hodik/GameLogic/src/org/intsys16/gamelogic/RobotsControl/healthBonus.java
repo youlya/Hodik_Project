@@ -18,9 +18,10 @@ import org.intsys16.gamelogic.FieldControl.Coordinate;
 public class healthBonus extends Field_object {
     int hp;
     
-    public healthBonus(Field a, Integrator i, Interpretator in, Coordinate coord, int hp)
+    public healthBonus(Field a, Interpretator in, Coordinate coord, int hp)
     {
-        super (a,i,in,coord);
+        /** @debug 
+        * super (a,in,coord); */
         this.hp=hp;
     };
     
@@ -38,19 +39,19 @@ public class healthBonus extends Field_object {
 }
 
 class smallHealth extends healthBonus{
-    public smallHealth (Field a, Integrator i, Interpretator in, Coordinate coord){
-        super (a,i,in,coord,5);
+    public smallHealth (Field a, Interpretator in, Coordinate coord){
+        super (a,in,coord,5);
     }
 }
 
 class mediumHealth extends healthBonus{
-    public mediumHealth (Field a, Integrator i, Interpretator in, Coordinate coord){
-        super (a,i,in,coord,15);
+    public mediumHealth (Field a, Interpretator in, Coordinate coord){
+        super (a,in,coord,15);
     }
 }
 
 class largeHealth extends healthBonus{
-    public largeHealth (Field a, Integrator i, Interpretator in, Coordinate coord){
-        super (a,i,in,coord,25);
+    public largeHealth (Field a, Interpretator in, Coordinate coord){
+        super (a,in,coord,25);
     }
 }

@@ -7,6 +7,8 @@ import static java.lang.System.currentTimeMillis;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,6 +32,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import org.intsys16.integrator.api.Integrator;
+import org.openide.LifecycleManager;
+import org.openide.util.Lookup;
 
 /**
  * FXML Controller class
@@ -59,6 +64,9 @@ public class StartWindowController extends AnchorPane implements Initializable {
     private final int PLANETS_NUMBER = 5; /** @todo load this number from the integrator */
     //add elements 
     
+    private Integrator integrator = Integrator.getIntegrator();
+    private static final Logger logger = Logger.getLogger(StartTopComponent.class.getName());
+    
     
     /**
      * Initializes the controller class.
@@ -70,12 +78,8 @@ public class StartWindowController extends AnchorPane implements Initializable {
         loadButton.setVisible(false);
         createButton.setDisable(true);
        
-        /** @todo load from the integrator */
-        ObservableList<String> robot_names = FXCollections.observableArrayList(
-          "Hodik", "Sue", "Matthew", "Hannah", "Stephan", "Denise", "Mike", "Tatyana");
-        //
-        
-        robotsList.setItems(robot_names);
+           
+        robotsList.setItems(integrator.getRobotsNames());
         robotsList.setPlaceholder(new Label("No robots yet"));
         robotsList.getSelectionModel().clearSelection(); /** @why works after cleaning and rebuilding the project */
          
@@ -94,14 +98,12 @@ public class StartWindowController extends AnchorPane implements Initializable {
             label_programs.autosize();
             
             /** @todo load from the integrator for the selected robot */
-            final ObservableList<String> programs = FXCollections.observableArrayList();
+            final ObservableList<String> programs = FXCollections.observableArrayList();           
+            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
             //
-            
-            /** @temporary for demonstrating the event listener works */
-            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            // delete when loading from the integrator is done
+           
             
             vbox.getChildren().clear();
             for (int i = 0; i < programs.size(); i++)
@@ -134,6 +136,11 @@ public class StartWindowController extends AnchorPane implements Initializable {
                 createButton.setDisable(true);
                 label_hintAboutMap.setText("");
             }
+        });
+        
+        /** @todo change when integrator method is changed */
+        createButton.setOnMouseClicked((event) -> {
+            integrator.createNewRobot(newrobotName.getText());
         });
         
       

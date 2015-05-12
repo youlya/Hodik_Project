@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 package org.intsys16.gamelogic.FieldControl;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.intsys16.gamelogic.Interpretator.Interpretator;
+import org.intsys16.integrator.api.Integrator;
 /**
  *
  * @author jbenua
@@ -12,7 +15,8 @@ import org.intsys16.gamelogic.Interpretator.Interpretator;
 public abstract class Field_object {
     protected Coordinate c;
     protected Field field;
-    protected Integrator integr;
+    protected Integrator integrator = Integrator.getIntegrator();
+    private static final Logger logger = Logger.getLogger(Field_object.class.getName());
     protected Interpretator interp;
     /*
     aргументы:
@@ -33,12 +37,17 @@ public abstract class Field_object {
         return field;
     }
 
-    public Field_object(Field a, Integrator i, Interpretator in, Coordinate coord)
+    public Field_object(/** @debug Field a, Interpretator in, Coordinate coord*/)
     {
-        interp=in;
-        field=a;
-        integr=i;
-        c=coord;
+        /** @debug integrator works correctly when is called from here */
+        logger.log(Level.INFO, integrator.getRobotsNames().toString());
+        /** @debug end */
+        
+        /** @debug
+        * interp=in;
+        * field=a;
+        * c=coord;
+        */
     };
     
     public void show_info()

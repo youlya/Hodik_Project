@@ -20,12 +20,14 @@ public class good_robot extends Field_object{
     Unit robot;
     public Direction dir;
     
-    good_robot(Field a, Integrator i, Interpretator in, Coordinate coord, int x, Direction d, Unit r)
+    good_robot(/** @debug Field a, Interpretator in, Coordinate coord, int x, Direction d, Unit r*/)
     {
-        super(a, i, in, coord);
-        xp=x;
-        dir=d;
-        robot=r;
+        super(/** @debug a, in, coord*/);
+        /** @debug        
+        * xp=x;       
+        * dir=d;
+        * robot=r;
+        */
     }
     
     public void setCoords(Coordinate newC){

@@ -18,6 +18,8 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
+import org.intsys16.integrator.api.Integrator;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -52,14 +54,13 @@ import org.openide.windows.WindowManager;
 public final class MapTopComponent extends TopComponent {
 
     private static JFXPanel fxPanel;
+    private static Integrator integrator = Integrator.getIntegrator();
+    private static final Logger logger = Logger.getLogger(MapTopComponent.class.getName());
     
     public MapTopComponent() {
         initComponents();
         setName(Bundle.CTL_MapTopComponent());
         setToolTipText(Bundle.HINT_MapTopComponent());
-        
-
-        
         setLayout(new BorderLayout());
         init();     
     }
@@ -86,9 +87,15 @@ public final class MapTopComponent extends TopComponent {
     }
     
     private void createScene() {
-        Group root = new Group();
-        /** @todo beautiful choosing a planet as in the example  */
-        //fxPanel.setScene(scene);
+       /** @debug to show that we work with one Integrator instance from different 
+        independent modules */
+       integrator.createNewRobot("Vika");
+       logger.log(Level.INFO, "From MapTop {0}", integrator.getRobotsNames().toString());
+       /** @debug end */
+       
+       Group root = new Group();
+       /** @todo beautiful choosing a planet as in the example  */
+       //fxPanel.setScene(scene);
     }
     
 
