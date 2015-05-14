@@ -5,21 +5,34 @@
  */
 package org.intsys16.gamelogic.XMLParser;
 
+import org.intsys16.gamelogic.FieldControl.Coordinate;
+
 /**
  *
  * @author yunna_u
  */
 public class mobInfo 
 {
-    String name;            
-    String type;            //type: bad robot or obstacle
+    String act_type;            //act-type
+    String type;            //type: bad robot "1" or obstacle "2"
     int x;
     int y;
     int hp;
 
-    public mobInfo() 
+    public mobInfo(String name, String type, int x, int y, int hp) 
     {      
-        this.name = new String();
-        this.type = new String();
+        this.act_type = name;
+        this.type = type;
+        this.x=x;
+        this.y=y;
+        this.hp=hp;
+    }
+    
+    public mobInfo(){}
+
+    public void setCoords(Coordinate c) 
+    {      
+        x=c.getX();
+        y=c.getY();
     }
 }
