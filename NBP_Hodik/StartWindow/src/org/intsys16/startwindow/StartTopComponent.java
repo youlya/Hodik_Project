@@ -24,6 +24,7 @@ import org.openide.awt.ActionReference;
 import org.openide.util.Lookup;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.windows.WindowManager;
 
 /**
  * Top component which displays something.
@@ -61,7 +62,7 @@ public final class StartTopComponent extends TopComponent {
         setName(Bundle.CTL_StartTopComponent());
         setToolTipText(Bundle.HINT_StartTopComponent());
         setLayout(new BorderLayout());
-        init();          
+        init();  
     }
     
     public void init() {
@@ -103,7 +104,7 @@ public final class StartTopComponent extends TopComponent {
         fxPanel.setScene(scene);
 
         return (Initializable) loader.getController();
-    }
+    }   
 
     /**
      * This method is called from within the constructor to initialize the form.

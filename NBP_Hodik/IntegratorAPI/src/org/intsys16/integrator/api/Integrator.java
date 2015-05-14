@@ -24,6 +24,8 @@ public abstract class Integrator {
     public abstract void createNewRobot(String newRobotName);  // или возвращает Object
     public abstract int getPlanetsNumber();
     public abstract ObservableList<String> getPlanetsNames();
+    public abstract void loadProgramms(String robotName, ObservableList<String> selectedPrograms);
+    public abstract void loadNewProgram(String robotName, int planetId);
     // etc
     
     public static Integrator getIntegrator() {
@@ -97,6 +99,18 @@ public abstract class Integrator {
             ObservableList<String> planets = FXCollections.observableArrayList(
                 "Planet1", "Planet2", "Planet3", "Planet4", "Planet5");
             return planets; 
+        }
+        @Override
+        public void loadProgramms(String robotName, ObservableList<String> selectedPrograms) {
+            Logger.getLogger(getClass().getName()).
+                    log(Level.INFO, "Loading programs {0} for {1}...",
+                    new Object[]{selectedPrograms.toString(), robotName});
+        }
+        @Override
+        public void loadNewProgram(String robotName, int planetId) {
+            Logger.getLogger(getClass().getName()).
+                    log(Level.INFO, "Loading new program for {0} on the planet {1}...",
+                    new Object[]{robotName, planetId + 1}); 
         }
     }
 }

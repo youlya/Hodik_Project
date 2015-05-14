@@ -8,6 +8,8 @@ package org.intsys16.gamelogic.IntegratorImpl;
 import static java.lang.System.currentTimeMillis;
 import java.util.Map;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.intsys16.gamelogic.FieldControl.Direction;
@@ -37,7 +39,8 @@ public class HodikIntegratorImpl extends Integrator {
     /** @debug integrator works correctly when is called from the field_object */
     private ObservableList<String> robotsNames = FXCollections.observableArrayList(
           "Hodik", "Yunna", "Jbenya", "Rina", "Kolya", "Lesha", "Lena", "Nastya");
-    
+    /** @debug  */
+    private static final Logger logger = Logger.getLogger(HodikIntegratorImpl.class.getName());
     
     //Заглушки
     @Override
@@ -89,6 +92,16 @@ public class HodikIntegratorImpl extends Integrator {
         ObservableList<String> planets = FXCollections.observableArrayList(
             "Planet1", "Planet2", "Planet3", "Planet4", "Planet5");
         return planets; 
+    }
+    @Override
+    public void loadProgramms(String robotName, ObservableList<String> selectedPrograms) {
+        logger.log(Level.INFO, "Loading programs {0} for {1}...",
+                new Object[]{selectedPrograms.toString(), robotName});
+    }
+    @Override
+    public void loadNewProgram(String robotName, int planetId) {
+        logger.log(Level.INFO, "Loading new program for {0} on the planet {1}...",
+                new Object[]{robotName, planetId + 1}); 
     }
     
     // From hodikgit.integrator

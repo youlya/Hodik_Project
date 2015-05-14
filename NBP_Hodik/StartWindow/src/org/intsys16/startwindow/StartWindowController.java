@@ -3,6 +3,8 @@
  */
 package org.intsys16.startwindow;
 
+import java.awt.AWTEvent;
+import java.awt.EventQueue;
 import static java.lang.System.currentTimeMillis;
 import java.net.URL;
 import java.util.Random;
@@ -38,6 +40,7 @@ import javafx.scene.text.Text;
 import org.intsys16.integrator.api.Integrator;
 import org.openide.LifecycleManager;
 import org.openide.util.Lookup;
+import org.openide.windows.WindowManager;
 
 /**
  * FXML Controller class
@@ -85,50 +88,57 @@ public class StartWindowController extends AnchorPane implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         drawBackground();
-        
+    
+        // only controls for choosing a robot are visible
         planetsList.setVisible(false);
         loadButton.setVisible(false);
         newProgrButton.setVisible(false);
         createButton.setDisable(true);
        
-           
+        // initializing a list with robots
         robotsList.setItems(integrator.getRobotsNames());
         robotsList.setPlaceholder(new Label("No robots yet"));
         robotsList.getSelectionModel().clearSelection(); /** @why works after cleaning and rebuilding the project */
-         
-        Random rand = new Random(currentTimeMillis()); /** @temporary */
+              
         
         /**
          *  @notice
          *  lambda expressions work when sources level is not less then 1.8
          *  ( 'moduleName'/Properties/Sources/)
          */
+        // choosing a robot
         robotsList.setOnMouseClicked((event) -> { /** @todo find right event listener (selected item changed) */
-            Object selectedRobot = robotsList.getSelectionModel().getSelectedItem();
-                       
-            label_programs.setTextFill(Color.WHITE);         
-            label_programs.autosize();
-            loadButton.setVisible(true);
-            loadButton.setDisable(true);
+            // initial state
             planetView.setVisible(false);
             newProgrButton.setVisible(false);
+            vbox.getChildren().clear();
             
+            Object selectedRobot = robotsList.getSelectionModel().getSelectedItem();
+                                 
+            // loading can be done soon after choosing a program
+            loadButton.setVisible(true);
+            loadButton.setDisable(true);           
+          
+            // loading programs
             final ObservableList<String> programs = 
                     integrator.getRobotProgramsTitles(selectedRobot.toString());
             
             if (!programs.isEmpty()) {  
+                // set the planets list to the initial state and hide
                 planetsList.setVisible(false);
                 planetsList.getSelectionModel().selectFirst();
-                newProgrButton.setVisible(true);
-                label_programs.setText("Programs available for " + selectedRobot + ":");
                 
-                vbox.getChildren().clear();
+                // showing programs for the selected robot as checkboxes
+                label_programs.setText("Programs available for " + selectedRobot + ":");                                            
                 for (int i = 0; i < programs.size(); i++)
                 {
                     CheckBox chb = new CheckBox(programs.get(i));
-                    chb.setTextFill(Color.WHITE);
+                    chb.setTextFill(Color.WHITE);                    
                     vbox.getChildren().add(chb);
-                }              
+                    chb.setOnMouseClicked((e) -> programsCheckedEvent());
+                }  
+                // enabling to start a new program for this robot
+                newProgrButton.setVisible(true);
             }
             else {
                 label_programs.setText("No programs available for " + selectedRobot + ".\n"
@@ -137,17 +147,8 @@ public class StartWindowController extends AnchorPane implements Initializable {
                 loadPlanetsList();
             }          
         });
-               
-        
-        vbox.setOnMouseClicked((event) -> {         
-            ObservableList<CheckBox> programs = FXCollections.observableArrayList();
-            for (int i = 0; i < vbox.getChildren().size(); i++)
-                programs.add((CheckBox) vbox.getChildren().get(i));
-            
-            
-            // if anything is selected then enable the load button
-        });
-        
+       
+        // new robot name input
         newrobotName.setOnKeyTyped((event) -> {
             createButton.setDisable(false);
             label_hintAboutMap.setText("After the creation you should choose a planet where to start.");
@@ -159,17 +160,20 @@ public class StartWindowController extends AnchorPane implements Initializable {
             }
         });
         
-        /** @todo change when integrator method is changed */
+        // creating a new robot       
         createButton.setOnMouseClicked((event) -> {
             integrator.createNewRobot(newrobotName.getText());
+            
+            // setting controls for the creation to the initial state
             createButton.setDisable(true);
             newrobotName.setText("");
             label_hintAboutMap.setText("");
+            
+            // showing this new robot in the list
             robotsList.getSelectionModel().selectLast(); 
             robotsList.scrollTo(robotsList.getItems().size() - 1);
-            
-            /** @temporary delete when appropriate event listener for robotsList
-             *  is found */
+                       
+            // clear everything around  /** @temporary delete when appropriate event listener for robotsList is found */
             label_programs.setText("");
             vbox.getChildren().clear();
             planetsList.setVisible(false);
@@ -178,40 +182,105 @@ public class StartWindowController extends AnchorPane implements Initializable {
             newProgrButton.setVisible(false);
         });
         
-        newProgrButton.setOnMouseClicked((event) -> {           
+        // starting a new program for the robot
+        newProgrButton.setOnMouseClicked((event) -> { 
+            // set invisible the checkbox list with prev programs for that robot
             newProgrButton.setVisible(false);
             vbox.getChildren().clear();
+            
             label_programs.setText("Choose a planet:");
             loadPlanetsList();
         });
         
+        // choosing a planet
         planetsList.setOnMouseClicked((event) -> {
             planetView.setVisible(true);
-            loadButton.setDisable(false);
-            
-            Object selectedPlanet = planetsList.getSelectionModel().getSelectedItem();
+                                 
             planetView.setImage(new Image(getClass().getResourceAsStream(
                     "pl" + 
                     (planetsList.getSelectionModel().getSelectedIndex() + 1)
                      + ".png")));
             planetView.setEffect(new Reflection());
+            
+            loadButton.setDisable(false);
+        });
+        
+        // load the program(s) for the selected robot
+        loadButton.setOnMouseClicked((event) -> {
+            Object selectedRobot = robotsList.getSelectionModel().getSelectedItem();
+            
+            // loading checked programs
+            if (!vbox.getChildren().isEmpty()) {
+                ObservableList<String> selectedPrograms = 
+                        FXCollections.observableArrayList();
+                for (int i = 0; i < vbox.getChildren().size(); i++) 
+                {
+                    CheckBox chb = (CheckBox) vbox.getChildren().get(i);
+                    if (chb.isSelected()) 
+                        selectedPrograms.add(chb.getText());
+                }
+                integrator.loadProgramms(selectedRobot.toString(), selectedPrograms);
+            }               
+            // loading a new program on the selected planet
+            else {
+                
+                integrator.loadNewProgram(selectedRobot.toString(), 
+                        planetsList.getSelectionModel().getSelectedIndex());
+            }
+            toInitState();
+            changeScenery();
         });
       
- 
-        /** @todo edit and move to the MapWindow module */
-//        Vector<Image> planets = new Vector();
-//        Vector<ImageView> pl_view = new Vector();
-//        for (int i = 1; i <= PLANETS_NUMBER; i++)
-//        {
-//            planets.add(new Image(getClass().getResourceAsStream("@pl" + i + ".png"))) ;
-//            pl_view.add(new ImageView(planets.get(i-1)));
-//        }
-//        
-//        for (int i = 0; i < pl_view.size(); i++)
-//        {
-//            root.getChildren().add(pl_view.get(i));
-//            pl_view.get(i).setEffect(new Reflection());
-//        }
+    }
+    private void changeScenery() {
+        //StartTopComponent.getRegistry().getOpened()
+        
+        /* Window system can be used from the AWT thread only */
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                WindowManager.getDefault().findTopComponent("StartTopComponent").close();
+                WindowManager.getDefault().findTopComponent("StMsgTopComponent").close();
+
+                WindowManager.getDefault().findTopComponent("MapTopComponent").open();
+                //WindowManager.getDefault().findTopComponent("OutputTopComponent").open();
+                //WindowManager.getDefault().findTopComponent("EditorTopComponent").open();
+            }
+        });     
+    }
+    
+    private void toInitState() {
+        robotsList.getSelectionModel().selectFirst();
+        
+        createButton.setDisable(true);
+        newrobotName.setText("");
+        label_hintAboutMap.setText("");
+        
+        vbox.getChildren().clear();
+        label_programs.setText("");
+        
+        planetsList.setVisible(false);
+        planetView.setVisible(false);
+        
+        loadButton.setVisible(false);
+        newProgrButton.setVisible(false);       
+    }
+    
+    // enabling the load button if any program is checked and
+    // otherwise disabling
+    private void programsCheckedEvent() { 
+        boolean smthChecked = false;
+        for (int i = 0; i < vbox.getChildren().size(); i++) 
+        {
+            CheckBox chb = (CheckBox) vbox.getChildren().get(i);
+            if (chb.isSelected()) {
+                loadButton.setDisable(false);
+                smthChecked = true;
+                break;
+            }
+        }
+        if (!smthChecked)
+            loadButton.setDisable(true);
     }
     private void loadPlanetsList() {
         planetsList.setVisible(true);

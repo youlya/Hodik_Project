@@ -37,7 +37,7 @@
                </font>
             </Button>
             <Label id="Label" fx:id="label_hintAboutMap" layoutX="375.0" layoutY="330.0" prefHeight="72.0" prefWidth="110.0" wrapText="true" />
-            <Label id="Label" fx:id="label_programs" layoutX="252.0" layoutY="76.0" prefHeight="58.0" prefWidth="476.0" wrapText="true">
+            <Label id="Label" fx:id="label_programs" layoutX="252.0" layoutY="76.0" prefHeight="58.0" prefWidth="476.0" wrapText="true" textFill="WHITE">
                <font>
                   <Font size="17.0" />
                </font>
