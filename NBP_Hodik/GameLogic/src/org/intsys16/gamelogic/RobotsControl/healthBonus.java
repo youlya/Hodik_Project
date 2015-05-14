@@ -23,10 +23,11 @@ public class healthBonus extends Field_object {
         /** @debug 
         * super (a,in,coord); */
         this.hp=hp;
+        
     };
     
     public void healRobot (good_robot gr)
-    {
+    { //gr.sc.Eaten+=1;
         gr.xp+=hp;
     }
     
