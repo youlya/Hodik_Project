@@ -13,15 +13,21 @@ import java.util.ArrayList;
  * @author micen
  */
 public class Program {
+
     String name;
     ArrayList<CMD> cmdList;
-    public Program(String s, ArrayList<CMD> list)
-    {
-        name=s;
-        cmdList=list;
+
+    public Program(String s, ArrayList<CMD> list) {
+        name = s;
+        cmdList = list;
     }
-    public String name()
-    {
+
+    public String name() {
         return name;
     }
+
+    public ArrayList<CMD> List() {
+        return cmdList;
+    }
 }
+

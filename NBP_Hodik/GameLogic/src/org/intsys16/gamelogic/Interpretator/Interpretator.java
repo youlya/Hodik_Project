@@ -26,28 +26,12 @@ public class Interpretator {
     Iterator<CMD> iterator = cmdList.iterator();
     private static final Logger log = Logger.getLogger(Interpretator.class.getName());
 
-    HashMap<good_robot, ArrayList<Program>> test;
-
     String runNextCMD() {
         return iterator.next().Run();
     }
 
     public boolean debugMode() {
         return debugMode;
-    }
-
-    public void translate(String name, String url, good_robot robot) {
-        if (test.get(robot) != null) {
-            parser = new Parser(url, robot);
-            ArrayList<CMD> list = parser.getList();
-            test.get(robot).add(new Program(name, list));
-        } else {
-            parser = new Parser(url, robot);
-            ArrayList<CMD> list = parser.getList();
-            ArrayList<Program> buf = new ArrayList<>();
-            buf.add(new Program(name, list));
-            test.put(robot, buf);
-        }
     }
 
     public void translate(String url, good_robot robot) {
@@ -62,7 +46,12 @@ public class Interpretator {
         if (parts[0].equals("stepTo")) {
             Coordinate newC = new Coordinate(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
             if (currRobot.getField().isFilled(newC) != true) {
-                currRobot.setCoords(newC);
+                if(currRobot.getField().endofField(newC) != true){
+                    currRobot.setCoords(newC);
+                }
+                else{
+                    log.log(Level.SEVERE, "this coordinates are out of FIELD", result);
+                }
             } else {
                 log.log(Level.SEVERE, "this coordinates are filled with FieldObject", result);
             }
@@ -72,7 +61,7 @@ public class Interpretator {
         log.log(Level.FINE, result);
     }
 
-    void Run() {
+    public void Run() {
         if (debugMode) {
             //NTD
         } else {
@@ -85,10 +74,6 @@ public class Interpretator {
     }
 
     public Interpretator() {
-//        parser=new Parser("cmd.txt");
-//        cmdList=parser.getList();
-//        iterator= cmdList.iterator();
-//        run();
     }
 
 }

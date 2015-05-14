@@ -18,13 +18,14 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 
 /**
  *
  * @author micen
  */
-public final class Parser {
+public class Parser {
 
     Coordinate c=new Coordinate(2,3);
     Direction d;
@@ -41,8 +42,8 @@ public final class Parser {
         alphabet.add("Rotate");
         alphabet.add("Left");
         alphabet.add("Right");
-        alphabet.add("Forward");
-        alphabet.add("Back");
+//        alphabet.add("Forward");
+//        alphabet.add("Back");
         openFile(Url);
         read();
         Parse();
@@ -121,22 +122,24 @@ public final class Parser {
                          result = new Rotate("right",currRobot);
                         cmdList.add(result);
                         i++;
-                        continue;
+                        //continue;
                     }
-                    if (tag.toLowerCase().equals("forward")) {
-                         result = new Rotate("up",currRobot);
-                        cmdList.add(result);
-                        i++;
-                        continue;
-                    }
-                    if (tag.toLowerCase().equals("back")) {
-                         result = new Rotate("down",currRobot);
-                        cmdList.add(result);
-                        i++;
-                    }
+//                    if (tag.toLowerCase().equals("forward")) {
+//                         result = new Rotate("up",currRobot);
+//                        cmdList.add(result);
+//                        i++;
+//                        continue;
+//                    }
+//                    if (tag.toLowerCase().equals("back")) {
+//                         result = new Rotate("down",currRobot);
+//                        cmdList.add(result);
+//                        i++;
+//                    }
                 }
             } else {
-                log.log(Level.SEVERE, "no such command:", buffer.get(i));
+                log.log(Level.SEVERE, i+"no such command:", buffer.get(i));
+                JOptionPane.showMessageDialog(null, "no such command: "+buffer.get(i));
+                break;
             }
         }
     }
