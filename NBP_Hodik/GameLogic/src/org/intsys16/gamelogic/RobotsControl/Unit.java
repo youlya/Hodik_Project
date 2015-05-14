@@ -13,17 +13,20 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+ import org.intsys16.gamelogic.RobotsControl.Scores;
+
 
 /**
- *
+ *;
  * @author jbenua
  */
 public class Unit {
     String name;
+   //protected Scores score; // подсчёт очков для игрока на поле 
     Map<String, Algorithm> progs;
     ArrayList <good_robot> robots;
-    public Unit(String n)
-    {
+    public Unit(String n)// 
+    { 
         name=n;
         robots=new ArrayList();
         progs=new HashMap<>();

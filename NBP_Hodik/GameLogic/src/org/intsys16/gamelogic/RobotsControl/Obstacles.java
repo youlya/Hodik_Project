@@ -22,7 +22,7 @@ public class Obstacles extends Field_object {
     }
     
     public void damageRobot(good_robot gr)
-    {
+    {//gr.sc.Bump+=1;
         gr.xp-=damage;
     }
     

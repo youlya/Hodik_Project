@@ -8,7 +8,7 @@ package org.intsys16.gamelogic.Interpretator;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.FieldControl.Direction;
 import org.intsys16.gamelogic.RobotsControl.good_robot;
-
+import org.intsys16.gamelogic.RobotsControl.Scores;
 /**
  *
  * @author micen

@@ -10,7 +10,7 @@ import org.intsys16.gamelogic.FieldControl.Direction;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Field_object;
 import org.intsys16.gamelogic.Interpretator.Interpretator;
-
+import org.intsys16.gamelogic.RobotsControl.Scores;
 /**
  *
  * @author jbenua
@@ -19,15 +19,18 @@ public class good_robot extends Field_object{
     public int xp;
     Unit robot;
     public Direction dir;
-    
-    good_robot(/** @debug Field a, Interpretator in, Coordinate coord, int x, Direction d, Unit r*/)
+     //protected Scores score; // подсчёт очков для игрока на поле 
+    good_robot(/** @debug Field a, Interpretator in, Coordinate coord, int x, Direction d, Unit r,Scores score*/)
     {
+     
         super(/** @debug a, in, coord*/);
         /** @debug        
         * xp=x;       
         * dir=d;
         * robot=r;
+        * scores=sc;
         */
+       
     }
     
     public void setCoords(Coordinate newC){
@@ -40,5 +43,7 @@ public class good_robot extends Field_object{
         super.show_info();
         System.out.println("Name: "+ robot.name);
         System.out.println("XP: " + xp);
+       // System.out.print("Stats: "+sc.init+" Health Bonuses Eaten: 
+        //"+sc.Eaten+" Obstacles Struck: "+sc.Bump+" Steps made:"+sc.Steps);
     }
 }
