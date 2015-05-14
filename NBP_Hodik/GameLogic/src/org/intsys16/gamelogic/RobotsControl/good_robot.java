@@ -47,12 +47,12 @@ public class good_robot extends Field_object{
 
     @Override
     public String getActtype() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return robot.name;
     }
 
     @Override
     public int getDamage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 0;
     }
     
 //    toXML(ArrayList<>)
