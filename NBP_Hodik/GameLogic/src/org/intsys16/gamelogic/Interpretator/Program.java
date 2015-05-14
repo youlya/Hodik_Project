@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Program {
 
-    String name;
+    public String name;
     ArrayList<CMD> cmdList;
 
     public Program(String s, ArrayList<CMD> list) {

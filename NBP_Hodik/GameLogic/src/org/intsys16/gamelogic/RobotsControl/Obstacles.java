@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package org.intsys16.gamelogic.RobotsControl;
-import org.intsys16.gamelogic.Interpretator.Interpretator;
 import org.intsys16.gamelogic.FieldControl.Field_object;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
@@ -15,7 +14,7 @@ import org.intsys16.gamelogic.FieldControl.Coordinate;
 public class Obstacles extends Field_object {
     
     int damage;
-    public Obstacles(Field a, Interpretator in, Coordinate coord, int dmg)
+    public Obstacles(Field a, Coordinate coord, int dmg)
     {
        /* super (a,in,coord);*/
         this.damage=dmg;
@@ -23,7 +22,7 @@ public class Obstacles extends Field_object {
     
     public void damageRobot(good_robot gr)
     {//gr.sc.Bump+=1;
-        gr.xp-=damage;
+        gr.HP-=damage;
     }
     
     @Override
@@ -32,41 +31,41 @@ public class Obstacles extends Field_object {
         super.show_info();
     }
 
-   /* @Override
+    @Override
     public String getType() {
         return "obstacle";
     }
 
     @Override
     public String getActtype() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "none";
     }
 
     @Override
     public int getDamage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }*/
+        return damage;
+    }
 }
 
 //extensions for Obstacle class
 
 class Stone extends Obstacles{
-    public Stone (Field a, Interpretator in, Coordinate coord){
-        super (a,in,coord,10);
+    public Stone (Field a, Coordinate coord){
+        super (a,coord,10);
     }
 }
 
 class Pit extends Obstacles{
-    public Pit (Field a, Interpretator in, Coordinate coord){
-        super (a,in,coord,25);
+    public Pit (Field a, Coordinate coord){
+        super (a,coord,25);
     }
 }
 
 
 class Liquid extends Obstacles{
-    public Liquid (Field a, Interpretator in, Coordinate coord){
+    public Liquid (Field a, Coordinate coord){
         //actually this thing should kill a robot instantly,
         //but it should appear less
-        super (a,in,coord,100);   
+        super (a,coord,100);   
     }
 }

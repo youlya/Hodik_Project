@@ -5,6 +5,12 @@
  */
 package org.intsys16.gamelogic.RobotsControl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.intsys16.gamelogic.Interpretator.CMD;
+import org.intsys16.gamelogic.Interpretator.Parser;
+import org.intsys16.gamelogic.Interpretator.Program;
+
 /**
  *
  * @author jbenua
@@ -12,25 +18,25 @@ package org.intsys16.gamelogic.RobotsControl;
 public class Algorithm {
     String name;
     String path;
-    int state=0; // 0 - empty, 1 - file path
+    HashMap<good_robot, ArrayList<Program>> test;
+    Parser parser;
     public Algorithm(String p)
     {
         path=p;
         String[] a = path.split("/");
         String[] temp=(a[a.length-1]).split("\\.");
         name=temp[0];
-        state=1;
     }
     public Algorithm(String n, String p)
     {
         name=n;
         path=p;
-        state=1;
     }
-    public int getState()
+    public String getPath()
     {
-        return state;
+        return path;
     }
+    
     public void changeName(String newname)
     {
         System.out.print("Algorithm name changed: " + name);
@@ -44,5 +50,34 @@ public class Algorithm {
     public String out()
     {
         return name + "(" + path + ")";
+    }
+    
+    public ArrayList<CMD> find(good_robot robot, String programName) {
+        ArrayList<Program> get = test.get(robot);
+        for (Program get1 : get) {
+            if (get1.name.equals(programName)) {
+                return get1.List();
+            }
+        }
+        return null;
+    }
+    /**
+     *
+     * @param name
+     * @param url
+     * @param robot
+     */
+    public void translate(String name, String url, good_robot robot) {
+        if (test.get(robot) != null) {
+            parser = new Parser(url, robot);
+            ArrayList<CMD> list = parser.getList();
+            test.get(robot).add(new Program(name, list));
+        } else {
+            parser = new Parser(url, robot);
+            ArrayList<CMD> list = parser.getList();
+            ArrayList<Program> buf = new ArrayList<>();
+            buf.add(new Program(name, list));
+            test.put(robot, buf);
+        }
     }
 }

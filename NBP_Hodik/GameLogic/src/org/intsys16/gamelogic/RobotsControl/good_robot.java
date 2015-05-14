@@ -10,27 +10,22 @@ import org.intsys16.gamelogic.FieldControl.Direction;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Field_object;
 import org.intsys16.gamelogic.Interpretator.Interpretator;
-import org.intsys16.gamelogic.RobotsControl.Scores;
+
 /**
  *
  * @author jbenua
  */
 public class good_robot extends Field_object{
-    public int xp;
+    public int HP;
     Unit robot;
     public Direction dir;
-     //protected Scores score; // подсчёт очков для игрока на поле 
-    good_robot(/** @debug Field a, Interpretator in, Coordinate coord, int x, Direction d, Unit r,Scores score*/)
+    
+    public good_robot(Field a, Interpretator in, Coordinate coord, int h, Direction d, Unit r)
     {
-     
-        super(/** @debug a, in, coord*/);
-        /** @debug        
-        * xp=x;       
-        * dir=d;
-        * robot=r;
-        * scores=sc;
-        */
-       
+        super(a, in, coord);
+        HP=h;
+        dir=d;
+        robot=r;
     }
     
     public void setCoords(Coordinate newC){
@@ -42,8 +37,27 @@ public class good_robot extends Field_object{
     {
         super.show_info();
         System.out.println("Name: "+ robot.name);
-        System.out.println("XP: " + xp);
-       // System.out.print("Stats: "+sc.init+" Health Bonuses Eaten: 
-        //"+sc.Eaten+" Obstacles Struck: "+sc.Bump+" Steps made:"+sc.Steps);
+        System.out.println("HP: " + HP);
     }
+
+    @Override
+    public String getType() {
+        return "robot";
+    }
+
+    @Override
+    public String getActtype() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getDamage() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+//    toXML(ArrayList<>)
+//    {
+//        хз вообще что, но для Кати:)
+//        имя робота, HP, соординаты
+//    }
 }

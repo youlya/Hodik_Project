@@ -15,23 +15,43 @@ import org.intsys16.gamelogic.Interpretator.Interpretator;
  * @author jbenua
  */
 public class bad_robot extends Field_object{
-    int xp;
     String act_type;
-    int damage;
-    bad_robot(Field f, Interpretator in, Coordinate coord, int x, int d, String type)
+    int damage=0;
+    public bad_robot(Field f, Interpretator in, Coordinate coord, String type)
     {
-        /** @debug 
-        * super(f, in, coord); */
-        xp=x;
-        damage=d;
+        super(f, in, coord);
         act_type=type;
+        this.setDamage();
     }
+    @Override
+    public String getActtype(){
+        return act_type;
+    }
+    @Override
+    public int getDamage(){
+        return damage;
+    }
+    private void setDamage()
+    {
+        //
+        //switch(act_type)...
+    }
+    
     
     @Override
     public void show_info()
     {
         super.show_info();
-        System.out.println("XP: " + xp);
         System.out.println("damage: " + damage);
     }
+
+    @Override
+    public String getType() {
+        return "mob";
+    }
+//    toXML(ArrayList<>)
+//    {
+//        хз вообще что, но для Кати:)
+//        act_type, damage, coord
+//    }
 }
