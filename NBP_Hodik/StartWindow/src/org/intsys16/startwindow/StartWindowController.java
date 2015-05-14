@@ -243,8 +243,8 @@ public class StartWindowController extends AnchorPane implements Initializable {
                 WindowManager.getDefault().findTopComponent("StMsgTopComponent").close();
 
                 WindowManager.getDefault().findTopComponent("MapTopComponent").open();
-                //WindowManager.getDefault().findTopComponent("OutputTopComponent").open();
-                //WindowManager.getDefault().findTopComponent("EditorTopComponent").open();
+                WindowManager.getDefault().findTopComponent("OutputTopComponent").open();
+                WindowManager.getDefault().findTopComponent("EditorTopComponent").open();
             }
         });     
     }

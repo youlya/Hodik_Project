@@ -3,21 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.intsys16.startmessage;
+package org.intsys16.outputwindow;
 
-import java.awt.BorderLayout;
-import java.io.IOException;
-import java.net.URL;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
-import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 
@@ -25,60 +15,33 @@ import org.openide.util.NbBundle.Messages;
  * Top component which displays something.
  */
 @ConvertAsProperties(
-        dtd = "-//org.intsys16.startmessage//StMsg//EN",
+        dtd = "-//org.intsys16.outputwindow//Output//EN",
         autostore = false
 )
 @TopComponent.Description(
-        preferredID = "StMsgTopComponent",
-        iconBase = "org/intsys16/startmessage/stpage24.png",
+        preferredID = "OutputTopComponent",
+        iconBase = "org/intsys16/outputwindow/output24.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(mode = "properties", openAtStartup = true)
-@ActionID(category = "Window", id = "org.intsys16.startmessage.StMsgTopComponent")
+@TopComponent.Registration(mode = "output", openAtStartup = false)
+@ActionID(category = "Window", id = "org.intsys16.outputwindow.OutputTopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
-        displayName = "#CTL_StMsgAction",
-        preferredID = "StMsgTopComponent"
+        displayName = "#CTL_OutputAction",
+        preferredID = "OutputTopComponent"
 )
 @Messages({
-    "CTL_StMsgAction=Show start message",
-    "CTL_StMsgTopComponent=Start Message",
-    "HINT_StMsgTopComponent=This is a Start Message window"
+    "CTL_OutputAction=Output",
+    "CTL_OutputTopComponent=Output Window",
+    "HINT_OutputTopComponent=This is a Output window"
 })
-public final class StMsgTopComponent extends TopComponent {
+public final class OutputTopComponent extends TopComponent {
 
-    private static JFXPanel fxPanel;
-    private StMessageWindowController controller;
-    
-    public StMsgTopComponent() {
+    public OutputTopComponent() {
         initComponents();
-        setName(Bundle.CTL_StMsgTopComponent());
-        setToolTipText(Bundle.HINT_StMsgTopComponent());
-        setLayout(new BorderLayout());
-        init();     
-    }
-    
-    public void init() {
-        fxPanel = new JFXPanel();
-        add(fxPanel, BorderLayout.CENTER);
-        Platform.setImplicitExit(false);
-        Platform.runLater(() -> createScene());      
-    }
-    
-     private void createScene() {
-        try {
-            URL location = getClass().getResource("StMessageWindow.fxml");
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(location);
-            fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+        setName(Bundle.CTL_OutputTopComponent());
+        setToolTipText(Bundle.HINT_OutputTopComponent());
 
-            Parent root = (Parent) fxmlLoader.load(location.openStream());
-            fxPanel.setScene(new Scene(root));
-            controller = (StMessageWindowController) fxmlLoader.getController();
-
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
     }
 
     /**
@@ -93,7 +56,7 @@ public final class StMsgTopComponent extends TopComponent {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 411, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
