@@ -16,7 +16,7 @@ public class Obstacles extends Field_object {
     int damage;
     public Obstacles(Field a, Coordinate coord, int dmg)
     {
-       /* super (a,in,coord);*/
+        super (a,/*in*/ null,coord);
         this.damage=dmg;
     }
     
