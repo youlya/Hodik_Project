@@ -6,6 +6,8 @@
 package org.intsys16.startmessage;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.net.URL;
 import javafx.application.Platform;
@@ -20,6 +22,7 @@ import org.openide.awt.ActionReference;
 import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.windows.WindowManager;
 
 /**
  * Top component which displays something.
@@ -53,14 +56,17 @@ public final class StMsgTopComponent extends TopComponent {
     public StMsgTopComponent() {
         initComponents();
         setName(Bundle.CTL_StMsgTopComponent());
-        setToolTipText(Bundle.HINT_StMsgTopComponent());
+        setToolTipText(Bundle.HINT_StMsgTopComponent());        
         setLayout(new BorderLayout());
+        /** @todo why none of them works (even via windows manager in controller) */
+//        setBounds(new Rectangle(getX() + 100, getY(), 180, getHeight()));
+//        setSize(new Dimension(180, getHeight()));
         init();     
     }
     
     public void init() {
         fxPanel = new JFXPanel();
-        add(fxPanel, BorderLayout.CENTER);
+        add(fxPanel, BorderLayout.CENTER);        
         Platform.setImplicitExit(false);
         Platform.runLater(() -> createScene());      
     }

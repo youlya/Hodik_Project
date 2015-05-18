@@ -35,27 +35,28 @@ public class HodikIntegratorImpl extends Integrator {
     private ObservableList<Unit> units; //коллекция роботов
     private loadLevel load;
     private String levelname;
-    
-    /** @debug integrator works correctly when is called from the field_object */
+    // нужные
+    private ObservableList<String> selectedPrograms = null;
+ 
+//======================================================================================    
+    // для заглушек
     private ObservableList<String> robotsNames = FXCollections.observableArrayList(
-          "Hodik", "Yunna", "Jbenya", "Rina", "Kolya", "Lesha", "Lena", "Nastya");
-    /** @debug  */
+          "Hodik", "Yunna", "Jbenua", "Rina", "Kolya", "Lesha", "Lena", "Nastya");
     private static final Logger logger = Logger.getLogger(HodikIntegratorImpl.class.getName());
     
     //Заглушки
     @Override
-    public ObservableList<String> getRobotsNames() {
-        /** @debug integrator works correctly when is called from the field_object */
+    public ObservableList<String> getRobotsNames() {      
         return robotsNames;
     }
     @Override
-    public ObservableList<String> getLastProgramsTitles() { // ранее открытые 
+    public ObservableList<String> getSessionTitles() { 
         Random rand = new Random(currentTimeMillis());
-        ObservableList<String> programs = FXCollections.observableArrayList();
-        programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        return programs;
+        ObservableList<String> sessions = FXCollections.observableArrayList();
+        sessions.add("Session" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        sessions.add("Session" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        sessions.add("Session" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        return sessions;
     }
     @Override
     public ObservableList<String> getRobotProgramsTitles(String robotName) {
@@ -77,11 +78,8 @@ public class HodikIntegratorImpl extends Integrator {
             return programs;
     }
     @Override
-    public void createNewRobot(String newRobotName) {  // или возвращает робота
-        /** @debug integrator works correctly when is called from the field_object */
+    public void createNewRobot(String newRobotName) {  // или возвращает робота       
         robotsNames.add(newRobotName);
-        units.add(new Unit("NewRob"));
-        units.get(0).add_robot();
     }
     @Override
     public int getPlanetsNumber() {
@@ -94,16 +92,29 @@ public class HodikIntegratorImpl extends Integrator {
         return planets; 
     }
     @Override
-    public void loadProgramms(String robotName, ObservableList<String> selectedPrograms) {
-        logger.log(Level.INFO, "Loading programs {0} for {1}...",
-                new Object[]{selectedPrograms.toString(), robotName});
+    public void loadNewSession(String robotName, ObservableList<String> selectedPrograms, int planetId) {
+        if (!selectedPrograms.isEmpty()) 
+            logger.log(Level.INFO, "Loading programs {0} for {1} on the planet {2}...",
+                new Object[]{selectedPrograms.toString(), robotName, planetId + 1});
+        else 
+            logger.log(Level.INFO, "Loading new program for {0} on the planet {1}...",
+                new Object[]{robotName, planetId + 1});   
+        this.selectedPrograms = selectedPrograms;
     }
     @Override
-    public void loadNewProgram(String robotName, int planetId) {
-        logger.log(Level.INFO, "Loading new program for {0} on the planet {1}...",
-                new Object[]{robotName, planetId + 1}); 
+    public void loadSavedSession(String xmlMapName) {
+        logger.log(Level.INFO, "Loading saved session [{0}]...",
+                xmlMapName); 
     }
-    
+    @Override
+    public ObservableList<String> getSelectedPrograms() {
+        if (selectedPrograms == null)
+            logger.log(Level.WARNING, "The method [getSelectedPrograms()] "
+                            + "is not available in this context.");
+
+        return selectedPrograms;                
+    }
+//=======================================================================================    
     // From hodikgit.integrator
     public HodikIntegratorImpl() throws Exception  {
        fields = FXCollections.observableArrayList(); //was new Vector<Field>();

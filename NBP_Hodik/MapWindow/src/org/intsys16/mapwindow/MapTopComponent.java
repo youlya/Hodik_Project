@@ -93,9 +93,7 @@ public final class MapTopComponent extends TopComponent {
        logger.log(Level.INFO, "From MapTop {0}", integrator.getRobotsNames().toString());
        /** @debug end */
        
-       Group root = new Group();
-       /** @todo beautiful choosing a planet as in the example  */
-       //fxPanel.setScene(scene);
+       /** @todo add code */
     }
     
 

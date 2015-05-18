@@ -5,11 +5,18 @@
  */
 package org.intsys16.startmessage;
 
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Rectangle;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -17,6 +24,8 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
 
 /**
  * FXML Controller class
@@ -45,8 +54,19 @@ public class StMessageWindowController implements Initializable {
                 + "will be sent to the newly found planets in search of a life. "
                 + "Are you able to write appropriate programs for them so "
                 + "they could succeed and save the inhabitans of the Earth?");
+        welcomeText.setEffect(new Bloom());
        
-       
+//        setSize();       
     }    
-    
+//    private void setSize() {
+//        EventQueue.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                TopComponent tc = WindowManager.getDefault().findTopComponent("StMsgTopComponent");
+//                tc.setBounds(new Rectangle(tc.getX() + 100, tc.getY(), 180, tc.getHeight()));
+////                WindowManager.getDefault().findMode(tc).setBounds(
+////                    new Rectangle(tc.getX() + 100, tc.getY(), 180, tc.getHeight()));
+//            }
+//        });     
+//    }
 }

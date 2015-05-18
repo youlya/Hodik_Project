@@ -18,14 +18,18 @@ import org.openide.util.lookup.Lookups;
  * @author Julia
  */
 public abstract class Integrator {
-    public abstract ObservableList<String> getRobotsNames();
-    public abstract ObservableList<String> getLastProgramsTitles(); // ранее открытые 
-    public abstract ObservableList<String> getRobotProgramsTitles(String robotName);
+    public abstract ObservableList<String> getRobotsNames(); // a list of all available robots
+    public abstract ObservableList<String> getSessionTitles(); // names of xml files (the changed maps from Rina)
+    public abstract ObservableList<String> getRobotProgramsTitles(String robotName); // a list of programs available for the selected robot
     public abstract void createNewRobot(String newRobotName);  // или возвращает Object
-    public abstract int getPlanetsNumber();
+    public abstract int getPlanetsNumber(); // number of levels from Yunna
     public abstract ObservableList<String> getPlanetsNames();
-    public abstract void loadProgramms(String robotName, ObservableList<String> selectedPrograms);
-    public abstract void loadNewProgram(String robotName, int planetId);
+    // loading the selected robot on the selected map 
+    // with or without opening selected programs (available for that robot) 
+    public abstract void loadNewSession(String robotName, ObservableList<String> selectedPrograms, int planetId);
+    public abstract ObservableList<String> getSelectedPrograms(); // programs selected when loading new session (for the Editor Window to open)
+    public abstract void loadSavedSession(String xmlMapName); // xml file from Rina
+    
     // etc
     
     public static Integrator getIntegrator() {
@@ -38,7 +42,7 @@ public abstract class Integrator {
         Integrator i = Lookups.forPath("HodikIntegrator").lookup(Integrator.class);
         if (i == null ) {
             Logger logger = Logger.getLogger(Integrator.class.getName());
-            logger.log(Level.WARNING, "Cannot get Integrator object. " 
+            logger.log(Level.WARNING, "Cannot get an Integrator object. " 
                     + "The Default Integrator was built.");
             i = new DefaultIntegrator();
         }
@@ -53,19 +57,20 @@ public abstract class Integrator {
     private static class DefaultIntegrator extends Integrator {
         private ObservableList<String> robotsNames = FXCollections.observableArrayList(
           "Hodik", "Sue", "Matthew", "Hannah", "Stephan", "Denise", "Mike", "Tatyana");
+        private ObservableList<String> selectedPrograms = null;
         
         @Override
         public ObservableList<String> getRobotsNames() {
             return robotsNames;
         }
         @Override
-        public ObservableList<String> getLastProgramsTitles() {
+        public ObservableList<String> getSessionTitles() {
             Random rand = new Random(currentTimeMillis());
-            ObservableList<String> programs = FXCollections.observableArrayList();
-            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            return programs;
+            ObservableList<String> sessions = FXCollections.observableArrayList();
+            sessions.add("Session" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            sessions.add("Session" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            sessions.add("Session" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            return sessions;
         }
         @Override
         public ObservableList<String> getRobotProgramsTitles(String robotName) {
@@ -101,16 +106,31 @@ public abstract class Integrator {
             return planets; 
         }
         @Override
-        public void loadProgramms(String robotName, ObservableList<String> selectedPrograms) {
-            Logger.getLogger(getClass().getName()).
-                    log(Level.INFO, "Loading programs {0} for {1}...",
-                    new Object[]{selectedPrograms.toString(), robotName});
+        public void loadNewSession(String robotName, ObservableList<String> selectedPrograms, int planetId) {
+            if (!selectedPrograms.isEmpty()) 
+                Logger.getLogger(Integrator.class.getName()).
+                    log(Level.INFO, "Loading programs {0} for {1} on the planet {2}...",
+                            new Object[]{selectedPrograms.toString(), robotName, planetId + 1});
+            else 
+                Logger.getLogger(Integrator.class.getName()).
+                    log(Level.INFO, "Loading new program for {0} on the planet {1}...",
+                            new Object[]{robotName, planetId + 1});      
+            this.selectedPrograms = selectedPrograms;
         }
         @Override
-        public void loadNewProgram(String robotName, int planetId) {
-            Logger.getLogger(getClass().getName()).
-                    log(Level.INFO, "Loading new program for {0} on the planet {1}...",
-                    new Object[]{robotName, planetId + 1}); 
+        public void loadSavedSession(String xmlMapName) {
+            Logger.getLogger(Integrator.class.getName()).
+                log(Level.INFO, "Loading saved session [{0}]...",
+                        xmlMapName); 
+        }
+        @Override
+        public ObservableList<String> getSelectedPrograms() {
+            if (selectedPrograms == null)
+                Logger.getLogger(Integrator.class.getName()).
+                    log(Level.WARNING, "The method [getSelectedPrograms()] "
+                            + "is not available in this context.");
+            
+            return selectedPrograms;                
         }
     }
 }
