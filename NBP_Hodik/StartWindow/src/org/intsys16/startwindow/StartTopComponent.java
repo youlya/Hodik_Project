@@ -48,7 +48,21 @@ import org.openide.windows.WindowManager;
 @Messages({
     "CTL_StartAction=Start Window",
     "CTL_StartTopComponent=Start Window",
-    "HINT_StartTopComponent=This is a Start window"
+    "HINT_StartTopComponent=This is a Start window",
+    /* for controller class */
+    "CTL_WelcomeText=Welcome to the Hodik IDE !",
+    "CTL_NoSessionsMsg=No saved session yet",
+    "CTL_OpenSessionMsg=Open saved session:",
+    "CTL_CreationHint=After the creation you should choose a planet where to start.",
+    "CTL_NoProgramsForMsg=No programs available for",
+    "CTL_OpenProgramsForMsg=You can open programs available for",
+    "CTL_NoRobotsMsg=No robots yet",
+    "CTL_ChoosePlanetLabel=Choose a planet:",
+    "CTL_ChooseRobotLabel=Choose a robot:",
+    "CTL_CreateRobotLabel=Or create a new one:",
+    "CTL_CreationInputPrompt=Type a name",
+    "CTL_LoadButton=Load!",
+    "CTL_CreateButton=Create!"
 })
 public final class StartTopComponent extends TopComponent {
 

@@ -15,7 +15,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
@@ -72,6 +74,10 @@ public class StartWindowController extends AnchorPane implements Initializable {
     @FXML
     private Label label_sessions;
     @FXML
+    private Label label_chooseRobot;
+    @FXML
+    private Label label_createRobot;
+    @FXML
     private VBox vbox_programs;
     @FXML
     private VBox vbox_sessions;
@@ -99,6 +105,15 @@ public class StartWindowController extends AnchorPane implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         drawBackground();
     
+        // initializing text
+        label_planets.setText(Bundle.CTL_ChoosePlanetLabel());
+        label_chooseRobot.setText(Bundle.CTL_ChooseRobotLabel());
+        label_createRobot.setText(Bundle.CTL_CreateRobotLabel());
+        newrobotName.setPromptText(Bundle.CTL_CreationInputPrompt());
+        loadButton.setText(Bundle.CTL_LoadButton());
+        createButton.setText(Bundle.CTL_CreateButton());
+        
+                     
         // only controls for choosing a robot are visible
         label_planets.setVisible(false);
         planetsList.setVisible(false);
@@ -107,10 +122,10 @@ public class StartWindowController extends AnchorPane implements Initializable {
         createButton.setDisable(true);        
         // and sessions if any
         loadSessions();
-       
+      
         // initializing a list with robots
         robotsList.setItems(integrator.getRobotsNames());
-        robotsList.setPlaceholder(new Label("No robots yet"));
+        robotsList.setPlaceholder(new Label(Bundle.CTL_NoRobotsMsg()));
         robotsList.getSelectionModel().clearSelection(); /** @why works after cleaning and rebuilding the project */
               
         
@@ -140,7 +155,8 @@ public class StartWindowController extends AnchorPane implements Initializable {
             
             if (!programs.isEmpty()) {  
                // showing programs for the selected robot as checkboxes
-                label_programs.setText("You can open programs available for " + selectedRobot + ":");                                            
+                label_programs.setText(Bundle.CTL_OpenProgramsForMsg() + " "
+                                         + selectedRobot + ":");                                            
                 for (int i = 0; i < programs.size(); i++)
                 {
                     CheckBox chb = new CheckBox(programs.get(i));
@@ -150,14 +166,15 @@ public class StartWindowController extends AnchorPane implements Initializable {
                 }  
             }
             else {
-                label_programs.setText("(No programs available for " + selectedRobot + ")");
+                label_programs.setText("(" + Bundle.CTL_NoProgramsForMsg() + " "
+                                        + selectedRobot + ")");
             }          
         });
        
         // new robot name input
         newrobotName.setOnKeyTyped((event) -> {
             createButton.setDisable(false);
-            label_hintAboutMap.setText("After the creation you should choose a planet where to start.");
+            label_hintAboutMap.setText(Bundle.CTL_CreationHint());
             label_hintAboutMap.setTextFill(Color.WHITE);
             if (newrobotName.getText().isEmpty())
             {
@@ -297,7 +314,8 @@ public class StartWindowController extends AnchorPane implements Initializable {
             rect.setArcHeight(20);
             rect.setArcWidth(20);
             root.getChildren().add(rect);
-            label_sessions.setText("Open saved session: ");
+            label_sessions.setText(Bundle.CTL_OpenSessionMsg());
+            label_sessions.setAlignment(Pos.CENTER);
             label_sessions.setEffect(new Blend(BlendMode.ADD));
             for (int i = 0; i < sessions.size(); i++)
             {
@@ -316,7 +334,7 @@ public class StartWindowController extends AnchorPane implements Initializable {
             } 
         }
         else
-            label_sessions.setText("(No saved session yet)");
+            label_sessions.setText("(" + Bundle.CTL_NoSessionsMsg() + ")");
     }
     private void loadPlanetsList() {
         planetsList.setVisible(true);      
@@ -339,7 +357,7 @@ public class StartWindowController extends AnchorPane implements Initializable {
         dropshadow.setOffsetY(3.0f);
         dropshadow.setColor(Color.color(0.4f, 0.4f, 0.4f));
         
-        Rectangle rect = new Rectangle(450, 60, Color.LIGHTSKYBLUE);
+        Rectangle rect = new Rectangle(530, 60, Color.LIGHTSKYBLUE); //en occupies 450
 
         rect.setArcHeight(20);
         rect.setArcWidth(20);
@@ -351,8 +369,10 @@ public class StartWindowController extends AnchorPane implements Initializable {
         text.setLayoutY(40);
         text.setEffect(dropshadow);
         text.setCache(true);
-        text.setFill(Color.DARKSLATEGRAY);
-        text.setText("Welcome to the Hodik IDE !");
+        text.setFill(Color.DARKSLATEGRAY);        
+        text.setText(Bundle.CTL_WelcomeText());
+        /** @todoVika bind the width of the rectangle with the text width */
+        //rect.setWidth(text.//);
         text.setFont(Font.font(null, FontWeight.BOLD, 32));
         root.getChildren().add(text);
     }

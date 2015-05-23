@@ -11,12 +11,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.openide.util.NbBundle.Messages;
 import org.openide.util.lookup.Lookups;
 
 /**
  *
  * @author Julia
  */
+@Messages({  /* for localization */
+    "CTL_Session=Session",
+    "CTL_Program=Program",
+    "CTL_RobotsNames=Hodik,Sue,Matthew,Hannah,Stephan,Denise,Mike,Tatyana",
+    "CTL_PlanetsNames=Planet 1,Planet 2,Planet 3,Planet 4,Planet 5"
+})
 public abstract class Integrator {
     public abstract ObservableList<String> getRobotsNames(); // a list of all available robots
     public abstract ObservableList<String> getSessionTitles(); // names of xml files (the changed maps from Rina)
@@ -56,7 +63,7 @@ public abstract class Integrator {
      */
     private static class DefaultIntegrator extends Integrator {
         private ObservableList<String> robotsNames = FXCollections.observableArrayList(
-          "Hodik", "Sue", "Matthew", "Hannah", "Stephan", "Denise", "Mike", "Tatyana");
+          Bundle.CTL_RobotsNames().split(","));
         private ObservableList<String> selectedPrograms = null;
         
         @Override
@@ -67,21 +74,25 @@ public abstract class Integrator {
         public ObservableList<String> getSessionTitles() {
             Random rand = new Random(currentTimeMillis());
             ObservableList<String> sessions = FXCollections.observableArrayList();
-            sessions.add("Session" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            sessions.add("Session" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            sessions.add("Session" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            String session = Bundle.CTL_Session();
+            /* default names */
+            sessions.add(session + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            sessions.add(session + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            sessions.add(session + currentTimeMillis()/ (rand.nextInt(20) + 10));
             return sessions;
         }
         @Override
         public ObservableList<String> getRobotProgramsTitles(String robotName) {
             Random rand = new Random(currentTimeMillis());
             ObservableList<String> programs = FXCollections.observableArrayList();
-            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));   
-            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));  
+            String program = Bundle.CTL_Program();
+            /* default names */
+            programs.add(program + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            programs.add(program + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            programs.add(program + currentTimeMillis()/ (rand.nextInt(20) + 10));   
+            programs.add(program + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            programs.add(program + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            programs.add(program + currentTimeMillis()/ (rand.nextInt(20) + 10));  
             
             if (robotsNames.indexOf(robotName) % 2 == 0) {
                 ObservableList<String> emptyProgramsList =
@@ -102,7 +113,7 @@ public abstract class Integrator {
         @Override
         public ObservableList<String> getPlanetsNames() {
             ObservableList<String> planets = FXCollections.observableArrayList(
-                "Planet1", "Planet2", "Planet3", "Planet4", "Planet5");
+                Bundle.CTL_PlanetsNames().split(","));
             return planets; 
         }
         @Override

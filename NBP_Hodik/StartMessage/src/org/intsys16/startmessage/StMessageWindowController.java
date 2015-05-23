@@ -55,7 +55,9 @@ public class StMessageWindowController implements Initializable {
                 + "Are you able to write appropriate programs for them so "
                 + "they could succeed and save the inhabitans of the Earth?");
         welcomeText.setEffect(new Bloom());
-       
+        /** @todoVika bind the text width and hight to the window's width */
+        
+        
 //        setSize();       
     }    
 //    private void setSize() {

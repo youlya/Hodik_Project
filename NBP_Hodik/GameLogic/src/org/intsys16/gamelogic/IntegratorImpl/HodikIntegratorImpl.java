@@ -41,7 +41,7 @@ public class HodikIntegratorImpl extends Integrator {
 //======================================================================================    
     // для заглушек
     private ObservableList<String> robotsNames = FXCollections.observableArrayList(
-          "Hodik", "Yunna", "Jbenua", "Rina", "Kolya", "Lesha", "Lena", "Nastya");
+          "Ходик", "Юнна", "Женя", "Рина", "Коля", "Леша", "Лена", "Настя");
     private static final Logger logger = Logger.getLogger(HodikIntegratorImpl.class.getName());
     
     //Заглушки
@@ -53,21 +53,21 @@ public class HodikIntegratorImpl extends Integrator {
     public ObservableList<String> getSessionTitles() { 
         Random rand = new Random(currentTimeMillis());
         ObservableList<String> sessions = FXCollections.observableArrayList();
-        sessions.add("Session" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        sessions.add("Session" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        sessions.add("Session" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        sessions.add("Сессия" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        sessions.add("Сессия" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        sessions.add("Сессия" + currentTimeMillis()/ (rand.nextInt(20) + 10));
         return sessions;
     }
     @Override
     public ObservableList<String> getRobotProgramsTitles(String robotName) {
         Random rand = new Random(currentTimeMillis());
         ObservableList<String> programs = FXCollections.observableArrayList();
-        programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        programs.add("Program" + currentTimeMillis()/ (rand.nextInt(20) + 10)); 
+        programs.add("Программа" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        programs.add("Программа" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        programs.add("Программа" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        programs.add("Программа" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        programs.add("Программа" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        programs.add("Программа" + currentTimeMillis()/ (rand.nextInt(20) + 10)); 
         
         if (robotsNames.indexOf(robotName) % 2 == 0) {  // для разнообразия)
             ObservableList<String> emptyProgramsList =
@@ -88,7 +88,7 @@ public class HodikIntegratorImpl extends Integrator {
     @Override
     public ObservableList<String> getPlanetsNames() {
         ObservableList<String> planets = FXCollections.observableArrayList(
-            "Planet1", "Planet2", "Planet3", "Planet4", "Planet5");
+            "Планета 1", "Планета 2", "Планета 3", "Планета 4", "Планета 5");
         return planets; 
     }
     @Override
