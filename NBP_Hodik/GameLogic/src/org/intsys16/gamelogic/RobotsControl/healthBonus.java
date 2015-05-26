@@ -53,20 +53,7 @@ public class healthBonus extends Field_object {
     }
 }
 
-class smallHealth extends healthBonus{
-    public smallHealth (Field a, Interpretator in, Coordinate coord){
-        super (a,in,coord,5);
-    }
-}
 
-class mediumHealth extends healthBonus{
-    public mediumHealth (Field a, Interpretator in, Coordinate coord){
-        super (a,in,coord,15);
-    }
-}
 
-class largeHealth extends healthBonus{
-    public largeHealth (Field a, Interpretator in, Coordinate coord){
-        super (a,in,coord,25);
-    }
-}
+
+

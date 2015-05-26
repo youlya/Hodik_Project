@@ -49,23 +49,9 @@ public class Obstacles extends Field_object {
 
 //extensions for Obstacle class
 
-class Stone extends Obstacles{
-    public Stone (Field a, Coordinate coord){
-        super (a,coord,10);
-    }
-}
-
-class Pit extends Obstacles{
-    public Pit (Field a, Coordinate coord){
-        super (a,coord,25);
-    }
-}
 
 
-class Liquid extends Obstacles{
-    public Liquid (Field a, Coordinate coord){
-        //actually this thing should kill a robot instantly,
-        //but it should appear less
-        super (a,coord,100);   
-    }
-}
+
+
+
+
