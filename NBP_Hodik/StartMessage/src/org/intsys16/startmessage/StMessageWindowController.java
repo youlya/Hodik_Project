@@ -50,10 +50,7 @@ public class StMessageWindowController implements Initializable {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, 
                 new BackgroundSize(root.getWidth(), root.getHeight(), true, true, true, true))));
         
-        welcomeText.setText("The Earth is in danger, and Robots "
-                + "will be sent to the newly found planets in search of a life. "
-                + "Are you able to write appropriate programs for them so "
-                + "they could succeed and save the inhabitans of the Earth?");
+        welcomeText.setText(Bundle.CTL_StartText());
         welcomeText.setEffect(new Bloom());
         /** @todoVika bind the text width and hight to the window's width */
         

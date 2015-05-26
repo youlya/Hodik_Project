@@ -46,7 +46,15 @@ import org.openide.windows.WindowManager;
 @Messages({
     "CTL_StMsgAction=Show start message",
     "CTL_StMsgTopComponent=Start Message",
-    "HINT_StMsgTopComponent=This is a Start Message window"
+    "HINT_StMsgTopComponent=This is a Start Message window",
+    /* for controller class */
+    "CTL_StartText=The Earth is in danger, "
+            + "and Robots will be sent to "
+            + "the newly found planets in search "
+            + "of a life. Are you able to write "
+            + "appropriate programs for them so "
+            + "they could succeed and save "
+            + "the inhabitans of the Earth?"
 })
 public final class StMsgTopComponent extends TopComponent {
 
