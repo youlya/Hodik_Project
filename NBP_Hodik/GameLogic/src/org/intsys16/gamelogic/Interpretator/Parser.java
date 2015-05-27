@@ -34,7 +34,8 @@ public class Parser {
     ArrayList<String> alphabet = new ArrayList();
     ArrayList<String> readedText = new ArrayList();
     ArrayList<CMD> cmdList = new ArrayList();
-
+    String status="";
+    
     public Parser(String Url, good_robot robot) {
         currRobot=robot;
         this.d = Direction.UP;
@@ -139,8 +140,13 @@ public class Parser {
             } else {
                 log.log(Level.SEVERE, i+"no such command:", buffer.get(i));
                 JOptionPane.showMessageDialog(null, "no such command: "+buffer.get(i));
+                status="Syntax error "+i+buffer.get(i);
                 break;
             }
         }
+        status="success";
+    }
+    public String getStatus() {
+        return status;
     }
 }

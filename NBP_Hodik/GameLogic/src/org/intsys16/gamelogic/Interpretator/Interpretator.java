@@ -34,11 +34,18 @@ public class Interpretator {
         return debugMode;
     }
 
-    public void translate(String url, good_robot robot) {
+    public String translate(String url, good_robot robot) {
         currRobot = robot;
         parser = new Parser(url, currRobot);
-        cmdList = parser.getList();
-        iterator = cmdList.iterator();
+        if(parser.getStatus().equals("success")){
+           cmdList = parser.getList();
+            iterator = cmdList.iterator(); 
+            return parser.getStatus();
+        }
+        else
+        {
+            return parser.getStatus();
+        }
     }
 
     void checkResult(String result) {
