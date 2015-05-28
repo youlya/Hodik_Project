@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package org.intsys16.gamelogic.RobotsControl;
-import java.io.File;
-import java.util.ArrayList;
 /**
  *
  * @author r545-2 Syzko Anastasia
