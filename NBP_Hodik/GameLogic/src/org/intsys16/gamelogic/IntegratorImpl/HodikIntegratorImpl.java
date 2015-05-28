@@ -153,6 +153,9 @@ public class HodikIntegratorImpl extends Integrator {
           units.get(0).add_robot(F, interp, c, d, hp);
           
        } else 
+       {
+           
+       }
 //       { 
 //           //создать робота, поместить в вектор units
 //           //выбрать планету и подгрузить поле, поместить в вектор fields
