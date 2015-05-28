@@ -21,7 +21,7 @@ import org.intsys16.gamelogic.RobotsControl.Scores;
  */
 public class Info 
 {
-    String robotName;
+    public String robotName;
     public int levelNumber;
     public int x;
     public int y;  

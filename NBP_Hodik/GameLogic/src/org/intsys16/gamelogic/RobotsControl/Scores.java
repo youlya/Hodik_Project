@@ -11,11 +11,18 @@ package org.intsys16.gamelogic.RobotsControl;
 
 public class Scores {
 
-   public int StepScore=0;
-  public int BumbedInto=0; //счётчик препятствий, на которые попал робот(кстати
+   public int StepScore;
+  public int BumbedInto; //счётчик препятствий, на которые попал робот(кстати
    public int Eaten;
   
-
+  public Scores()
+  {
+      StepScore = 0;
+      BumbedInto = 0;
+      Eaten = 0;
+  }
+  
+   
  public int getEat_sc ()
   {
   return Eaten;

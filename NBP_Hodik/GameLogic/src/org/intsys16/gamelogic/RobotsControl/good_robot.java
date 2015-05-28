@@ -25,6 +25,7 @@ public class good_robot extends Field_object{
         super(a, in, coord);
         HP=h;
         dir=d;
+        
         robot=r;
         score=sc;
     }

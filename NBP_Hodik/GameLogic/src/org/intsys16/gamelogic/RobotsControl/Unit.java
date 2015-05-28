@@ -49,8 +49,8 @@ public class Unit {
         return null;
     }
     
-    public void add_robot(Field a, Interpretator in, Coordinate coord, Direction d,  int hp){
-        Scores s = new Scores();
+    public void add_robot(Field a, Interpretator in, Coordinate coord, Direction d,  int hp, Scores s){
+        //Scores s = new Scores();
         good_robot r=new good_robot(a, in, coord, hp, d, this, s);
         robots.add(r);
     }
@@ -95,7 +95,7 @@ public class Unit {
         progs.remove(n);
         System.out.println("Program '"+n+"' deleted");
     }
-    public ArrayList<Info> save()
+    /*public ArrayList<Info> save()
     {
         ArrayList<Info> info=new ArrayList();
         for (good_robot i : robots)
@@ -105,5 +105,5 @@ public class Unit {
             info.add(temp);
         }
         return info;
-    }
+    }*/
 }

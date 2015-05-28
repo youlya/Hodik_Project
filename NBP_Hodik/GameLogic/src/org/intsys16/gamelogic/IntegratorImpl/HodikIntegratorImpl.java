@@ -22,6 +22,7 @@ import org.intsys16.integrator.api.Integrator;
 import org.intsys16.gamelogic.RobotsControl.Unit;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.Interpretator.Interpretator;
+import org.intsys16.gamelogic.RobotsControl.Scores;
 import org.intsys16.gamelogic.XMLParser.Info;
 import org.intsys16.gamelogic.XMLParser.loadLevel;
 import org.intsys16.gamelogic.XMLParser.mobInfo;
@@ -42,8 +43,9 @@ public class HodikIntegratorImpl extends Integrator {
     private ObservableList<Field> fields; //коллекция полей
     private ObservableList<Unit> units; //коллекция роботов
     private loadLevel load;
-    private int levelname;
+    private int level;
     Interpretator interp;
+    //String RobotName;
     // нужные
     private ObservableList<String> selectedPrograms = null;
  
@@ -118,15 +120,19 @@ public class HodikIntegratorImpl extends Integrator {
                 logger.log(Level.INFO, "Loading new program for {0} on the planet {1}...",
                         new Object[]{robotName, planetId + 1});
             this.selectedPrograms = selectedPrograms;
-            levelname = planetId + 1;
-            load.getDocument("level"+levelname);
+            level = planetId + 1;
+            load.getDocument("level"+level);
             Info i= load.getInfo();
-            Coordinate C = new Coordinate();
+            List<mobInfo> mob = new ArrayList();
+            mob=i.getMobs();
+            Unit u = new Unit(robotName);
+            units.add(u);
+            Coordinate c = new Coordinate();
             Direction d=Direction.UP;
-            //Field F = new Field();
-            
-            
-            
+            Field F = new Field();
+            Scores s = new Scores();
+            units.get(0).add_robot(F, interp, c, d, 100, s);
+            //RobotName = robotName;        
         } catch (Exception ex) {
             //Exceptions.printStackTrace(ex);
             logger.log(Level.SEVERE, "ERROR: failed to load document", ex);
@@ -136,8 +142,24 @@ public class HodikIntegratorImpl extends Integrator {
     }
     @Override
     public void loadSavedSession(String xmlMapName) {
-        logger.log(Level.INFO, "Loading saved session [{0}]...",
-                xmlMapName); 
+        try {
+            logger.log(Level.INFO, "Loading saved session [{0}]...", 
+                    xmlMapName);
+            load.getDocument(xmlMapName);
+            Info i= load.getInfo();
+            List<mobInfo> mob = new ArrayList();
+            mob=i.getMobs();
+            Unit u = new Unit(i.robotName);
+            units.add(u);
+            Coordinate c = new Coordinate(i.getX(), i.getY());
+            Direction d=Direction.UP;
+            Field F = new Field();
+            Scores s = i.score;
+            units.get(0).add_robot(F, interp, c, d, i.HP, s);
+        } catch (Exception ex) {
+            //Exceptions.printStackTrace(ex);
+            logger.log(Level.SEVERE, "ERROR: failed to load document", ex);
+        }
     }
     @Override
     public ObservableList<String> getSelectedPrograms() {
@@ -147,6 +169,11 @@ public class HodikIntegratorImpl extends Integrator {
 
         return selectedPrograms;                
     }
+    
+    @Override
+    public int getLevel() {
+            return level;
+        }
 //=======================================================================================    
     // From hodikgit.integrator
     public HodikIntegratorImpl() throws Exception  {
@@ -155,32 +182,32 @@ public class HodikIntegratorImpl extends Integrator {
 //     load = new loadLevel();
        
        
-       if (true) //выбрать имеющегося робота
-       {
+//       if (true) //выбрать имеющегося робота
+//       {
           //Scanner sc = new Scanner(System.in);
           //levelname = 1;
-          int height=10;
-          int width=10;
-          Info i = new  Info();
-          i=load.getInfo();
-          List<mobInfo> mob = new ArrayList();
-          mob=i.getMobs();
-          int level=i.levelNumber;
-          int x=i.getX();
-          int y=i.getY();
-          int hp=i.getHP();
-          Coordinate c=new Coordinate(x, y);
-          Direction d=Direction.UP;
+//          int height=10;
+//          int width=10;
+//          Info i = new  Info();
+//          i=load.getInfo();
+//          List<mobInfo> mob = new ArrayList();
+//          mob=i.getMobs();
+//          int level=i.levelNumber;
+//          int x=i.getX();
+//          int y=i.getY();
+//          int hp=i.getHP();
+//          Coordinate c=new Coordinate(x, y);
+//          Direction d=Direction.UP;
           
           //load.getDocument(levelname);
           
-          Field F=new Field(level, width, height);
-          units.get(0).add_robot(F, interp, c, d, hp);
+          //Field F=new Field(level, width, height);
+          //units.get(0).add_robot(F, interp, c, d, hp);
           
-       } else 
-       {
+//       } else 
+//       {
            //createNewRobot
-       }
+//       }
 //       { 
 //           //создать робота, поместить в вектор units
 //           //выбрать планету и подгрузить поле, поместить в вектор fields

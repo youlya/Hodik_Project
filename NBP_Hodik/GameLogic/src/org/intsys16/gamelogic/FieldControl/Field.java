@@ -11,7 +11,6 @@ import java.util.HashMap;
  */
 public class Field
 {
-    int level=0;
     HashMap<Coordinate, Field_object> hex = new HashMap<>();
     public int width;
     public int height;
@@ -35,17 +34,22 @@ public class Field
         return hex;
     }
     
-    public Field(int width, int height) 
+    public Field()
     {
-		this.width = width;
-		this.height = height;
+        
     }
-    public Field(int l, int width, int height) 
-    {
-        level=l;
-		this.width = width;
-		this.height = height;
-    }   
+    
+//    public Field(int width, int height) 
+//    {
+//		this.width = width;
+//		this.height = height;
+//    }
+//    public Field(int l, int width, int height) 
+//    {
+//        level=l;
+//		this.width = width;
+//		this.height = height;
+//    }   
     public int getWidth()
     {
         return this.width;

@@ -34,10 +34,10 @@ public abstract class Field_object {
     {
         return field;
     }
-    public int getLevel()
+    /*public int getLevel()
     {
         return field.level;
-    }
+    }*/
     public Interpretator getInterpr()
     {
         return interp;
