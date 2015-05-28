@@ -79,7 +79,7 @@ public final class StMsgTopComponent extends TopComponent {
         Platform.runLater(() -> createScene());      
     }
     
-     private void createScene() {
+    private void createScene() {
         try {
             URL location = getClass().getResource("StMessageWindow.fxml");
             FXMLLoader fxmlLoader = new FXMLLoader();
