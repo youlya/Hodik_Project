@@ -25,6 +25,7 @@ import org.intsys16.gamelogic.Interpretator.Interpretator;
 import org.intsys16.gamelogic.XMLParser.Info;
 import org.intsys16.gamelogic.XMLParser.loadLevel;
 import org.intsys16.gamelogic.XMLParser.mobInfo;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -109,16 +110,27 @@ public class HodikIntegratorImpl extends Integrator {
     }
     @Override
     public void loadNewSession(String robotName, /*ObservableList<String> selectedPrograms,*/ int planetId) {
-        if (!selectedPrograms.isEmpty()) 
-            logger.log(Level.INFO, "Loading programs {0} for {1} on the planet {2}...",
-                new Object[]{selectedPrograms.toString(), robotName, planetId + 1});
-        else 
-            logger.log(Level.INFO, "Loading new program for {0} on the planet {1}...",
-                new Object[]{robotName, planetId + 1});   
-        this.selectedPrograms = selectedPrograms;
-        levelname = planetId + 1;
-        Info i = new Info();
-        i=load.getInfo();
+        try {
+            if (!selectedPrograms.isEmpty())
+                logger.log(Level.INFO, "Loading programs {0} for {1} on the planet {2}...",
+                        new Object[]{selectedPrograms.toString(), robotName, planetId + 1});
+            else
+                logger.log(Level.INFO, "Loading new program for {0} on the planet {1}...",
+                        new Object[]{robotName, planetId + 1});
+            this.selectedPrograms = selectedPrograms;
+            levelname = planetId + 1;
+            load.getDocument("level"+levelname);
+            Info i= load.getInfo();
+            Coordinate C = new Coordinate();
+            Direction d=Direction.UP;
+            //Field F = new Field();
+            
+            
+            
+        } catch (Exception ex) {
+            //Exceptions.printStackTrace(ex);
+            logger.log(Level.SEVERE, "ERROR: failed to load document", ex);
+        }
         
         
     }
@@ -146,7 +158,7 @@ public class HodikIntegratorImpl extends Integrator {
        if (true) //выбрать имеющегося робота
        {
           //Scanner sc = new Scanner(System.in);
-          levelname = 1;
+          //levelname = 1;
           int height=10;
           int width=10;
           Info i = new  Info();
