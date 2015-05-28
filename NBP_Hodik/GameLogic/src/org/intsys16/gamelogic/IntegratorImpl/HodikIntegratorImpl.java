@@ -31,9 +31,9 @@ import org.intsys16.gamelogic.XMLParser.mobInfo;
  * @author Julia
  */
 /** To see changes after editing this file you need to clean and build the project */
-@ServiceProvider(
+/*@ServiceProvider(
         service = Integrator.class,
-        path = "HodikIntegrator")  //for the quick access via Lookups.forPath()
+        path = "HodikIntegrator")  //for the quick access via Lookups.forPath()*/
 public class HodikIntegratorImpl extends Integrator {
     
     //private Map<String, Unit> rMap; //was Map<String, Robot> rMap
