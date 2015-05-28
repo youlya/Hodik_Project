@@ -48,7 +48,8 @@ public class Unit {
     }
     
     public void add_robot(Field a, Interpretator in, Coordinate coord, Direction d,  int hp){
-        good_robot r=new good_robot(a, in, coord, hp, d, this);
+        Scores s = new Scores();
+        good_robot r=new good_robot(a, in, coord, hp, d, this, s);
         robots.add(r);
     }
     boolean check_if_prog_exists(String path)

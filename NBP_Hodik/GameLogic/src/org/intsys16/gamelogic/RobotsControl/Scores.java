@@ -12,14 +12,23 @@ import java.util.ArrayList;
  */
 
 public class Scores {
-   public int init=0; // исходные очки 0 или нек-ое число?
-   public int StepScore=0;
-  public int BumbedInto=0; //счётчик препятствий, на которые попал робот(кстати,
+   public int init; // исходные очки 0 или нек-ое число?
+   public int StepScore;
+  public int BumbedInto; //счётчик препятствий, на которые попал робот(кстати,
   //необязательно это число меньше или равно числу имеющихся препятствий :) )
-  public int Eaten=0; // для бонусов
+  public int Eaten; // для бонусов
  // good_robot gr
   
+public Scores()
+{
+    init=0;
+    StepScore=0;
+    BumbedInto=0;
+    Eaten=0;
+}
 
+
+  
 }
 //добавить проверку на достижение коордитаны-цели
 // добавить окно вывода результата?
