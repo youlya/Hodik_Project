@@ -112,6 +112,10 @@ public class HodikIntegratorImpl extends Integrator {
             logger.log(Level.INFO, "Loading new program for {0} on the planet {1}...",
                 new Object[]{robotName, planetId + 1});   
         this.selectedPrograms = selectedPrograms;
+        levelname = planetId + 1;
+        Info i = new Info();
+        i=load.getInfo();
+        
         
     }
     @Override
@@ -138,7 +142,7 @@ public class HodikIntegratorImpl extends Integrator {
        if (true) //выбрать имеющегося робота
        {
           //Scanner sc = new Scanner(System.in);
-          levelname = getPlanetsNumber();
+          levelname = 1;
           int height=10;
           int width=10;
           Info i = new  Info();
