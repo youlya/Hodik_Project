@@ -27,7 +27,7 @@ public class healthBonus extends Field_object {
     public void healRobot (good_robot gr)
     { 
 //        gr.sc.Eaten+=1;
-//        gr.xp+=hp;
+          gr.HP+=hp;
     }
     
     @Override
@@ -39,16 +39,18 @@ public class healthBonus extends Field_object {
 
     @Override
     public String getType() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "health";
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public String getActtype() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "none";
     }
-
+    
     @Override
     public int getDamage() {
+        //return -hp;
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
