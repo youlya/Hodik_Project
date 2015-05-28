@@ -33,9 +33,11 @@ public abstract class Integrator {
     public abstract ObservableList<String> getPlanetsNames();
     // loading the selected robot on the selected map 
     // with or without opening selected programs (available for that robot) 
-    public abstract void loadNewSession(String robotName, ObservableList<String> selectedPrograms, int planetId);
+    public abstract void loadNewSession(String robotName, /*ObservableList<String> selectedPrograms,*/ int planetId);
     public abstract ObservableList<String> getSelectedPrograms(); // programs selected when loading new session (for the Editor Window to open)
     public abstract void loadSavedSession(String xmlMapName); // xml file from Rina
+    public abstract int getLevel();
+    //public abstract void launchProgram();
     
     // etc
     
@@ -117,7 +119,7 @@ public abstract class Integrator {
             return planets; 
         }
         @Override
-        public void loadNewSession(String robotName, ObservableList<String> selectedPrograms, int planetId) {
+        public void loadNewSession(String robotName, /*ObservableList<String> selectedPrograms,*/ int planetId) {
             if (!selectedPrograms.isEmpty()) 
                 Logger.getLogger(Integrator.class.getName()).
                     log(Level.INFO, "Loading programs {0} for {1} on the planet {2}...",
@@ -142,6 +144,12 @@ public abstract class Integrator {
                             + "is not available in this context.");
             
             return selectedPrograms;                
+        }
+        
+        @Override
+        public int getLevel()
+        {
+            return 1;
         }
     }
 }
