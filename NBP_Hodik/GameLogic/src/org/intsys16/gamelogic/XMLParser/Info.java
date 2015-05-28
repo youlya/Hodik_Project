@@ -24,15 +24,21 @@ public class Info
     public int x;
     public int y;  
     public int HP;
+    public int score1;
+    public int score2;
+    public int score3;
     List<mobInfo> mob = new ArrayList();
     public Info(){};
-    public Info(String name, int ln, Coordinate c, int h)
+    public Info(String name, int ln, Coordinate c, int h, int s1, int s2, int s3)
     {
         robotName=name;
         levelNumber=ln;
         x=c.getX();
         y=c.getY();
         HP=h;
+        score1=s1;
+        score2=s2;
+        score3=s3;
     }
     
     public int getLevel()
@@ -53,6 +59,21 @@ public class Info
     public int getHP()
     {
         return HP;
+    }
+    
+    public int getScore1()
+    {
+        return score1;
+    }
+    
+    public int getScore2()
+    {
+        return score2;
+    }
+    
+    public int getScore3()
+    {
+        return score3;
     }
     
     public List<mobInfo> getMobs()

@@ -160,9 +160,25 @@ public class loadLevel
                 }
                 mobInfo mInfo = new mobInfo(mNAME,mTYPE,mX,mY,mHP);
                 info.mob.add(k,mInfo);
-                k++;  
+                k++; 
+                if("score".equals(mobs.item(i).getNodeName()))
+                {
+                    addScore(mobs.item(i));
+                }
             }
         }
+    }
+    
+    private void addScore(Node elem)
+    {        
+        Element score = (Element) elem;
+        System.out.println("Score 1: " + score.getAttribute("s1"));
+        System.out.println("Score 2: " + score.getAttribute("s2"));
+        System.out.println("Score 3: " + score.getAttribute("s3"));
+        info.score1=Integer.valueOf(score.getAttribute("s1"));
+        info.score2=Integer.valueOf(score.getAttribute("s2"));
+        info.score3=Integer.valueOf(score.getAttribute("s3"));
+        System.out.println("Scores added" + "\n");
     }
     
     public Info getInfo()
