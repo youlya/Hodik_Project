@@ -26,7 +26,7 @@ public class good_robot extends Field_object{
         HP=h;
         dir=d;
         robot=r;
-        score=sc; //score=sc;
+        score=sc;
     }
     
     public void setCoords(Coordinate newC){

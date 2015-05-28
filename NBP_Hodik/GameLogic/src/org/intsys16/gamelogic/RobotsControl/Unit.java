@@ -36,6 +36,10 @@ public class Unit {
     {
         return new ArrayList(progs.keySet());
     }
+    public String getName()
+    {
+        return name;
+    }
     
     public good_robot getAvatar(Field a)
     {
