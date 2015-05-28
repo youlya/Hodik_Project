@@ -14,8 +14,7 @@ import java.util.ArrayList;
 public class Scores {
 
    public int StepScore=0;
-  public int BumbedInto=0; //счётчик препятствий, на которые попал робот(кстати,
-   public int init; // исходные очки 0 или нек-ое число?
+  public int BumbedInto=0; //счётчик препятствий, на которые попал робот(кстати
    public int Eaten;
   
 
