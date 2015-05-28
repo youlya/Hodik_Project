@@ -19,13 +19,14 @@ public class good_robot extends Field_object{
     public int HP;
     Unit robot;
     public Direction dir;
-    
-    public good_robot(Field a, Interpretator in, Coordinate coord, int h, Direction d, Unit r)
+    public Scores score;
+    public good_robot(Field a, Interpretator in, Coordinate coord, int h, Direction d, Unit r,Scores sc) //Scores sc
     {
         super(a, in, coord);
         HP=h;
         dir=d;
         robot=r;
+        score=sc; //score=sc;
     }
     
     public void setCoords(Coordinate newC){
