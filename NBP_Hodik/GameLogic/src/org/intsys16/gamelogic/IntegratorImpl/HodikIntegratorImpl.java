@@ -41,7 +41,7 @@ public class HodikIntegratorImpl extends Integrator {
     private ObservableList<Field> fields; //коллекция полей
     private ObservableList<Unit> units; //коллекция роботов
     private loadLevel load;
-    private String levelname;
+    private int levelname;
     Interpretator interp;
     // нужные
     private ObservableList<String> selectedPrograms = null;
@@ -55,7 +55,7 @@ public class HodikIntegratorImpl extends Integrator {
     //Заглушки
     @Override
     public ObservableList<String> getRobotsNames() {      
-        return robotsNames;
+        return robotsNames; 
     }
     @Override
     public ObservableList<String> getSessionTitles() { 
@@ -91,16 +91,20 @@ public class HodikIntegratorImpl extends Integrator {
     }
     @Override
     public int getPlanetsNumber() {
-        return 5;
+        return 5;//ДОПИСАТЬ
     }
     @Override
     public ObservableList<String> getPlanetsNames() {
-        ObservableList<String> planets = FXCollections.observableArrayList(
-            "Планета 1", "Планета 2", "Планета 3", "Планета 4", "Планета 5");
-        return planets; 
+        ObservableList<String> planets = FXCollections.observableArrayList();
+        for (int i = 0; i<getPlanetsNumber(); i++)
+        {
+            planets.add("Планета "+ i);
+            
+        }
+        return planets;
     }
     @Override
-    public void loadNewSession(String robotName, ObservableList<String> selectedPrograms, int planetId) {
+    public void loadNewSession(String robotName, /*ObservableList<String> selectedPrograms,*/ int planetId) {
         if (!selectedPrograms.isEmpty()) 
             logger.log(Level.INFO, "Loading programs {0} for {1} on the planet {2}...",
                 new Object[]{selectedPrograms.toString(), robotName, planetId + 1});
@@ -108,6 +112,7 @@ public class HodikIntegratorImpl extends Integrator {
             logger.log(Level.INFO, "Loading new program for {0} on the planet {1}...",
                 new Object[]{robotName, planetId + 1});   
         this.selectedPrograms = selectedPrograms;
+        
     }
     @Override
     public void loadSavedSession(String xmlMapName) {
@@ -132,8 +137,8 @@ public class HodikIntegratorImpl extends Integrator {
        
        if (true) //выбрать имеющегося робота
        {
-          Scanner sc = new Scanner(System.in);
-          levelname = sc.nextLine();
+          //Scanner sc = new Scanner(System.in);
+          levelname = getPlanetsNumber();
           int height=10;
           int width=10;
           Info i = new  Info();
@@ -147,14 +152,14 @@ public class HodikIntegratorImpl extends Integrator {
           Coordinate c=new Coordinate(x, y);
           Direction d=Direction.UP;
           
-          load.getDocument(levelname);
+          //load.getDocument(levelname);
           
           Field F=new Field(level, width, height);
           units.get(0).add_robot(F, interp, c, d, hp);
           
        } else 
        {
-           
+           //createNewRobot
        }
 //       { 
 //           //создать робота, поместить в вектор units
