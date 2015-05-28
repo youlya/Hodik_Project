@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.intsys16.gamelogic.XMLParser.Info;
 import org.intsys16.integrator.api.Integrator;
+import org.intsys16.gamelogic.RobotsControl.Scores;
 
 /**
  *
@@ -46,8 +47,8 @@ public class Unit {
         return null;
     }
     
-    public void add_robot(Field a, Integrator i, Interpretator in, Coordinate coord, Direction d,  int hp){
-        good_robot r=new good_robot(a, in, coord, hp, d, this);
+    public void add_robot(Field a, Integrator i, Interpretator in, Coordinate coord, Direction d,Scores sc,  int hp ){
+        good_robot r=new good_robot(a, in, coord, hp, d,this,sc);// sc
         robots.add(r);
     }
     boolean check_if_prog_exists(String path)
