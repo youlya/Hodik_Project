@@ -39,7 +39,7 @@ import org.openide.windows.WindowManager;
         iconBase = "org/intsys16/mapwindow/map24.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(mode = "properties", openAtStartup = false)
+@TopComponent.Registration(mode = "properties_map", openAtStartup = false)
 @ActionID(category = "Window", id = "org.intsys16.mapwindow.MapTopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(

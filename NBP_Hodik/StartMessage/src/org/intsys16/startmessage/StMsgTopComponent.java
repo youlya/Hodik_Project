@@ -36,7 +36,7 @@ import org.openide.windows.WindowManager;
         iconBase = "org/intsys16/startmessage/stpage24.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(mode = "properties", openAtStartup = true)
+@TopComponent.Registration(mode = "properties_st", openAtStartup = true)
 @ActionID(category = "Window", id = "org.intsys16.startmessage.StMsgTopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
@@ -68,7 +68,7 @@ public final class StMsgTopComponent extends TopComponent {
         setLayout(new BorderLayout());
         /** @todo why none of them works (even via windows manager in controller) */
 //        setBounds(new Rectangle(getX() + 100, getY(), 180, getHeight()));
-//        setSize(new Dimension(180, getHeight()));
+//        setSize(new Dimension(180, getHeight()))     
         init();     
     }
     

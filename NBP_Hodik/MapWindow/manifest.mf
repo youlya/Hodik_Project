@@ -1,6 +1,7 @@
 Manifest-Version: 1.0
 AutoUpdate-Show-In-Client: true
 OpenIDE-Module: org.intsys16.mapwindow
+OpenIDE-Module-Layer: org/intsys16/mapwindow/layer.xml
 OpenIDE-Module-Localizing-Bundle: org/intsys16/mapwindow/Bundle.properties
 OpenIDE-Module-Requires: org.openide.windows.WindowManager
 OpenIDE-Module-Specification-Version: 1.0
