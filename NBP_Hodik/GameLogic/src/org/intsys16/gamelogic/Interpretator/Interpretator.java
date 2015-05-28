@@ -8,7 +8,6 @@ package org.intsys16.gamelogic.Interpretator;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.RobotsControl.good_robot;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,7 +60,7 @@ public class Interpretator {
             return parser.getStatus();
         }
     }
-        
+     
     String checkResult(String result) {
         String[] parts = result.split(" ");
         if (parts[0].equals("stepTo")) {
