@@ -4,31 +4,29 @@
  * and open the template in the editor.
  */
 package org.intsys16.gamelogic.RobotsControl;
-import java.io.File;
-import java.util.ArrayList;
 /**
  *
  * @author r545-2 Syzko Anastasia
  */
 
 public class Scores {
-   public int init; // исходные очки 0 или нек-ое число?
-   public int StepScore;
-  public int BumbedInto; //счётчик препятствий, на которые попал робот(кстати,
-  //необязательно это число меньше или равно числу имеющихся препятствий :) )
-  public int Eaten; // для бонусов
- // good_robot gr
-  
-public Scores()
-{
-    init=0;
-    StepScore=0;
-    BumbedInto=0;
-    Eaten=0;
-}
 
-
+   public int StepScore=0;
+  public int BumbedInto=0; //счётчик препятствий, на которые попал робот(кстати
+   public int Eaten;
   
+
+ public int getEat_sc ()
+  {
+  return Eaten;
+  }
+ 
+    public int getObs_sc ()
+  {
+return BumbedInto;
+  }
+     public int get_Stepsc ()
+  {
+  return StepScore;
+  }
 }
-//добавить проверку на достижение коордитаны-цели
-// добавить окно вывода результата?

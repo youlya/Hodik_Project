@@ -49,6 +49,21 @@ public class Parser {
         read();
         Parse();
     }
+       public Parser(String[]cmd, good_robot robot) {
+        currRobot=robot;
+        this.d = Direction.UP;
+        alphabet.add("Step");
+        alphabet.add("Rotate");
+        alphabet.add("Left");
+        alphabet.add("Right");
+//        alphabet.add("Forward");
+//        alphabet.add("Back");
+        for (int i = 0; i < cmd.length; i++) {
+            readedText.add(cmd[i]);
+        }
+        Parse();
+    }
+    
     BufferedReader br = null;
     File file = null;
 
@@ -125,17 +140,6 @@ public class Parser {
                         i++;
                         //continue;
                     }
-//                    if (tag.toLowerCase().equals("forward")) {
-//                         result = new Rotate("up",currRobot);
-//                        cmdList.add(result);
-//                        i++;
-//                        continue;
-//                    }
-//                    if (tag.toLowerCase().equals("back")) {
-//                         result = new Rotate("down",currRobot);
-//                        cmdList.add(result);
-//                        i++;
-//                    }
                 }
             } else {
                 log.log(Level.SEVERE, i+"no such command:", buffer.get(i));

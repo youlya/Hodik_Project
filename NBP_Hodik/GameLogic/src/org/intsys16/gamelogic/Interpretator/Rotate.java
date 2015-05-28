@@ -25,7 +25,7 @@ public class Rotate implements CMD
     @Override
     public String toString()
     {
-        return "";
+        return this.direction;
     }
     @Override
     public String Run() {

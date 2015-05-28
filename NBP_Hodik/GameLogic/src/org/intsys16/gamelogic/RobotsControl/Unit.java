@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import org.intsys16.gamelogic.XMLParser.Info;
-import org.intsys16.integrator.api.Integrator;
-import org.intsys16.gamelogic.RobotsControl.Scores;
 
 /**
  *
@@ -35,6 +33,10 @@ public class Unit {
     public ArrayList<String> getProgs()
     {
         return new ArrayList(progs.keySet());
+    }
+    public String getName()
+    {
+        return name;
     }
     
     public good_robot getAvatar(Field a)
@@ -98,7 +100,7 @@ public class Unit {
         ArrayList<Info> info=new ArrayList();
         for (good_robot i : robots)
         {
-            Info temp=new Info(name, i.getLevel(), i.getCoord(), i.HP);
+            Info temp=new Info(name, i.getLevel(), i.getCoord(), i.HP, i.score);
             temp.loadMobs(i.getField());
             info.add(temp);
         }
