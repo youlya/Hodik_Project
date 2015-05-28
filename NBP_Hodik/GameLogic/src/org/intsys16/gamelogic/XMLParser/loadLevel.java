@@ -175,9 +175,9 @@ public class loadLevel
         System.out.println("Score 1: " + score.getAttribute("s1"));
         System.out.println("Score 2: " + score.getAttribute("s2"));
         System.out.println("Score 3: " + score.getAttribute("s3"));
-        info.score1=Integer.valueOf(score.getAttribute("s1"));
-        info.score2=Integer.valueOf(score.getAttribute("s2"));
-        info.score3=Integer.valueOf(score.getAttribute("s3"));
+        info.score.StepScore=Integer.valueOf(score.getAttribute("s1"));
+        info.score.BumbedInto=Integer.valueOf(score.getAttribute("s2"));
+        info.score.Eaten=Integer.valueOf(score.getAttribute("s3"));
         System.out.println("Scores added" + "\n");
     }
     

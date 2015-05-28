@@ -12,6 +12,7 @@ import java.util.List;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Field_object;
+import org.intsys16.gamelogic.RobotsControl.Scores;
 
 //
 /**
@@ -25,21 +26,17 @@ public class Info
     public int x;
     public int y;  
     public int HP;
-    public int score1;
-    public int score2;
-    public int score3;
+    public Scores score;
     List<mobInfo> mob = new ArrayList();
     public Info(){};
-    public Info(String name, int ln, Coordinate c, int h, int s1, int s2, int s3)
+    public Info(String name, int ln, Coordinate c, int h, Scores s)
     {
         robotName=name;
         levelNumber=ln;
         x=c.getX();
         y=c.getY();
         HP=h;
-        score1=s1;
-        score2=s2;
-        score3=s3;
+        score=s;
     }
 
     public int getLevel()
@@ -62,19 +59,19 @@ public class Info
         return HP;
     }
     
-    public int getScore1()
+    public int getStepScore()
     {
-        return score1;
+        return score.StepScore;
     }
     
-    public int getScore2()
+    public int getBumbedInto()
     {
-        return score2;
+        return score.BumbedInto;
     }
     
-    public int getScore3()
+    public int getEaten()
     {
-        return score3;
+        return score.Eaten;
     }
     
     public List<mobInfo> getMobs()
