@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.intsys16.gamelogic.XMLParser.Info;
 import org.intsys16.integrator.api.Integrator;
+import org.intsys16.gamelogic.RobotsControl.Scores;
 
 /**
  *
