@@ -122,6 +122,11 @@
                 <attr name="position" intvalue="1800"/>
             </file>
         </folder>
+        <folder name="Robot">
+            <attr name="displayName" bundlevalue="org.intsys16.programActions.Bundle#Menu/Robot"/>
+            <attr name="position" intvalue="150"/>
+            
+        </folder>    
         <folder name="Tools_hidden">
             <attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.core.ui.resources.Bundle"/>
             <attr name="position" intvalue="1000"/>
