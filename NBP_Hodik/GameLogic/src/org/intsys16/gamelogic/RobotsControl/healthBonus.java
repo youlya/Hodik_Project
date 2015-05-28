@@ -8,7 +8,7 @@ import org.intsys16.gamelogic.Interpretator.Interpretator;
 import org.intsys16.gamelogic.FieldControl.Field_object;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
-
+import org.intsys16.gamelogic.RobotsControl.Scores;
 //import robots.good_robot;
 
 /**
@@ -26,7 +26,7 @@ public class healthBonus extends Field_object {
     
     public void healRobot (good_robot gr)
     { 
-//        gr.sc.Eaten+=1;
+       gr.score.Eaten+=1;
           gr.HP+=hp;
     }
     
