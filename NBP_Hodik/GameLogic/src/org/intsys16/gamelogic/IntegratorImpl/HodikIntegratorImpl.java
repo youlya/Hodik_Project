@@ -6,18 +6,25 @@
 package org.intsys16.gamelogic.IntegratorImpl;
 
 import static java.lang.System.currentTimeMillis;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.FieldControl.Direction;
 import org.openide.util.lookup.ServiceProvider;
 import org.intsys16.integrator.api.Integrator;
 import org.intsys16.gamelogic.RobotsControl.Unit;
 import org.intsys16.gamelogic.FieldControl.Field;
+import org.intsys16.gamelogic.Interpretator.Interpretator;
+import org.intsys16.gamelogic.XMLParser.Info;
 import org.intsys16.gamelogic.XMLParser.loadLevel;
+import org.intsys16.gamelogic.XMLParser.mobInfo;
 
 /**
  *
@@ -29,12 +36,13 @@ import org.intsys16.gamelogic.XMLParser.loadLevel;
         path = "HodikIntegrator")  //for the quick access via Lookups.forPath()
 public class HodikIntegratorImpl extends Integrator {
     
-    private Map<String, Unit> rMap; //was Map<String, Robot> rMap
+    //private Map<String, Unit> rMap; //was Map<String, Robot> rMap
     //java.util.Timer timer;
     private ObservableList<Field> fields; //коллекция полей
     private ObservableList<Unit> units; //коллекция роботов
     private loadLevel load;
     private String levelname;
+    Interpretator interp;
     // нужные
     private ObservableList<String> selectedPrograms = null;
  
@@ -122,12 +130,32 @@ public class HodikIntegratorImpl extends Integrator {
 //     load = new loadLevel();
        
        
-//       if (true) //выбрать имеющегося робота
-//       {
-//                load.getDocument(levelname);
-//           //загрузить поле, поместить в вектор fields  //fields.add(new Field)
-//           //загрузить робота, поместить в вектор units //units.add(new Unit)
-//       } else 
+       if (true) //выбрать имеющегося робота
+       {
+          Scanner sc = new Scanner(System.in);
+          levelname = sc.nextLine();
+          int height=10;
+          int width=10;
+          Info i = new  Info();
+          i=load.getInfo();
+          List<mobInfo> mob = new ArrayList();
+          mob=i.getMobs();
+          int level=i.levelNumber;
+          int x=i.getX();
+          int y=i.getY();
+          int hp=i.getHP();
+          Coordinate c=new Coordinate(x, y);
+          Direction d=Direction.UP;
+          
+          load.getDocument(levelname);
+          
+          Field F=new Field(level, width, height);
+          units.get(0).add_robot(F, interp, c, d, hp);
+          
+       } else 
+       {
+           
+       }
 //       { 
 //           //создать робота, поместить в вектор units
 //           //выбрать планету и подгрузить поле, поместить в вектор fields

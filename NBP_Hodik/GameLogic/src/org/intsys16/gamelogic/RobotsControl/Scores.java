@@ -15,10 +15,10 @@ public class Scores {
 
    public int StepScore=0;
   public int BumbedInto=0; //счётчик препятствий, на которые попал робот(кстати,
-  //необязательно это число меньше или равно числу имеющихся препятствий :) )
-  public int Eaten=0; // для бонусов
- // good_robot gr
+   public int init; // исходные очки 0 или нек-ое число?
+   public int Eaten;
   
+
  public int getEat_sc ()
   {
   return Eaten;
@@ -33,5 +33,3 @@ return BumbedInto;
   return StepScore;
   }
 }
- 
-  

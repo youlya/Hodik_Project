@@ -47,8 +47,9 @@ public class Unit {
         return null;
     }
     
-    public void add_robot(Field a, Integrator i, Interpretator in, Coordinate coord, Direction d,Scores sc,  int hp ){
-        good_robot r=new good_robot(a, in, coord, hp, d,this,sc);// sc
+    public void add_robot(Field a, Interpretator in, Coordinate coord, Direction d,  int hp){
+        Scores s = new Scores();
+        good_robot r=new good_robot(a, in, coord, hp, d, this, s);
         robots.add(r);
     }
     boolean check_if_prog_exists(String path)

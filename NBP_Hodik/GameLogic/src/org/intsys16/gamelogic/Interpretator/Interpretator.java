@@ -47,7 +47,21 @@ public class Interpretator {
             return parser.getStatus();
         }
     }
-
+    
+    public String translate(String[] cmd, good_robot robot) {
+        currRobot = robot;
+        parser = new Parser(cmd, currRobot);
+        if(parser.getStatus().equals("success")){
+           cmdList = parser.getList();
+            iterator = cmdList.iterator(); 
+            return parser.getStatus();
+        }
+        else
+        {
+            return parser.getStatus();
+        }
+    }
+        
     String checkResult(String result) {
         String[] parts = result.split(" ");
         if (parts[0].equals("stepTo")) {
