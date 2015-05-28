@@ -48,13 +48,17 @@ public class HodikIntegratorImpl extends Integrator {
  
 //======================================================================================    
     // для заглушек
-    private ObservableList<String> robotsNames = FXCollections.observableArrayList(
+    protected ObservableList<String> robotsNames = FXCollections.observableArrayList(
           "Ходик", "Юнна", "Женя", "Рина", "Коля", "Леша", "Лена", "Настя");
     private static final Logger logger = Logger.getLogger(HodikIntegratorImpl.class.getName());
     
     //Заглушки
     @Override
-    public ObservableList<String> getRobotsNames() {      
+    public ObservableList<String> getRobotsNames() {
+        for (Unit i : units)
+        {
+            robotsNames.add(i.getName());
+        }
         return robotsNames;
     }
     @Override

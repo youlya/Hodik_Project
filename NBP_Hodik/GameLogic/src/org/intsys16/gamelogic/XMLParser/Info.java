@@ -12,6 +12,7 @@ import java.util.List;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Field_object;
+
 //
 /**
  *
@@ -40,7 +41,7 @@ public class Info
         score2=s2;
         score3=s3;
     }
-    
+
     public int getLevel()
     {
         return levelNumber;
@@ -80,6 +81,8 @@ public class Info
     {
         return mob;
     }
+    
+    
     
     public void loadMobs(Field a)
     {

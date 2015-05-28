@@ -35,7 +35,7 @@ public class Step implements CMD {
 
     @Override
     public String toString() {
-        return "";
+        return "step";
     }
 
     @Override
@@ -48,5 +48,4 @@ public class Step implements CMD {
         int Y = currRobot.getCoord().getY() + currRobot.dir.deltaY();
         return "stepTo " + X + " " + Y + " " + dir.name();
     }
-
 }

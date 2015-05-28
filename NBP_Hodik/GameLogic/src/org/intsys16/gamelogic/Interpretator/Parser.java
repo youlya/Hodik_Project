@@ -140,17 +140,6 @@ public class Parser {
                         i++;
                         //continue;
                     }
-//                    if (tag.toLowerCase().equals("forward")) {
-//                         result = new Rotate("up",currRobot);
-//                        cmdList.add(result);
-//                        i++;
-//                        continue;
-//                    }
-//                    if (tag.toLowerCase().equals("back")) {
-//                         result = new Rotate("down",currRobot);
-//                        cmdList.add(result);
-//                        i++;
-//                    }
                 }
             } else {
                 log.log(Level.SEVERE, i+"no such command:", buffer.get(i));
