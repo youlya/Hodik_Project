@@ -9,6 +9,8 @@ import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Field_object;
 import org.intsys16.gamelogic.Interpretator.Interpretator;
+import org.intsys16.gamelogic.XMLParser.XMLobject;
+import org.w3c.dom.*;
 
 /**
  *
@@ -49,9 +51,32 @@ public class bad_robot extends Field_object{
     public String getType() {
         return "mob";
     }
-//    toXML(ArrayList<>)
-//    {
-//        хз вообще что, но для Кати:)
-//        act_type, damage, coord
-//    }
+
+    @Override
+    public XMLobject toXML(XMLobject obj)
+    {
+        //act_type
+        Element mob = obj.doc.createElement("mob");
+        Attr attr1 = obj.doc.createAttribute("type");
+        attr1.setValue(1+"");                           //как определять тип моба???
+        mob.setAttributeNode(attr1);
+        Attr attr2 = obj.doc.createAttribute("name");
+        attr2.setValue(act_type);
+        mob.setAttributeNode(attr2);
+        //координаты
+        obj = this.c.toXML(obj);
+        Element coords = obj.getcurrCoord();
+        mob.appendChild(coords);
+        //заглушка для однородности файла XML
+        Element hp = obj.doc.createElement("hp");
+        Attr at = obj.doc.createAttribute("life");
+        at.setValue(100+"");
+        hp.setAttributeNode(at);
+        mob.appendChild(hp);
+        
+        //добавить моба в список
+        obj.addMob(mob);
+        
+        return obj;
+    }
 }

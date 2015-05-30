@@ -9,6 +9,7 @@ import org.intsys16.gamelogic.FieldControl.Field_object;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.RobotsControl.Scores;
+import org.intsys16.gamelogic.XMLParser.XMLobject;
 //import robots.good_robot;
 
 /**
@@ -52,6 +53,13 @@ public class healthBonus extends Field_object {
     public int getDamage() {
         //return -hp;
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public XMLobject toXML(XMLobject obj)
+    {
+        //доделать
+        return obj;
     }
 }
 

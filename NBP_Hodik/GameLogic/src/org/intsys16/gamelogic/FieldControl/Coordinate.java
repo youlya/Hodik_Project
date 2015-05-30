@@ -6,6 +6,8 @@
 
 package org.intsys16.gamelogic.FieldControl;
 
+import org.intsys16.gamelogic.XMLParser.XMLobject;
+import org.w3c.dom.*;
 /**
  *
  * @author NS
@@ -40,6 +42,21 @@ public class Coordinate
     public String toString()
     {
         return "("+x+"; "+y+")";
+    }
+    
+    //координаты
+    public XMLobject toXML(XMLobject obj)
+    {
+        Element coord = obj.doc.createElement("coordinates");
+        Attr attr1 = obj.doc.createAttribute("x");
+        attr1.setValue(x+"");
+        coord.setAttributeNode(attr1);
+        Attr attr2 = obj.doc.createAttribute("y");
+        attr2.setValue(y+"");
+        coord.setAttributeNode(attr2);
+        
+        obj.setcurrCoord(coord);
+        return obj;
     }
 
 @Override

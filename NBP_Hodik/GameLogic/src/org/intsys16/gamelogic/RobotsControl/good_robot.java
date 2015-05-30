@@ -10,6 +10,8 @@ import org.intsys16.gamelogic.FieldControl.Direction;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Field_object;
 import org.intsys16.gamelogic.Interpretator.Interpretator;
+import org.intsys16.gamelogic.XMLParser.XMLobject;
+import org.w3c.dom.*;
 
 /**
  *
@@ -57,9 +59,29 @@ public class good_robot extends Field_object{
         return 0;
     }
     
-//    toXML(ArrayList<>)
-//    {
-//        хз вообще что, но для Кати:)
-//        имя робота, HP, соординаты
-//    }
+    @Override
+    public XMLobject toXML(XMLobject obj)
+    {
+        //имя робота
+        Element r = obj.doc.createElement("robot");
+        Attr attr = obj.doc.createAttribute("name");
+        attr.setValue(robot.name);              
+        r.setAttributeNode(attr);
+        //координаты
+        obj = this.c.toXML(obj);
+        Element coords = obj.getcurrCoord();
+        r.appendChild(coords);
+        //hp
+        Element hp = obj.doc.createElement("hp");
+        Attr at = obj.doc.createAttribute("life");
+        at.setValue(HP+"");
+        hp.setAttributeNode(at);
+        r.appendChild(hp);
+        
+        //добавить робота в список
+        //или сохранить отдельно?   obj.setcurrRobot(r);
+        obj.addMob(r);
+        
+        return obj;
+    }
 }
