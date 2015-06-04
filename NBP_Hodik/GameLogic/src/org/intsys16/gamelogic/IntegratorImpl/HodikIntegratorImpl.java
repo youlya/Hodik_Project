@@ -23,6 +23,7 @@ import org.intsys16.gamelogic.RobotsControl.Unit;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.Interpretator.Interpretator;
 import org.intsys16.gamelogic.RobotsControl.Scores;
+import org.intsys16.gamelogic.RobotsControl.good_robot;
 import org.intsys16.gamelogic.XMLParser.Info;
 import org.intsys16.gamelogic.XMLParser.loadLevel;
 import org.intsys16.gamelogic.XMLParser.mobInfo;
@@ -130,6 +131,7 @@ public class HodikIntegratorImpl extends Integrator {
             Coordinate c = new Coordinate();
             Direction d=Direction.UP;
             Field F = new Field();
+            fields.add(F);
             Scores s = new Scores();
             units.get(0).add_robot(F, interp, c, d, 100, s);
             //RobotName = robotName;        
@@ -154,12 +156,21 @@ public class HodikIntegratorImpl extends Integrator {
             Coordinate c = new Coordinate(i.getX(), i.getY());
             Direction d=Direction.UP;
             Field F = new Field();
+            fields.add(F);
             Scores s = i.score;
             units.get(0).add_robot(F, interp, c, d, i.HP, s);
         } catch (Exception ex) {
             //Exceptions.printStackTrace(ex);
             logger.log(Level.SEVERE, "ERROR: failed to load document", ex);
         }
+    }
+    @Override
+    public Field getCurrentField() {
+        return fields.get(0);
+    }
+    @Override
+    public good_robot getCurrentRobot() {
+        return units.get(0).getAvatar(fields.get(0));
     }
     @Override
     public ObservableList<String> getSelectedPrograms() {

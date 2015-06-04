@@ -6,6 +6,7 @@
 package org.intsys16.editorwindow;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -57,6 +58,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
     private TopComponent multiPanel;
     private static JFXPanel fxPanel;
     //private ProgramNode progNode;
+    private DnD dragNDrop = new DnD();
     
     public GraphicEditorTopComponent() {
         java.util.logging.Logger.getLogger(getClass().getName()).log(Level.WARNING, 
@@ -77,12 +79,13 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
         Platform.runLater(() -> createScene());      
     }
     
-    private void createScene() {
-        /* Marina
-        fxPanel.setScene(new Scene(new yourClass));
-        */
+    private void createScene() {        
+        fxPanel.setScene(new Scene(dragNDrop));
+ 
     }
-    
+    public ArrayList<String> getCommandSequence() {
+        return dragNDrop.getSequence();
+    }
     public void setMultiPanel(TopComponent multiPanel) {
         this.multiPanel = multiPanel;
     }

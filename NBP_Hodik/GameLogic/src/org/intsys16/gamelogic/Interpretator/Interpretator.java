@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.intsys16.GraphicMapAPI;
 
 /**
  *
@@ -24,6 +25,7 @@ public class Interpretator {
     ArrayList<CMD> cmdList;
     Iterator<CMD> iterator = cmdList.iterator();
     private static final Logger log = Logger.getLogger(Interpretator.class.getName());
+    private GraphicMapAPI GraphicMap = GraphicMapAPI.getGraphicMap();
 
     String runNextCMD() {
         return iterator.next().Run();
@@ -89,9 +91,11 @@ public class Interpretator {
                 String result = runNextCMD();
                 String check=checkResult(result);
                 if(result.startsWith("TURN")){
+                    GraphicMap.move(result);
                     //move(result);
                 }
-                else{                   
+                else{  
+                    GraphicMap.move("MOVE_"+currRobot.dir.name());
                     //move(MOVE_+currRobot.dir.name());
                 }
                 System.out.println(check);
@@ -109,6 +113,7 @@ public class Interpretator {
     }
 
     public Interpretator() {
+        
     }
 
 }

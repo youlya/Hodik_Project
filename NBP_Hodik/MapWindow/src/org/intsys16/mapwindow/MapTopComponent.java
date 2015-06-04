@@ -19,13 +19,18 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import org.intsys16.gamelogic.FieldControl.Field;
+import org.intsys16.gamelogic.RobotsControl.good_robot;
 import org.intsys16.integrator.api.Integrator;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.util.Lookup;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.util.lookup.Lookups;
 import org.openide.windows.WindowManager;
+import org.intsys16.GraphicMapAPI;
 
 /**
  * Top component which displays something.
@@ -56,15 +61,23 @@ public final class MapTopComponent extends TopComponent {
     private static JFXPanel fxPanel;
     private static Integrator integrator = Integrator.getIntegrator();
     private static final Logger logger = Logger.getLogger(MapTopComponent.class.getName());
+    private final double fieldWidthPx = 600;
+    private final int fieldCellNumber = 7;
+//    private Lookup lookup;
     
     public MapTopComponent() {
         initComponents();
         setName(Bundle.CTL_MapTopComponent());
         setToolTipText(Bundle.HINT_MapTopComponent());
+//        lookup = Lookups.singleton(graphMap);
+//        associateLookup(lookup);
         setLayout(new BorderLayout());
         init();     
     }
-    
+//    @Override
+//    public Lookup getLookup() {
+//        return lookup;
+//    }
 
     public void init() {
         fxPanel = new JFXPanel();
@@ -87,15 +100,11 @@ public final class MapTopComponent extends TopComponent {
     }
     
     private void createScene() {
-       /** @debug to show that we work with one Integrator instance from different 
-        independent modules */
-       integrator.createNewRobot("Vika");
-       logger.log(Level.INFO, "From MapTop {0}", integrator.getRobotsNames().toString());
-       /** @debug end */
+       fxPanel.setScene(new Scene(GraphicMapAPI.getGraphicMap()));
+       GraphicMapAPI.getGraphicMap().setParameters(fieldWidthPx, fieldCellNumber, 
+               (good_robot) integrator.getCurrentRobot(), (Field) integrator.getCurrentField());
        
-       /** @todo add code */
     }
-    
 
 
     /**

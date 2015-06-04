@@ -38,6 +38,8 @@ public abstract class Integrator {
     public abstract void loadSavedSession(String xmlMapName); // xml file from Rina
     public abstract int getLevel();
     public abstract void launchProgram(String programName);
+    public abstract Object getCurrentField();
+    public abstract Object getCurrentRobot();
     
     // etc
     
@@ -157,6 +159,14 @@ public abstract class Integrator {
         {
             Logger.getLogger(Integrator.class.getName()).
                     log(Level.INFO, "Loading program {0}", programName);
+        }
+        @Override
+        public Object getCurrentField() {
+            return null;
+        }
+        @Override
+        public Object getCurrentRobot() {
+            return null;
         }
     }
 }

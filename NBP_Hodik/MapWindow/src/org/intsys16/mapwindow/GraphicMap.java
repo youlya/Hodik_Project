@@ -1,4 +1,4 @@
-package mapex;
+package org.intsys16.mapwindow;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -25,6 +25,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Field_object;
@@ -36,8 +37,11 @@ import org.intsys16.gamelogic.RobotsControl.good_robot;
 import org.intsys16.gamelogic.RobotsControl.Pit;
 import org.intsys16.gamelogic.RobotsControl.Liquid;
 import org.intsys16.gamelogic.RobotsControl.Stone;
-
-public class GraphicMap extends Pane {
+import org.openide.util.lookup.ServiceProvider;
+@ServiceProvider(
+        service = GraphicMapAPI.class,
+        path = "GraphicMapImpl")
+public class GraphicMap extends Pane implements GraphicMapAPI {
 
     private Map map = null;
     private final Pane Xaxis;
@@ -67,6 +71,7 @@ public class GraphicMap extends Pane {
         }
         event.consume();
     };
+    @Override
     public void move(String cmd){
         map.move(Actions.valueOf(cmd));
     }
@@ -79,11 +84,8 @@ public class GraphicMap extends Pane {
         }
         event.consume();
     };
-
-    public GraphicMap(double w, int r, good_robot gr, Field f) {
-        super();
-        Xaxis = new Pane();
-        Yaxis = new Pane();
+    @Override
+    public void setParameters(double w, int r, good_robot gr, Field f){
         Xaxis.setPrefSize(w, 25);
         Yaxis.setPrefSize(25, w);
         Xaxis.setLayoutX(25);
@@ -102,7 +104,16 @@ public class GraphicMap extends Pane {
         ip.setVisible(false);
         this.getChildren().addAll(Xaxis, map, Yaxis, change_mode, ip);
     }
-
+    public GraphicMap(double w, int r, good_robot gr, Field f) {
+        super();
+        Xaxis = new Pane();
+        Yaxis = new Pane();
+        setParameters(w,r,gr,f);
+    }
+    public GraphicMap() {
+        Xaxis = new Pane();
+        Yaxis = new Pane();
+    }
     private final EventHandler<MouseEvent> changeModeClicked = (MouseEvent event) -> {
         play_mode = !play_mode;
         if (play_mode) {
