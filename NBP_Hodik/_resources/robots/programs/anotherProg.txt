@@ -1,5 +1,3 @@
 Rotate 
 Step 
-Step 
-Step
 End

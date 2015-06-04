@@ -245,14 +245,14 @@ public class StartWindowController extends AnchorPane implements Initializable {
                         selectedPrograms.add(chb.getText());
                 }               
             }
-            integrator.loadNewSession(selectedRobot.toString(), selectedPrograms, 
+            integrator.loadNewSession(selectedRobot.toString(), /*selectedPrograms,*/ 
                         planetsList.getSelectionModel().getSelectedIndex());
             toInitState();
-            changeScenery();
+            changeScenery(selectedPrograms);
         });
       
     }
-    private void changeScenery() {
+    private void changeScenery(ObservableList<String> selectedPrograms) {
         //StartTopComponent.getRegistry().getOpened()
         
         /* Window system can be used from the AWT thread only */
@@ -265,8 +265,8 @@ public class StartWindowController extends AnchorPane implements Initializable {
                 WindowManager.getDefault().findTopComponent("MapTopComponent").open();
                 WindowManager.getDefault().findTopComponent("OutputTopComponent").open();
  
-                TopComponent editor = new EditorMultiViewPanelCreation().getEditor();
-                editor.open();
+                // OpenEditor
+                
             }
         });     
     }
@@ -333,7 +333,7 @@ public class StartWindowController extends AnchorPane implements Initializable {
                     // load this session
                     integrator.loadSavedSession(link.getText());
                     toInitState();
-                    changeScenery();
+                    changeScenery(FXCollections.observableArrayList());
                 });
             } 
         }
