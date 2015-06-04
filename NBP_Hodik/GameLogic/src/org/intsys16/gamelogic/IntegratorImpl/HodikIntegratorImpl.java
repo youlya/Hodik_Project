@@ -43,7 +43,7 @@ public class HodikIntegratorImpl extends Integrator {
     //java.util.Timer timer;
     private ObservableList<Field> fields; //коллекция полей
     private ObservableList<Unit> units; //коллекция роботов
-    private loadLevel load = new loadLevel(); 
+    private final loadLevel load = new loadLevel(); 
     private int level;
     Interpretator interp;
     //String RobotName;
@@ -113,6 +113,13 @@ public class HodikIntegratorImpl extends Integrator {
     }
     @Override
     public void loadNewSession(String robotName, /*ObservableList<String> selectedPrograms,*/ int planetId) {
+//        level = planetId + 1;
+//        String pathTo = "level" + level + ".xml";
+//        try {
+//            load.getDocument(pathTo);
+//        } catch (Exception ex) {
+//            Exceptions.printStackTrace(ex);
+//        }
         try {
 //            if (!selectedPrograms.isEmpty())
 //                logger.log(Level.INFO, "Loading programs {0} for {1} on the planet {2}...",

@@ -21,12 +21,12 @@ import org.intsys16.gamelogic.RobotsControl.Scores;
  */
 public class Info 
 {
-    public String robotName;
+    public String robotName = new String();
     public int levelNumber;
     public int x;
     public int y;  
     public int HP;
-    public Scores score;
+    public Scores score = new Scores();
     List<mobInfo> mob = new ArrayList();
     public Info(){};
     public Info(String name, int ln, Coordinate c, int h, Scores s)
