@@ -41,6 +41,7 @@
             </module-dependencies>
             <public-packages>
                 <package>org.intsys16.gamelogic.FieldControl</package>
+                <package>org.intsys16.gamelogic.Interpretator</package>
                 <package>org.intsys16.gamelogic.RobotsControl</package>
             </public-packages>
         </data>

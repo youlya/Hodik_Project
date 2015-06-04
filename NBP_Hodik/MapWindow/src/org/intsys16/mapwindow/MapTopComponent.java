@@ -30,7 +30,7 @@ import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.lookup.Lookups;
 import org.openide.windows.WindowManager;
-import org.intsys16.GraphicMapAPI;
+import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 
 /**
  * Top component which displays something.
@@ -100,7 +100,8 @@ public final class MapTopComponent extends TopComponent {
     }
     
     private void createScene() {
-       fxPanel.setScene(new Scene(GraphicMapAPI.getGraphicMap()));
+       GraphicMapAPI map = GraphicMapAPI.getGraphicMap();
+       fxPanel.setScene(new Scene((GraphicMap) map));
        GraphicMapAPI.getGraphicMap().setParameters(fieldWidthPx, fieldCellNumber, 
                (good_robot) integrator.getCurrentRobot(), (Field) integrator.getCurrentField());
        

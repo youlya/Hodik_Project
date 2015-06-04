@@ -7,7 +7,7 @@ import org.openide.util.lookup.Lookups;
 
 public interface GraphicMapAPI {
     public static GraphicMapAPI getGraphicMap() {
-        GraphicMapAPI GraphicMap = Lookups.forPath("HodikIntegrator")
+        GraphicMapAPI GraphicMap = Lookups.forPath("GraphicMapImpl")
                 .lookup(GraphicMapAPI.class);
         if (GraphicMap == null ) {
             Logger.getLogger(GraphicMapAPI.class.getName())

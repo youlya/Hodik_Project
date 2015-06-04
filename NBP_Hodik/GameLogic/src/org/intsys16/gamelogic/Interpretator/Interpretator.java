@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.intsys16.GraphicMapAPI;
+import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 
 /**
  *

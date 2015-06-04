@@ -85,12 +85,12 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
         event.consume();
     };
     @Override
-    public void setParameters(double w, int r, good_robot gr, Field f){
+    public void setParameters(double w, int r, Object gr, Object f){
         Xaxis.setPrefSize(w, 25);
         Yaxis.setPrefSize(25, w);
         Xaxis.setLayoutX(25);
         Yaxis.setLayoutY(25);
-        map = new Map(w, r, gr, f);
+        map = new Map(w, r, (good_robot)gr, (Field)f);
         map.setLayoutX(25);
         map.setLayoutY(25);
         change_mode = new Button();
@@ -648,10 +648,10 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
 
         public Field_object getFieldObject(Objects ob, Coordinate c) {
             switch (ob) {
-                case GOOD_ROBOT:
-                    return new good_robot();
-                case BAD_ROBOT:
-                    return new bad_robot();
+//                case GOOD_ROBOT:
+//                    return new good_robot();
+//                case BAD_ROBOT:
+//                    return new bad_robot();
                 case LIQUID:
                     return new Liquid(field, c);
                 case PIT:

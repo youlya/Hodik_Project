@@ -34,7 +34,7 @@ import org.openide.util.Exceptions;
  * @author Julia
  */
 /** To see changes after editing this file you need to clean and build the project */
-/*@ServiceProvider(
+@ServiceProvider(
         service = Integrator.class,
         path = "HodikIntegrator")  //for the quick access via Lookups.forPath()*/
 public class HodikIntegratorImpl extends Integrator {
@@ -106,7 +106,7 @@ public class HodikIntegratorImpl extends Integrator {
         ObservableList<String> planets = FXCollections.observableArrayList();
         for (int i = 0; i<getPlanetsNumber(); i++)
         {
-            planets.add("Планета "+ i);
+            planets.add("Планета "+ (i + 1));
             
         }
         return planets;
@@ -114,13 +114,13 @@ public class HodikIntegratorImpl extends Integrator {
     @Override
     public void loadNewSession(String robotName, /*ObservableList<String> selectedPrograms,*/ int planetId) {
         try {
-            if (!selectedPrograms.isEmpty())
-                logger.log(Level.INFO, "Loading programs {0} for {1} on the planet {2}...",
-                        new Object[]{selectedPrograms.toString(), robotName, planetId + 1});
-            else
-                logger.log(Level.INFO, "Loading new program for {0} on the planet {1}...",
-                        new Object[]{robotName, planetId + 1});
-            this.selectedPrograms = selectedPrograms;
+//            if (!selectedPrograms.isEmpty())
+//                logger.log(Level.INFO, "Loading programs {0} for {1} on the planet {2}...",
+//                        new Object[]{selectedPrograms.toString(), robotName, planetId + 1});
+//            else
+//                logger.log(Level.INFO, "Loading new program for {0} on the planet {1}...",
+//                        new Object[]{robotName, planetId + 1});
+//            this.selectedPrograms = selectedPrograms;
             level = planetId + 1;
             load.getDocument("level"+level);
             Info i= load.getInfo();
