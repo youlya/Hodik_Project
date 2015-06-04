@@ -8,6 +8,7 @@ package org.intsys16.editorwindow;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.io.Serializable;
+import java.util.logging.Level;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ import javafx.scene.layout.StackPane;
 import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
+import org.intsys16.GameObjectUtilities.ProgramSaveCapability;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.netbeans.core.spi.multiview.CloseOperationState;
 import org.netbeans.core.spi.multiview.MultiViewDescription;
@@ -29,6 +31,8 @@ import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.util.lookup.AbstractLookup;
+import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.Lookups;
 
 /**
@@ -40,22 +44,21 @@ import org.openide.util.lookup.Lookups;
 )
 @TopComponent.Description(
         preferredID = "TextEditorTopComponent",
-        iconBase = "org/intsys16/editorwindow/editor24.png",
+        //iconBase = "org/intsys16/editorwindow/editor24.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
-@ActionID(category = "Window", id = "org.intsys16.editorwindow.TextEditorTopComponent")
-@ActionReference(path = "Menu/Window" /*, position = 333 */)
-@TopComponent.OpenActionRegistration(
-        displayName = "#CTL_EditorAction",
-        preferredID = "TextEditorTopComponent"
-)
+//@ActionID(category = "Window", id = "org.intsys16.editorwindow.TextEditorTopComponent")
+//@ActionReference(path = "Menu/Window" /*, position = 333 */)
+//@TopComponent.OpenActionRegistration(
+//        displayName = "#CTL_TextEditorAction",
+//        preferredID = "TextEditorTopComponent"
+//)
 @Messages({
-    "CTL_EditorAction=Editor",
+    "CTL_TextEditorAction=Text Editor",
     "CTL_TextEditorTopComponent=Text Editor Window",
     "HINT_TextEditorTopComponent=This is a Text Editor window",
-    "CTL_TextDisplayName=Text view",
-    "CTL_EditorWindow=Editor WIndow"
+    "CTL_TextDisplayName=Text view"
 })
 public final class TextEditorTopComponent extends TopComponent implements MultiViewElement {
     
@@ -63,26 +66,41 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
     private JToolBar toolbar = new JToolBar();
     private TopComponent multiPanel;
     private static JFXPanel fxPanel;
-    TextArea programText;
+    private TextArea programText;
+    private BorderLayout borderLayout = new BorderLayout();
+    private final InstanceContent content = new InstanceContent();
+    private ProgramNode progNode;
     
     public TextEditorTopComponent() {
+        java.util.logging.Logger.getLogger(getClass().getName()).log(Level.WARNING, 
+                "Empty constructor for {0} was called", getClass().getName());
+    }
+    public TextEditorTopComponent(ProgramNode progNode) {
+        this.progNode = progNode;
         initComponents();
-        setName(Bundle.CTL_EditorWindow());
+        setName(Bundle.CTL_TextEditorTopComponent());
         setToolTipText(Bundle.HINT_TextEditorTopComponent());
-        setLayout(new BorderLayout());
+        //associateLookup(progNode.getLookup());
+        associateLookup(new AbstractLookup(content));
+        /* example of usage 
+        this.getLookup().lookup(ProgramNode.class).getProgramName();
+        */      
+        setLayout(borderLayout);
         init();
+        content.add(new ProgramSaveCapabilityImpl());
     }
     
     public void init() {
         fxPanel = new JFXPanel();
-        add(fxPanel, BorderLayout.NORTH);   
+        add(fxPanel, BorderLayout.NORTH);  
+        //fxPanel.setSize(fxPanel.getWidth(), borderLayout.);
         Platform.setImplicitExit(false);
         Platform.runLater(() -> createScene());      
     }
     
     private void createScene() {
         StackPane pane = new StackPane();
-        programText = new TextArea("Here the program will be displayed");      
+        programText = new TextArea(progNode.getProgramText()/*getLookup().lookup(ProgramNode.class).getProgramText()*/);      
         pane.getChildren().add(programText);
         fxPanel.setScene(new Scene(pane));
         programText.setMinSize(fxPanel.getWidth(), fxPanel.getHeight());
@@ -90,6 +108,24 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
     
     public void setMultiPanel(TopComponent multiPanel) {
         this.multiPanel = multiPanel;
+    }
+    /*
+    public TextArea getProgramTextControl() {
+        return programText;
+    }
+    */
+    
+    private class ProgramSaveCapabilityImpl implements ProgramSaveCapability {
+
+        @Override
+        public String getProgramName() {
+            return getLookup().lookup(ProgramNode.class).getProgramName();
+        }
+
+        @Override
+        public String getProgram() {
+            return getLookup().lookup(ProgramNode.class).getProgramText();
+        }
     }
 
     /**
@@ -116,8 +152,8 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
-        callback.updateTitle(Bundle.CTL_EditorWindow());
-        multiPanel.open();
+        //callback.updateTitle(Bundle.CTL_TextEditorTopComponent());
+        //multiPanel.open();
     }
 
     @Override

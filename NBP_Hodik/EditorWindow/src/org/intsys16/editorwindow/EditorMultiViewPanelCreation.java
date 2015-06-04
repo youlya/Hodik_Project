@@ -11,14 +11,18 @@ import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import org.netbeans.api.settings.ConvertAsProperties;
 import org.netbeans.core.spi.multiview.CloseOperationState;
 import org.netbeans.core.spi.multiview.MultiViewDescription;
 import org.netbeans.core.spi.multiview.MultiViewElement;
 import org.netbeans.core.spi.multiview.MultiViewElementCallback;
 import org.netbeans.core.spi.multiview.MultiViewFactory;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
 import org.openide.awt.UndoRedo;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
+import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 
 /**
@@ -27,15 +31,19 @@ import org.openide.windows.TopComponent;
  */
 public class EditorMultiViewPanelCreation {
    
-    TopComponent tc;
+    private static TopComponent tc;
+    ProgramNode progNode;
     
-    public EditorMultiViewPanelCreation() {
+    public EditorMultiViewPanelCreation(String programName, String programText) {
+        progNode = new ProgramNode(programName, programText);
+        
         MultiViewTextEditorDescription text_editor = new MultiViewTextEditorDescription();
         MultiViewGraphicEditorDescription graph_editor = new MultiViewGraphicEditorDescription();
         
         MultiViewDescription dsc[] = {text_editor, graph_editor};
-        tc = MultiViewFactory.createMultiView(dsc, dsc[0]);
-        
+        tc =  MultiViewFactory.createMultiView(dsc, dsc[0]);
+        //tc.setName("MultiViewEditorTopComponent");
+              
         text_editor.setMultiViewPanel(tc);
         graph_editor.setMultiViewPanel(tc);          
     }
@@ -45,7 +53,7 @@ public class EditorMultiViewPanelCreation {
     }
 
     private class MultiViewTextEditorDescription implements MultiViewDescription, Serializable {
-        private TextEditorTopComponent tc = new TextEditorTopComponent();
+        private TextEditorTopComponent tc = new TextEditorTopComponent(progNode);
         
         public void setMultiViewPanel(TopComponent multiPanel) {
             tc.setMultiPanel(multiPanel);
@@ -76,7 +84,7 @@ public class EditorMultiViewPanelCreation {
         }
     }
     private class MultiViewGraphicEditorDescription implements MultiViewDescription, Serializable {
-        private GraphicEditorTopComponent tc = new GraphicEditorTopComponent();
+        private GraphicEditorTopComponent tc = new GraphicEditorTopComponent(progNode);
         
         public void setMultiViewPanel(TopComponent multiPanel) {
             tc.setMultiPanel(multiPanel);
@@ -105,5 +113,17 @@ public class EditorMultiViewPanelCreation {
         public HelpCtx getHelpCtx() {
             return HelpCtx.DEFAULT_HELP;
         }
+    }
+    
+    void writeProperties(java.util.Properties p) {
+        // better to version settings since initial version as advocated at
+        // http://wiki.apidesign.org/wiki/PropertyFiles
+        p.setProperty("version", "1.0");
+        // TODO store your settings
+    }
+
+    void readProperties(java.util.Properties p) {
+        String version = p.getProperty("version");
+        // TODO read your settings according to their version
     }
 }

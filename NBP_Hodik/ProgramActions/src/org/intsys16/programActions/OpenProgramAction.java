@@ -7,11 +7,28 @@ package org.intsys16.programActions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import javafx.scene.control.TextArea;
+import javax.swing.JFileChooser;
+import org.intsys16.editorwindow.EditorMultiViewPanelCreation;
+import org.intsys16.editorwindow.TextEditorTopComponent;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
+import org.openide.filesystems.FileChooserBuilder;
+import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
+import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
+import org.openide.util.Lookup;
+import org.netbeans.core.spi.multiview.MultiViewElement;
 
 @ActionID(
         category = "File",
@@ -25,11 +42,59 @@ import org.openide.util.NbBundle.Messages;
     @ActionReference(path = "Menu/File", position = 1300),
     @ActionReference(path = "Toolbars/File", position = 300)
 })
-@Messages("CTL_OpenProgramAction=Open a Program")
-public final class OpenProgramAction implements ActionListener {
-
+@Messages({
+    "CTL_OpenProgramAction=Open a Program",
+    "# {0} - Filename",
+    "MSG_OpenFailed=Could not open program {0}: need txt file"
+})
+public final class OpenProgramAction implements ActionListener {  
     @Override
-    public void actionPerformed(ActionEvent e) {
-        // TODO implement action body
+    public void actionPerformed(ActionEvent e) {    
+        String title = "Open a program (txt file)";
+        File f = new FileChooserBuilder(
+                OpenProgramAction.class).setTitle(title).showOpenDialog();
+        if (f != null ) {
+            if (!f.getAbsolutePath().endsWith(".txt")) {
+                DialogDisplayer.getDefault().notify(
+                        new NotifyDescriptor.Message(
+                                Bundle.MSG_OpenFailed(f.getName())));
+            }
+            else {
+                BufferedReader in = null;
+                try {                   
+//                    TopComponent tc = WindowManager.getDefault().findTopComponent("TextEditorTopComponent");
+//                    TextEditorTopComponent tc_editor = (TextEditorTopComponent)tc;
+
+                    in = new BufferedReader(new FileReader(f.getAbsoluteFile()));
+                    String t = "";
+                    String ls = System.getProperty("line.separator");
+                    String fullProgText = "";
+
+                    while ((t = in.readLine()) != null) {
+//                        tc_editor.getProgramTextControl().appendText(t);
+//                        tc_editor.getProgramTextControl().appendText(ls);
+                        fullProgText += t;
+                        fullProgText += ls;
+                    }
+                    in.close();
+                    
+                    TopComponent multiEditor_tc = new EditorMultiViewPanelCreation(
+                            f.getName(), fullProgText).getEditor();
+                    multiEditor_tc.setName(f.getName());
+                    multiEditor_tc.open();
+                    
+                } catch (FileNotFoundException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                } finally {
+                    try {
+                        in.close();
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+                }
+            }           
+        }
     }
 }

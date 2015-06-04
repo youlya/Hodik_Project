@@ -36,7 +36,7 @@ import org.openide.windows.WindowManager;
 )
 @TopComponent.Description(
         preferredID = "MapTopComponent",
-        iconBase = "org/intsys16/mapwindow/map24.png",
+        iconBase = "org/intsys16/mapwindow/scatchPlanet24.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
 @TopComponent.Registration(mode = "properties_map", openAtStartup = false)

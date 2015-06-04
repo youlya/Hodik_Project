@@ -5,6 +5,11 @@
  */
 package org.intsys16.editorwindow;
 
+import java.awt.BorderLayout;
+import java.util.logging.Level;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
 import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
@@ -50,12 +55,32 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
     private MultiViewElementCallback callback = null;
     private JToolBar toolbar = new JToolBar();
     private TopComponent multiPanel;
+    private static JFXPanel fxPanel;
+    //private ProgramNode progNode;
     
     public GraphicEditorTopComponent() {
+        java.util.logging.Logger.getLogger(getClass().getName()).log(Level.WARNING, 
+                "Empty constructor for {0} was called", getClass().getName());
+    }
+    public GraphicEditorTopComponent(ProgramNode progNode) {
         initComponents();
         setName(Bundle.CTL_GraphicEditorTopComponent());
         setToolTipText(Bundle.HINT_GraphicEditorTopComponent());
-
+        //associateLookup(progNode.getLookup());
+        setLayout(new BorderLayout());
+        init();
+    }
+    public void init() {
+        fxPanel = new JFXPanel();
+        add(fxPanel, BorderLayout.NORTH);   
+        Platform.setImplicitExit(false);
+        Platform.runLater(() -> createScene());      
+    }
+    
+    private void createScene() {
+        /* Marina
+        fxPanel.setScene(new Scene(new yourClass));
+        */
     }
     
     public void setMultiPanel(TopComponent multiPanel) {
