@@ -1,0 +1,25 @@
+<game>
+	<level number="2">	
+		<robot name ="good">
+			<coordinates x="6" y="4"></coordinates>
+			<hp life="100"></hp>
+		</robot>
+		<mob type="1" name="a">
+			<coordinates x="3" y="9"></coordinates>
+			<hp life="100"></hp>
+		</mob>
+		<mob type="2" name="b">
+			<coordinates x="1" y="1"></coordinates>
+			<hp life="100"></hp>
+		</mob>
+		<obstacle type="3">
+			<coordinates x="2" y="8"></coordinates>
+			<hp life="100"></hp>
+		</obstacle>
+		<obstacle type="4">
+			<coordinates x="6" y="4"></coordinates>
+			<hp life="100"></hp>
+		</obstacle>
+		<score s1="0" s2="0" s3="0"></score>
+	</level>
+</game>

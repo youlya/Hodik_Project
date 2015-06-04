@@ -43,7 +43,7 @@ public class HodikIntegratorImpl extends Integrator {
     //java.util.Timer timer;
     private ObservableList<Field> fields; //коллекция полей
     private ObservableList<Unit> units; //коллекция роботов
-    private loadLevel load;
+    private loadLevel load = new loadLevel(); 
     private int level;
     Interpretator interp;
     //String RobotName;
@@ -122,7 +122,8 @@ public class HodikIntegratorImpl extends Integrator {
 //                        new Object[]{robotName, planetId + 1});
 //            this.selectedPrograms = selectedPrograms;
             level = planetId + 1;
-            load.getDocument("level"+level);
+            String pathTo = "level" + level + ".xml";
+            load.getDocument(pathTo);
             Info i= load.getInfo();
             List<mobInfo> mob = new ArrayList();
             mob=i.getMobs();
