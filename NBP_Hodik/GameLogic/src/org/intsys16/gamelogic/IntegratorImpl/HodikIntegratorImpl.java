@@ -174,6 +174,11 @@ public class HodikIntegratorImpl extends Integrator {
     public int getLevel() {
             return level;
         }
+    
+    public void launchProgram(String programName)
+    {
+        units.get(0).launch_prog(programName, 0);
+    }
 //=======================================================================================    
     // From hodikgit.integrator
     public HodikIntegratorImpl() throws Exception  {
