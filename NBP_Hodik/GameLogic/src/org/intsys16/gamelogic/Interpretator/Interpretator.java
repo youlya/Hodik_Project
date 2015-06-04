@@ -50,13 +50,11 @@ public class Interpretator {
     public String translate(String[] cmd, good_robot robot) {
         currRobot = robot;
         parser = new Parser(cmd, currRobot);
-        if(parser.getStatus().equals("success")){
-           cmdList = parser.getList();
-            iterator = cmdList.iterator(); 
+        if (parser.getStatus().equals("success")) {
+            cmdList = parser.getList();
+            iterator = cmdList.iterator();
             return parser.getStatus();
-        }
-        else
-        {
+        } else {
             return parser.getStatus();
         }
     }
@@ -65,40 +63,49 @@ public class Interpretator {
         String[] parts = result.split(" ");
         if (parts[0].equals("stepTo")) {
             Coordinate newC = new Coordinate(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
-            if (currRobot.getField().isFilled(newC) != true) {
-                if(currRobot.getField().endofField(newC) != true){
-                    currRobot.setCoords(newC);
-                }
-                else{
-                    log.log(Level.SEVERE, "this coordinates are out of FIELD", result);
-                    return "this coordinates are out of FIELD "+result;
-                }
-            } else {
-                log.log(Level.SEVERE, "this coordinates are filled with FieldObject ", result);
-                return "this coordinates are filled with FieldObject "+result;
-            }   
+//            if (currRobot.getField().isFilled(newC) != true) {
+//                if(currRobot.getField().endofField(newC) != true){
+                       currRobot.setCoords(newC);
+//                }
+//                else{
+//                    log.log(Level.SEVERE, "this coordinates are out of FIELD", result);
+//                    return "this coordinates are out of FIELD "+result;
+//                }
+//            } else {
+ //               log.log(Level.SEVERE, "this coordinates are filled with FieldObject ", result);
+ //               return "this coordinates are filled with FieldObject "+result;
+  //          }   
         }
         System.out.println(result);
         log.log(Level.FINE, result);
         return result;
     }
 
-    public String Run() {
+    public void Run() {
         if (debugMode) {
             //NTD
         } else {
             while (iterator.hasNext()) {
                 String result = runNextCMD();
                 String check=checkResult(result);
+                if(result.startsWith("TURN")){
+                    //move(result);
+                }
+                else{                   
+                    //move(MOVE_+currRobot.dir.name());
+                }
                 System.out.println(check);
-                if(check.startsWith("this coordinates are filled with FieldObject"))
-                    return check;
-                else
-                   if(check.startsWith("this coordinates are out of FIELD"))
-                       return check;
+                
+               // if(check.startsWith("this coordinates are filled with FieldObject")){
+                    //return check;
+                //}
+                    
+                //else
+                  // if(check.startsWith("this coordinates are out of FIELD"))
+                       //return check;
             }
         }
-        return "success";
+        //return "success";
     }
 
     public Interpretator() {

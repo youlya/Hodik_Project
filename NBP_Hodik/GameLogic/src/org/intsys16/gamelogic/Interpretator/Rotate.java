@@ -70,7 +70,7 @@ public class Rotate implements CMD
 //                dir=Direction.DOWN; 
 //                break;
         }
-        return "newOrientation "+currRobot.dir.name();
+        return "TURN_"+currRobot.dir.name();
     }
 }
    
