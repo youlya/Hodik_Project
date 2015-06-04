@@ -37,7 +37,7 @@ public abstract class Integrator {
     public abstract ObservableList<String> getSelectedPrograms(); // programs selected when loading new session (for the Editor Window to open)
     public abstract void loadSavedSession(String xmlMapName); // xml file from Rina
     public abstract int getLevel();
-    //public abstract void launchProgram();
+    public abstract void launchProgram(String programName);
     
     // etc
     
@@ -150,6 +150,13 @@ public abstract class Integrator {
         public int getLevel()
         {
             return 1;
+        }
+        
+        @Override
+        public void launchProgram(String programName)
+        {
+            Logger.getLogger(Integrator.class.getName()).
+                    log(Level.INFO, "Loading program {0}", programName);
         }
     }
 }
