@@ -106,51 +106,51 @@ public class DnD extends Pane{
         return iv;
     }
     
-    private EventHandler<DragEvent> onDragTrashOver = (DragEvent event)-> {
+    private final EventHandler<DragEvent> onDragTrashOver = (DragEvent event)-> {
         event.acceptTransferModes(TransferMode.ANY);
         event.consume();
     };
-    private EventHandler<DragEvent> onDragGridOver = (DragEvent event)-> {
+    private final EventHandler<DragEvent> onDragGridOver = (DragEvent event)-> {
         event.acceptTransferModes(TransferMode.ANY);
         event.consume();
     };
-    private EventHandler<DragEvent> onDragImageOver = (DragEvent event)-> {
+    private final EventHandler<DragEvent> onDragImageOver = (DragEvent event)-> {
         event.acceptTransferModes(TransferMode.ANY);
         event.consume();
     };
-    private EventHandler<DragEvent> onDragImageEntered = (DragEvent event) -> {
+    private final EventHandler<DragEvent> onDragImageEntered = (DragEvent event) -> {
         ImageView iv = (ImageView)event.getTarget();
         iv.setStyle("-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );");
         event.consume();
     };
-    private EventHandler<DragEvent> onDragImageExited = (DragEvent event) -> {
+    private final EventHandler<DragEvent> onDragImageExited = (DragEvent event) -> {
         ImageView iv = (ImageView)event.getTarget();
         iv.setOpacity(1);
         iv.setStyle("");
         event.consume();
     };
-    private EventHandler<DragEvent> onDragTrashEntered = (DragEvent event) -> {
+    private final EventHandler<DragEvent> onDragTrashEntered = (DragEvent event) -> {
         bin.setImage(trashr);
         event.consume();
     };
-    private EventHandler<DragEvent> onDragTrashExited = (DragEvent event) -> {
+    private final EventHandler<DragEvent> onDragTrashExited = (DragEvent event) -> {
         bin.setImage(trash);
         event.consume();
     };
-    private EventHandler<DragEvent> onDragImageDropped = (DragEvent event) -> {
+    private final EventHandler<DragEvent> onDragImageDropped = (DragEvent event) -> {
         this.setCursor(Cursor.DEFAULT);
         ImageView iv = (ImageView)event.getGestureTarget();
         addNewItem((ImageView) event.getGestureSource(), Integer.parseInt(iv.getId()));
         event.setDropCompleted(true);
         event.consume();
     };
-    private EventHandler<DragEvent> onDragGridDropped = (DragEvent event) -> {
+    private final EventHandler<DragEvent> onDragGridDropped = (DragEvent event) -> {
         this.setCursor(Cursor.DEFAULT);
         addNewItem((ImageView) event.getGestureSource());
         event.setDropCompleted(true);
         event.consume();
     };
-    private EventHandler<DragEvent> onDragTrashDropped = (DragEvent event) -> {
+    private final EventHandler<DragEvent> onDragTrashDropped = (DragEvent event) -> {
         this.setCursor(Cursor.DEFAULT);
         ImageView iv = (ImageView)event.getGestureTarget();
         deleteItem((ImageView)event.getGestureSource());   
