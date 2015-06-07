@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -66,6 +67,8 @@ public final class MapTopComponent extends TopComponent {
 //    private Lookup lookup;
     
     public MapTopComponent() {
+        System.out.println("Working Directory = "
+                    + System.getProperty("user.dir"));
         initComponents();
         setName(Bundle.CTL_MapTopComponent());
         setToolTipText(Bundle.HINT_MapTopComponent());
@@ -100,10 +103,18 @@ public final class MapTopComponent extends TopComponent {
     }
     
     private void createScene() {
-       GraphicMapAPI map = GraphicMapAPI.getGraphicMap();
-       fxPanel.setScene(new Scene((GraphicMap) map));
-       GraphicMapAPI.getGraphicMap().setParameters(fieldWidthPx, fieldCellNumber, 
+       GraphicMap map = (GraphicMap)GraphicMapAPI.getGraphicMap();
+       Scene scene = new Scene(map);
+       fxPanel.setScene(scene);
+       map.setParameters(fieldWidthPx, fieldCellNumber, 
                (good_robot) integrator.getCurrentRobot(), (Field) integrator.getCurrentField());
+       
+       scene.widthProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) -> {
+            map.setPrefWidth((double) newSceneWidth);
+        });
+       scene.heightProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) -> {
+            map.setPrefHeight((double) newSceneHeight);
+        });
        
     }
 
