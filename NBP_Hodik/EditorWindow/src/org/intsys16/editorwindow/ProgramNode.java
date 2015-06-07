@@ -52,7 +52,7 @@ public class ProgramNode extends AbstractProgram implements Serializable, Lookup
     }
     @Override
     public void addLineToProgram(String line) {
-        this.progText.set(getProgramText() + line);
+        this.progText.set(getProgramText() + "\n" + line);
     }
     @Override
     public Lookup getLookup() {
