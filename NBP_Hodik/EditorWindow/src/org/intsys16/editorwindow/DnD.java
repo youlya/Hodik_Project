@@ -1,11 +1,13 @@
 package org.intsys16.editorwindow;
-
+/**
+ *
+ * @author grinar
+ */
 import java.util.ArrayList;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
