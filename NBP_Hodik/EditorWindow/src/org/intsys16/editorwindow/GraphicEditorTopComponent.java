@@ -91,7 +91,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
     
     private void createScene() {      
         Scene scene = new Scene(dragNDrop);
-        fxPanel.setScene(new Scene(dragNDrop));
+        fxPanel.setScene(scene);
         scene.widthProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) -> {
                 dragNDrop.setPrefWidth((double)newSceneWidth);
             });
