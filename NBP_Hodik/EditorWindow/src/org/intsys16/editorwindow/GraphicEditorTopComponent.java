@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javax.swing.Action;
@@ -65,8 +66,8 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
     private TopComponent multiPanel;
     private static JFXPanel fxPanel;
     //private ProgramNode progNode;
-    private DnD dragNDrop = new DnD();
     private Lookup lookup;
+    private DnD dragNDrop = new DnD(500);
     
     public GraphicEditorTopComponent() {
         java.util.logging.Logger.getLogger(getClass().getName()).log(Level.WARNING, 
@@ -88,8 +89,15 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
         Platform.runLater(() -> createScene());      
     }
     
-    private void createScene() {        
+    private void createScene() {      
+        Scene scene = new Scene(dragNDrop);
         fxPanel.setScene(new Scene(dragNDrop));
+        scene.widthProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) -> {
+                dragNDrop.setPrefWidth((double)newSceneWidth);
+            });
+        scene.heightProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) -> {
+                dragNDrop.setPrefHeight((double)newSceneHeight);
+            });
  
     }
     public ArrayList<String> getCommandSequence() {
