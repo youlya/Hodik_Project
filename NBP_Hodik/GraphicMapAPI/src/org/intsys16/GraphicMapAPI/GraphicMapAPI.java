@@ -17,4 +17,8 @@ public interface GraphicMapAPI {
     }
     public void setParameters(double w, int r, Object gr, Object f);
     public void move(String cmd);
+    public void setEaten(int num);
+    public void setBumbedInto(int num);
+    public void setStepScore(int num);
+    public void deleteFieldObject(int x, int y);
 }
