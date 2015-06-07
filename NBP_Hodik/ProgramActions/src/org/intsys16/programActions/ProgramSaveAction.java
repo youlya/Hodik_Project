@@ -16,6 +16,10 @@ import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.intsys16.GameObjectUtilities.AbstractProgram;
 import org.intsys16.GameObjectUtilities.ProgramSaveCapability;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -33,7 +37,7 @@ import org.openide.util.NbBundle.Messages;
         id = "org.intsys16.programActions.ProgramSaveAction"
 )
 @ActionRegistration(
-        iconBase = "org/intsys16/programActions/save16.png",
+        iconBase = "org/intsys16/programActions/save24.png",
         displayName = "#CTL_ProgramSaveAction"
 )
 @ActionReferences({
@@ -52,18 +56,21 @@ import org.openide.util.NbBundle.Messages;
 })
 public final class ProgramSaveAction implements ActionListener {
 
-    private final ProgramSaveCapability context;
+    private final AbstractProgram context;
     private static final Logger logger = Logger.getLogger(ProgramSaveAction.class.getName());
 
-    public ProgramSaveAction(ProgramSaveCapability context) {
+    public ProgramSaveAction(AbstractProgram context) {
         this.context = context;
     }
 
     @Override
     public void actionPerformed(ActionEvent ev) {
-        String title = "Save " + context.getProgramName() + " to File";
+        String title = "Save " + context.getProgramName() + " as";
         File f = new FileChooserBuilder(
-                ProgramSaveAction.class).setTitle(title).showSaveDialog();
+                ProgramSaveAction.class).setTitle(title).setFileFilter(
+                        new FileNameExtensionFilter("txt file", "txt"))
+                            .setDefaultWorkingDirectory(new File(context.getProgramPath()))
+                                .showSaveDialog();
         if (f != null) {
             if (!f.getAbsolutePath().endsWith(".txt")) {
                 f = new File(f.getAbsolutePath() + ".txt");
@@ -88,7 +95,7 @@ public final class ProgramSaveAction implements ActionListener {
                 }
                 // Need getAbsoluteFile(), 
                 // or X.png and x.png are different on windows
-                String program = context.getProgram();
+                String program = context.getProgramText();
                 if (!program.isEmpty()) {
                     logger.log(Level.INFO, "Program saved to file {0}", f.getName());
                 } else {

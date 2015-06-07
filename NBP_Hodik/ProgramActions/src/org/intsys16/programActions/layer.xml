@@ -76,6 +76,7 @@
                 <attr name="position" intvalue="2500"/>
             </file>
             <file name="org-intsys16-programActions-OpenProgramAction.shadow">
+                <attr name="iconBase" stringvalue="org/intsys16/programActions/openProg16.png"/>
                 <attr name="originalFile" stringvalue="Actions/File/org-intsys16-programActions-OpenProgramAction.instance"/>
                 <attr name="position" intvalue="1300"/>
             </file>

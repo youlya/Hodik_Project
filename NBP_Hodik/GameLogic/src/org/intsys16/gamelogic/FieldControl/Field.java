@@ -36,7 +36,7 @@ public class Field
     
     public Field()
     {
-        
+
     }
     
 //    public Field(int width, int height) 

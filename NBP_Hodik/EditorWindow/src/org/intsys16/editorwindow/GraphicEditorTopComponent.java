@@ -29,27 +29,34 @@ import org.openide.util.lookup.Lookups;
 /**
  * Top component which displays something.
  */
-@ConvertAsProperties(
-        dtd = "-//org.intsys16.editorwindow//GraphicEditor//EN",
-        autostore = false
-)
-@TopComponent.Description(
-        preferredID = "GraphicEditorTopComponent",
-        //iconBase="SET/PATH/TO/ICON/HERE", 
-        persistenceType = TopComponent.PERSISTENCE_ALWAYS
-)
-@TopComponent.Registration(mode = "editor", openAtStartup = false)
+//@ConvertAsProperties(
+//        dtd = "-//org.intsys16.editorwindow//GraphicEditor//EN",
+//        autostore = false
+//)
+//@TopComponent.Description(
+//        preferredID = "GraphicEditorTopComponent",
+//        //iconBase="SET/PATH/TO/ICON/HERE", 
+//        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+//)
+//@TopComponent.Registration(mode = "editor", openAtStartup = false)
 //@ActionID(category = "Window", id = "org.intsys16.editorwindow.GraphicEditorTopComponent")
 //@ActionReference(path = "Menu/Window" /*, position = 333 */)
 //@TopComponent.OpenActionRegistration(
 //        displayName = "#CTL_GraphicEditorAction",
 //        preferredID = "GraphicEditorTopComponent"
 //) 
+@MultiViewElement.Registration(
+        displayName = "#LBL_GraphicDisplayName",
+        //iconBase = "nl/cloudfarming/client/farm/model/house.png",
+        mimeType = "application/multieditor",
+        persistenceType = TopComponent.PERSISTENCE_NEVER,
+        preferredID = "GraphicView",
+        position = 200)
 @Messages({
     "CTL_GraphicEditorAction=Graphic Editor",
     "CTL_GraphicEditorTopComponent=Graphic Editor Window",
     "HINT_GraphicEditorTopComponent=This is a GraphicEditor window",
-    "CTL_GraphicDisplayName=Graphic view"
+    "LBL_GraphicDisplayName=Graphic view"
 })
 public final class GraphicEditorTopComponent extends TopComponent implements MultiViewElement {
 
@@ -59,12 +66,14 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
     private static JFXPanel fxPanel;
     //private ProgramNode progNode;
     private DnD dragNDrop = new DnD();
+    private Lookup lookup;
     
     public GraphicEditorTopComponent() {
         java.util.logging.Logger.getLogger(getClass().getName()).log(Level.WARNING, 
                 "Empty constructor for {0} was called", getClass().getName());
     }
-    public GraphicEditorTopComponent(ProgramNode progNode) {
+    public GraphicEditorTopComponent(Lookup lookup) {
+        this.lookup = lookup;
         initComponents();
         setName(Bundle.CTL_GraphicEditorTopComponent());
         setToolTipText(Bundle.HINT_GraphicEditorTopComponent());
@@ -155,7 +164,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
 
     @Override
     public Lookup getLookup() {
-        return Lookups.singleton(this);
+        return lookup;
     }
 
     @Override

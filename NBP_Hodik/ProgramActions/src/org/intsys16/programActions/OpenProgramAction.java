@@ -35,7 +35,7 @@ import org.netbeans.core.spi.multiview.MultiViewElement;
         id = "org.intsys16.programActions.OpenProgramAction"
 )
 @ActionRegistration(
-        iconBase = "org/intsys16/programActions/addprogr.png",
+        iconBase = "org/intsys16/programActions/openProg24.png",        
         displayName = "#CTL_OpenProgramAction"
 )
 @ActionReferences({
@@ -45,14 +45,14 @@ import org.netbeans.core.spi.multiview.MultiViewElement;
 @Messages({
     "CTL_OpenProgramAction=Open a Program",
     "# {0} - Filename",
-    "MSG_OpenFailed=Could not open program {0}: need txt file"
+    "MSG_OpenFailed=Could not open program {0}: need txt file",
+    "MSG_OpenProgram=Open a program (txt file)"
 })
 public final class OpenProgramAction implements ActionListener {  
     @Override
     public void actionPerformed(ActionEvent e) {    
-        String title = "Open a program (txt file)";
         File f = new FileChooserBuilder(
-                OpenProgramAction.class).setTitle(title).showOpenDialog();
+                OpenProgramAction.class).setTitle(Bundle.MSG_OpenProgram()).showOpenDialog();
         if (f != null ) {
             if (!f.getAbsolutePath().endsWith(".txt")) {
                 DialogDisplayer.getDefault().notify(
@@ -79,9 +79,10 @@ public final class OpenProgramAction implements ActionListener {
                     in.close();
                     
                     TopComponent multiEditor_tc = new EditorMultiViewPanelCreation(
-                            f.getName(), fullProgText).getEditor();
+                            f.getName(), fullProgText, f.getAbsolutePath()).getEditor();
                     multiEditor_tc.setName(f.getName());
                     multiEditor_tc.open();
+                    multiEditor_tc.requestActive();
                     
                 } catch (FileNotFoundException ex) {
                     Exceptions.printStackTrace(ex);
