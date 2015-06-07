@@ -67,7 +67,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
     private static JFXPanel fxPanel;
     //private ProgramNode progNode;
     private Lookup lookup;
-    private DnD dragNDrop = new DnD(500);
+    private DnD dragNDrop = new DnD(500, this);
     
     public GraphicEditorTopComponent() {
         java.util.logging.Logger.getLogger(getClass().getName()).log(Level.WARNING, 
@@ -98,10 +98,17 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
         scene.heightProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) -> {
                 dragNDrop.setPrefHeight((double)newSceneHeight);
             });
+        //setCommandSequence(); // уже что-то есть в text area
  
     }
     public ArrayList<String> getCommandSequence() {
         return dragNDrop.getSequence();
+    }
+    public void setCommandSequence() {
+        ArrayList<String> commands = new ArrayList<>();
+        //запись в commands из getLookup().lookup(AbstractProgram.class).getProgramText()
+        //if(dragNDrop.isCommand(programLine))
+        dragNDrop.setSequence(commands);
     }
     public void setMultiPanel(TopComponent multiPanel) {
         this.multiPanel = multiPanel;
@@ -187,7 +194,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
 
     @Override
     public void componentActivated() {
-        //callback.updateTitle(Bundle.CTL_GraphicEditorTopComponent());
+        //setCommandSequence(); 
     }
 
     @Override

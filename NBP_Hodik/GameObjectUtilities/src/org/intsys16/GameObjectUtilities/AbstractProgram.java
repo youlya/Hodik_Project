@@ -17,5 +17,6 @@ public abstract class AbstractProgram {
     public abstract String getProgramText();
     public abstract void setProgramName(String progName);
     public abstract void setProgramText(String progText);
+    public abstract void addLineToProgram(String line);
     public abstract StringProperty programTextProperty();
 }

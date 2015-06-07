@@ -26,9 +26,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import org.intsys16.GameObjectUtilities.AbstractProgram;
 
 
 public class DnD extends Pane{
+    private final GraphicEditorTopComponent graphicTC;
     private HBox hbox;
     private GridPane grid;
     private ImageView bin;
@@ -76,6 +78,16 @@ public class DnD extends Pane{
     private ArrayList<ImageView> imageseq = new ArrayList<>();
     public ArrayList<String> getSequence(){
         return sequence;
+    }
+    public void setSequence(ArrayList<String> sequence){
+        this.sequence = sequence;
+        //todo repaint
+    }
+    public boolean isCommand(String command) {
+        return true; //todo
+    }
+    private String sequenceToString() {
+        return "sequence"; //todo
     }
     private ImageView getPicture(Command item, Boolean shadow) {
         ImageView iv = new ImageView(item.getImage());
@@ -203,6 +215,7 @@ public class DnD extends Pane{
             int w = Integer.parseInt(src.getId());
             Command c = commands.get(w);
             sequence.add(c.getCommandName());
+            graphicTC.getLookup().lookup(AbstractProgram.class).addLineToProgram(c.getCommandName());
             ImageView nw = getPicture(c, false, sequence.size() - 1);
             tt.add(createAnchorPane(nw,sequence.size() - 1), x, y);
             imageseq.add(nw);
@@ -214,6 +227,7 @@ public class DnD extends Pane{
         int w = Integer.parseInt(src.getId());
         Command c = commands.get(w);
         sequence.add(w, c.getCommandName());
+        graphicTC.getLookup().lookup(AbstractProgram.class).setProgramText(sequenceToString());
         ImageView nw = getPicture(c, false, n);
         imageseq.add(n, nw);
         for (int i = 0; i<sequence.size();i++){
@@ -245,7 +259,8 @@ public class DnD extends Pane{
         r.setStroke(bd);
         return r;
     }
-    public DnD(double width){
+    public DnD(double width, GraphicEditorTopComponent parent){
+        graphicTC = parent;
         //group = new Group();
         grid = new GridPane();
         hbox = new HBox();
