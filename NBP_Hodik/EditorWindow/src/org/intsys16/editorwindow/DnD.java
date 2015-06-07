@@ -1,10 +1,13 @@
 package org.intsys16.editorwindow;
-
+/**
+ *
+ * @author grinar
+ */
 import java.util.ArrayList;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -20,11 +23,12 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
 
-public class DnD extends Group{
+public class DnD extends Pane{
     private HBox hbox;
     private GridPane grid;
     private ImageView bin;
@@ -102,51 +106,51 @@ public class DnD extends Group{
         return iv;
     }
     
-    private EventHandler<DragEvent> onDragTrashOver = (DragEvent event)-> {
+    private final EventHandler<DragEvent> onDragTrashOver = (DragEvent event)-> {
         event.acceptTransferModes(TransferMode.ANY);
         event.consume();
     };
-    private EventHandler<DragEvent> onDragGridOver = (DragEvent event)-> {
+    private final EventHandler<DragEvent> onDragGridOver = (DragEvent event)-> {
         event.acceptTransferModes(TransferMode.ANY);
         event.consume();
     };
-    private EventHandler<DragEvent> onDragImageOver = (DragEvent event)-> {
+    private final EventHandler<DragEvent> onDragImageOver = (DragEvent event)-> {
         event.acceptTransferModes(TransferMode.ANY);
         event.consume();
     };
-    private EventHandler<DragEvent> onDragImageEntered = (DragEvent event) -> {
+    private final EventHandler<DragEvent> onDragImageEntered = (DragEvent event) -> {
         ImageView iv = (ImageView)event.getTarget();
         iv.setStyle("-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );");
         event.consume();
     };
-    private EventHandler<DragEvent> onDragImageExited = (DragEvent event) -> {
+    private final EventHandler<DragEvent> onDragImageExited = (DragEvent event) -> {
         ImageView iv = (ImageView)event.getTarget();
         iv.setOpacity(1);
         iv.setStyle("");
         event.consume();
     };
-    private EventHandler<DragEvent> onDragTrashEntered = (DragEvent event) -> {
+    private final EventHandler<DragEvent> onDragTrashEntered = (DragEvent event) -> {
         bin.setImage(trashr);
         event.consume();
     };
-    private EventHandler<DragEvent> onDragTrashExited = (DragEvent event) -> {
+    private final EventHandler<DragEvent> onDragTrashExited = (DragEvent event) -> {
         bin.setImage(trash);
         event.consume();
     };
-    private EventHandler<DragEvent> onDragImageDropped = (DragEvent event) -> {
+    private final EventHandler<DragEvent> onDragImageDropped = (DragEvent event) -> {
         this.setCursor(Cursor.DEFAULT);
         ImageView iv = (ImageView)event.getGestureTarget();
         addNewItem((ImageView) event.getGestureSource(), Integer.parseInt(iv.getId()));
         event.setDropCompleted(true);
         event.consume();
     };
-    private EventHandler<DragEvent> onDragGridDropped = (DragEvent event) -> {
+    private final EventHandler<DragEvent> onDragGridDropped = (DragEvent event) -> {
         this.setCursor(Cursor.DEFAULT);
         addNewItem((ImageView) event.getGestureSource());
         event.setDropCompleted(true);
         event.consume();
     };
-    private EventHandler<DragEvent> onDragTrashDropped = (DragEvent event) -> {
+    private final EventHandler<DragEvent> onDragTrashDropped = (DragEvent event) -> {
         this.setCursor(Cursor.DEFAULT);
         ImageView iv = (ImageView)event.getGestureTarget();
         deleteItem((ImageView)event.getGestureSource());   
@@ -241,7 +245,8 @@ public class DnD extends Group{
         r.setStroke(bd);
         return r;
     }
-    public DnD(){
+    public DnD(double width){
+        //group = new Group();
         grid = new GridPane();
         hbox = new HBox();
         int dx=20, dy=20;
@@ -260,6 +265,8 @@ public class DnD extends Group{
         grid.setHgap(gap); 
         grid.setVgap(gap); 
         grid.setPadding(new Insets(0, 0, 0, 0));
+        this.setWidth(width);
+        xx = (int) ((width - 5)/(double)(iconw + gap));
         double w1 = iconw*xx + (xx+1)*gap, h1 = iconw*yy+(yy+1)*gap;
         grid.setPrefSize(w1, h1);
         grid.setOnDragOver(onDragGridOver);
@@ -282,7 +289,8 @@ public class DnD extends Group{
         hbox.setSpacing(gap);
         
         ScrollPane sp2 = new ScrollPane();
-        sp2.setPrefSize(iconw*4+gap*4+7+10, h2);
+        double wsp2 = width - 40 - (iconw+20);
+        sp2.setPrefSize(wsp2, h2);
         sp2.setLayoutY(40 + h1);
         sp2.setLayoutX(20);
         sp2.setContent(hbox);
@@ -292,7 +300,7 @@ public class DnD extends Group{
         bin.setFitHeight(iconw+20);
         bin.setFitWidth(iconw+20);
         bin.setLayoutY(40 + h1);
-        bin.setLayoutX(20 + iconw*4+gap*4+7+10);
+        bin.setLayoutX(20 + width - 40 - (iconw+20));
         bin.setOnDragDropped(onDragTrashDropped);
         bin.setOnDragOver(onDragTrashOver);
         bin.setOnDragEntered(onDragTrashEntered);
@@ -303,5 +311,22 @@ public class DnD extends Group{
         this.getChildren().add(sp1);
         this.getChildren().add(sp2);
         this.getChildren().add(bin);
+        
+        this.widthProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) -> {
+            xx = (int) (((double)newSceneWidth-45)/(double)(iconw+gap));
+            double w = iconw*xx + (xx+1)*gap, h = iconw*yy+(yy+1)*gap;
+            sp1.setPrefWidth((double)newSceneWidth-40);
+            sp2.setPrefSize((double)newSceneWidth - 40 - (iconw+20), h2);
+            bin.setLayoutX(20 + (double)newSceneWidth - 40 - (iconw+20));
+            grid.setPrefSize(w, h);
+            grid.getChildren().clear();
+            for (int i = 0; i<sequence.size();i++){
+                int y = i / xx;
+                int x = i - y*xx;
+                imageseq.get(i).setId(""+i);
+                grid.add(createAnchorPane(imageseq.get(i),i), x, y);
+            }
+            sp1.setVvalue(1.0);
+        });
     }
 }

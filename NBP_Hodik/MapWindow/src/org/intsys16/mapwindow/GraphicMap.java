@@ -1,16 +1,21 @@
 package org.intsys16.mapwindow;
-
+/**
+ *
+ * @author grinar
+ */
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.layout.GridPane;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -21,10 +26,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.FieldControl.Field;
@@ -37,12 +44,26 @@ import org.intsys16.gamelogic.RobotsControl.good_robot;
 import org.intsys16.gamelogic.RobotsControl.Pit;
 import org.intsys16.gamelogic.RobotsControl.Liquid;
 import org.intsys16.gamelogic.RobotsControl.Stone;
+import org.intsys16.gamelogic.RobotsControl.largeHealth;
+import org.intsys16.gamelogic.RobotsControl.mediumHealth;
+import org.intsys16.gamelogic.RobotsControl.smallHealth;
 import org.openide.util.lookup.ServiceProvider;
+import org.openide.util.NbBundle.Messages;
+
 @ServiceProvider(
         service = GraphicMapAPI.class,
         path = "GraphicMapImpl")
-public class GraphicMap extends Pane implements GraphicMapAPI {
+@Messages({
+    "Text_Bonus=Yam!",
+    "Text_Obstacles=Bamp!",
+    "Text_Steps=Step",
+    "Button_Fill_Map=Fill the Map",
+    "Button_ReturnToPlayMode=Return",
+    "Button_SetWallpaper=Change Image"
+})
+public class GraphicMap extends ScrollPane implements GraphicMapAPI {
 
+    private Pane main;
     private Map map = null;
     private final Pane Xaxis;
     private final Pane Yaxis;
@@ -52,27 +73,55 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
     private final ArrayList<Text> ya = new ArrayList<>();
     private int dx = 0, dy = 0;
     private boolean play_mode = true;
-    private final boolean has_good_robot = true;
     private Color cell_color;
     public Field field;
-    private Thread moveThread;
-    
-    static private enum Objects {
+    private Rectangle scoreRect;
+    private Text textEaten;
+    private Text textBI;
+    private Text textSS;
+    private final double panel_width = 70;
+    private final FileChooser fileChooser = new FileChooser();
 
-        GOOD_ROBOT, BAD_ROBOT, PIT, STONE, LIQUID, EMPTY
+    static public enum Objects {
+
+        GOOD_ROBOT, BAD_ROBOT, PIT, STONE, LIQUID, LARGE_BONUS, SMALL_BONUS, MEDIUM_BONUS, EMPTY
     };
 
     static private enum Actions {
+
         TURN_RIGHT, TURN_LEFT, STEP, MOVE_LEFT, MOVE_RIGHT, MOVE_UP, MOVE_DOWN
     }
+
+    @Override
+    public void setEaten(int num) {
+        this.textEaten.setText(Bundle.Text_Bonus() + ": " + num);
+    }
+
+    @Override
+    public void setBumbedInto(int num) {
+        this.textBI.setText(Bundle.Text_Obstacles() + ": " + num);
+    }
+
+    @Override
+    public void setStepScore(int num) {
+        this.textSS.setText(Bundle.Text_Steps() + ": " + num);
+    }
+
+    @Override
+    public void deleteFieldObject(int x, int y) {
+        field.getHex().remove(new Coordinate(x, y));
+        map.deleteObjFromMap(map.getLocalCoordFromGR(x, y));
+    }
+
     private final EventHandler<DragEvent> onDragOver = (DragEvent event) -> {
         if (!play_mode) {
             event.acceptTransferModes(TransferMode.ANY);
         }
         event.consume();
     };
+
     @Override
-    public void move(String cmd){
+    public void move(String cmd) {
         map.move(Actions.valueOf(cmd));
     }
     private final EventHandler<DragEvent> onDragDone = (DragEvent event) -> {
@@ -84,44 +133,118 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
         }
         event.consume();
     };
+
     @Override
-    public void setParameters(double w, int r, Object gr, Object f){
-        Xaxis.setPrefSize(w, 25);
-        Yaxis.setPrefSize(25, w);
+    public void setParameters(double height, int r, Object gr, Object f) {
+        this.setHeight(height);
+        this.setWidth(height + panel_width);
+        if (this.getWidth() < this.getHeight() + panel_width + 2) {
+            height -= 15;
+        }
+        this.setVbarPolicy(ScrollBarPolicy.NEVER);
+        main = new Pane();
+        main.setPrefSize(height + panel_width, height);
+        Xaxis.setPrefSize(height - 25, 25);
+        Yaxis.setPrefSize(25, height - 25);
         Xaxis.setLayoutX(25);
         Yaxis.setLayoutY(25);
-        map = new Map(w, r, (good_robot)gr, (Field)f);
+        Xaxis.setStyle("-fx-background-color: #ffffff;");
+        Yaxis.setStyle("-fx-background-color: #ffffff;");
+        main.setStyle("-fx-background-color: #ffffff;");
+        this.setStyle("-fx-background-color: #ffffff;");
+        map = new Map(height - 30, r, (good_robot) gr, (Field) f);
         map.setLayoutX(25);
         map.setLayoutY(25);
+
+        scoreRect = new Rectangle();
+        scoreRect.setWidth(panel_width);
+        scoreRect.setHeight(panel_width);
+        scoreRect.setFill(Color.web("#606060"));
+        scoreRect.setArcWidth(5);
+        scoreRect.setArcHeight(5);
+        scoreRect.setLayoutX(height);
+        scoreRect.setLayoutY(5);
+
+        textEaten = new Text(Bundle.Text_Bonus() + ": 0");
+        textEaten.setFill(Color.WHITE);
+        textEaten.setLayoutX(height + 5);
+        textEaten.setLayoutY(25);
+        textBI = new Text(Bundle.Text_Obstacles() + ": 0");
+        textBI.setFill(Color.WHITE);
+        textBI.setLayoutX(height + 5);
+        textBI.setLayoutY(45);
+        textSS = new Text(Bundle.Text_Steps() + ": 0");
+        textSS.setFill(Color.WHITE);
+        textSS.setLayoutX(height + 5);
+        textSS.setLayoutY(65);
+
         change_mode = new Button();
-        change_mode.setText("Заполнить доску");
+        change_mode.setText(Bundle.Button_Fill_Map());
         change_mode.setOnMouseClicked(changeModeClicked);
-        change_mode.setLayoutX(25);
-        change_mode.setLayoutY(25 + w + 10);
-        ip = new ItemPanel(map.cell_width);
-        ip.setLayoutX(25);
-        ip.setLayoutY(25 + w + 50);
-        ip.setVisible(false);
-        this.getChildren().addAll(Xaxis, map, Yaxis, change_mode, ip);
+        change_mode.setLayoutX(height);
+        change_mode.setLayoutY(panel_width + 10);
+        change_mode.setPrefSize(panel_width, 20);
+        change_mode.setStyle("-fx-background-color: linear-gradient(#604343, #905757);"
+                + "       -fx-background-radius: 5;"
+                + "       -fx-background-insets: 0;"
+                + "       -fx-text-fill: white;");
+
+        ip = new ItemPanel(panel_width, height - (panel_width + 40));
+        ip.setLayoutX(height);
+        ip.setLayoutY(panel_width + 40);
+        ip.setDisable(true);
+        main.getChildren().addAll(Xaxis, map, Yaxis, change_mode, ip, scoreRect, textEaten, textBI, textSS);
+        this.setContent(main);
+        this.widthProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) -> {
+            if ((double) newSceneWidth < this.getHeight() + panel_width) {
+                setNewHeight(this.getHeight());
+            }
+        });
+        this.heightProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) -> {
+            setNewHeight((double) newSceneHeight);
+
+        });
     }
-    public GraphicMap(double w, int r, good_robot gr, Field f) {
+
+    public GraphicMap(double height, int r, good_robot gr, Field f) {
         super();
         Xaxis = new Pane();
         Yaxis = new Pane();
-        setParameters(w,r,gr,f);
+        setParameters(height, r, gr, f);
     }
+
     public GraphicMap() {
         Xaxis = new Pane();
         Yaxis = new Pane();
     }
+
+    private void setNewHeight(double h) {
+        if (this.getWidth() < this.getHeight() + panel_width) {
+            h -= 15;
+        }
+        this.setFitToHeight(true);
+        //h = this.getPrefViewportHeight();
+        main.setPrefHeight(h);
+        main.setPrefWidth(h + panel_width);
+        ip.setNewHeight(h - (panel_width + 40));
+        this.Yaxis.setPrefHeight(h - 25);
+        this.Xaxis.setPrefWidth(h - 25);
+        this.scoreRect.setLayoutX(h);
+        this.textEaten.setLayoutX(h + 5);
+        this.textSS.setLayoutX(h + 5);
+        this.textBI.setLayoutX(h + 5);
+        this.change_mode.setLayoutX(h);
+        this.ip.setLayoutX(h);
+        this.map.setNewHeight(h - 30);
+    }
     private final EventHandler<MouseEvent> changeModeClicked = (MouseEvent event) -> {
         play_mode = !play_mode;
         if (play_mode) {
-            change_mode.setText("Заполнить доску");
-            ip.setVisible(false);
+            change_mode.setText(Bundle.Button_Fill_Map());
+            ip.setDisable(true);
         } else {
-            change_mode.setText("Вернуться");
-            ip.setVisible(true);
+            change_mode.setText(Bundle.Button_ReturnToPlayMode());
+            ip.setDisable(false);
         }
         map.requestFocus();
     };
@@ -144,7 +267,7 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
 
     private class Map extends Pane {
 
-        private final double width;
+        private double width;
         private double cell_width;
         private final double border_width;
         private final boolean rows_count_even;
@@ -153,10 +276,25 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
         private final int rows;
         private final Coordinate gr_pos;
         private good_robot good_r;
-        private boolean robot_moving = false;
+        private boolean robot_moving = false, move_from_key = false;
         private int dirx = 0, diry = 0;
         private boolean running = false;
         private ArrayList<ArrayList<Node>> m = new ArrayList<>();
+
+        public void deleteObjFromMap(Coordinate local) {
+            Node r = m.get(local.y).get(local.x);
+            this.getChildren().remove(r);
+            m.get(local.y).remove(local.x);
+            m.get(local.y).add(local.x, this.getCellRectangle(0.3, local));
+            setMapLayout(m.get(local.y).get(local.x), local.getX(), local.getY());
+            this.getChildren().add(m.get(local.y).get(local.x));
+        }
+
+        public void setNewHeight(double h) {
+            width = h;
+            cell_width = (width - (rows + 1) * border_width) / rows;
+            fillMap();
+        }
 
         private Coordinate getTransCoordFromGR(int j, int i) {
             return new Coordinate(j - dx, i - dy);
@@ -179,10 +317,9 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
         private Objects getTypeOfObject(Coordinate c) {
             Field_object obj = field.getHex().get(c);
             if (obj instanceof good_robot) {
-                good_r = (good_robot) obj;
+                //good_r = (good_robot) obj;
                 return Objects.GOOD_ROBOT;
             } else if (obj instanceof bad_robot) {
-
                 return Objects.BAD_ROBOT;
             } else if (obj instanceof Liquid) {
                 return Objects.LIQUID;
@@ -190,6 +327,12 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
                 return Objects.STONE;
             } else if (obj instanceof Pit) {
                 return Objects.PIT;
+            } else if (obj instanceof largeHealth) {
+                return Objects.LARGE_BONUS;
+            } else if (obj instanceof mediumHealth) {
+                return Objects.MEDIUM_BONUS;
+            } else if (obj instanceof smallHealth) {
+                return Objects.SMALL_BONUS;
             }
             return Objects.EMPTY;
         }
@@ -252,14 +395,18 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
                 case GOOD_ROBOT:
                     gr_iv = getCellImageView("field_objects/gr_1.png", c);
                     return getCellRectangle(0.3, c);
-                case BAD_ROBOT:
-                    return getCellImageView("field_objects/bad_robot.png", c);
                 case LIQUID:
-                    return getCellImageView("field_objects/liquid.png", c);
+                    return getCellImageView("field_objects/l_1.png", c);
                 case PIT:
-                    return getCellImageView("field_objects/pit.png", c);
+                    return getCellImageView("field_objects/field_pit_3.png", c);
                 case STONE:
-                    return getCellImageView("field_objects/s_1.png", c);
+                    return getCellImageView("field_objects/stone_6.png", c);
+                case LARGE_BONUS:
+                    return getCellImageView("field_objects/field_lbonus_2.png", c);
+                case MEDIUM_BONUS:
+                    return getCellImageView("field_objects/field_mbonus_2.png", c);
+                case SMALL_BONUS:
+                    return getCellImageView("field_objects/field_sbonus_2.png", c);
                 default:
                     return getCellRectangle(0.3, c);
             }
@@ -277,23 +424,33 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
             gr_pos = gr.getCoord();
             dx = dr + gr_pos.getX();
             dy = dr + gr_pos.getY();
-
+            f.getHex().put(gr_pos, gr);
+            bg = new ImageView(new Image(getClass().getResourceAsStream("wallpapers/mercury_.jpg")));
             cell_color = Color.WHITE;
             //width = width + 2*cell_width;
-            this.setWidth(width);
-            this.setHeight(width);
+            fillMap();
+            this.setOnKeyPressed(onArrowPressed);
+        }
+
+        private void fillMap() {
+            this.setPrefWidth(width);
+            this.setPrefHeight(width);
+            m.clear();
+            this.getChildren().clear();
             for (int i = 0; i < rows; i++) {
                 m.add(new ArrayList<>());
                 for (int j = 0; j < rows; j++) {
                     m.get(i).add(getCellImage(j, i));
                 }
             }
-            bg = new ImageView(new Image(getClass().getResourceAsStream("wallpapers/mercury_.jpg")));
+            Xaxis.getChildren().clear();
+            xa.clear();
+            Yaxis.getChildren().clear();
+            ya.clear();
             bg.setFitHeight(width);
             bg.setFitWidth(width);
             this.getChildren().add(bg);
             drawCells(0, 0);
-            this.setOnKeyPressed(onArrowPressed);
         }
 
         private Text getNumText(double x, double y, String number) {
@@ -377,21 +534,31 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
                 return;
             }
             if (event.getCode() == KeyCode.DOWN) {
+                move_from_key = true;
                 move(Actions.MOVE_DOWN);
             } else if (event.getCode() == KeyCode.UP) {
+                move_from_key = true;
                 move(Actions.MOVE_UP);
             } else if (event.getCode() == KeyCode.RIGHT) {
+                move_from_key = true;
                 move(Actions.MOVE_RIGHT);
             } else if (event.getCode() == KeyCode.LEFT) {
+                move_from_key = true;
                 move(Actions.MOVE_LEFT);
             } else if (event.getCode() == KeyCode.ALT_GRAPH) {
+                move_from_key = true;
                 move(Actions.TURN_LEFT);
             } else if (event.getCode() == KeyCode.CONTROL) {
+                move_from_key = true;
                 move(Actions.TURN_RIGHT);
             }
             event.consume();
         };
-        
+
+        public void setWallpaper(String path) {
+            bg.setImage(new Image(path));
+        }
+
         public void move(Actions act) {
             try {
                 if (running) {
@@ -468,7 +635,6 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
 
         private void moveDown() throws InterruptedException {
             if (!robot_moving) {
-                dy++;
                 ArrayList<Node> na = new ArrayList<>();
                 for (int j = 0; j < rows; j++) {
                     Node r = getCellImage(j, -1);
@@ -477,6 +643,7 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
                     na.add(r);
                     getChildren().add(r);
                 }
+                dy++;
                 m.add(0, na);
                 Text t = getNumText(5, -cell_width / 2, "" + getYUp());
                 ya.add(0, t);
@@ -484,15 +651,22 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
             }
             moveBoard(0, 1);
             if (robot_moving) {
-                //gr_pos.y++;
+                if (move_from_key) {
+                    gr_pos.y++;
+                }
+                move_from_key = false;
             } else if (play_mode) {
-                //gr_pos.y--;
+                if (move_from_key) {
+                    gr_pos.y--;
+                }
+                move_from_key = false;
             }
+            reAddGR();
         }
 
         private void moveUp() throws InterruptedException {
             if (!robot_moving) {
-                dy--;
+
                 ArrayList<Node> na = new ArrayList<>();
                 for (int j = 0; j < rows; j++) {
                     Node r = getCellImage(j, rows);
@@ -501,6 +675,7 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
                     na.add(r);
                     getChildren().add(r);
                 }
+                dy--;
                 m.add(na);
                 Text t = getNumText(5, width + cell_width / 2, "" + getYDown());
                 ya.add(t);
@@ -508,15 +683,22 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
             }
             moveBoard(0, -1);
             if (robot_moving) {
-                //gr_pos.y--;
+                if (move_from_key) {
+                    gr_pos.y--;
+                }
+                move_from_key = false;
             } else if (play_mode) {
-                //gr_pos.y++;
+                if (move_from_key) {
+                    gr_pos.y++;
+                }
+                move_from_key = false;
             }
+            reAddGR();
         }
 
         private void moveRight() throws InterruptedException {
             if (!robot_moving) {
-                dx++;
+
                 for (int i = 0; i < rows; i++) {
                     Node r = getCellImage(-1, i);
                     r.setLayoutX(-cell_width);
@@ -525,21 +707,29 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
                     this.getChildren().add(r);
 
                 }
+                dx++;
                 Text t = getNumText(-cell_width / 2, 5, "" + getXLeft());
                 xa.add(0, t);
                 Xaxis.getChildren().add(t);
             }
             moveBoard(1, 0);
             if (robot_moving) {
-                //gr_pos.x++;
+                if (move_from_key) {
+                    gr_pos.x++;
+                }
+                move_from_key = false;
             } else if (play_mode) {
-                //gr_pos.x--;
+                if (move_from_key) {
+                    gr_pos.x--;
+                }
+                move_from_key = false;
             }
+            reAddGR();
         }
 
         private void moveLeft() throws InterruptedException {
             if (!robot_moving) {
-                dx--;
+
                 for (int i = 0; i < rows; i++) {
                     Node r = getCellImage(rows, i);
                     r.setLayoutX(width);
@@ -547,16 +737,29 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
                     m.get(i).add(rows, r);
                     this.getChildren().add(r);
                 }
+                dx--;
                 Text t = getNumText(width + cell_width / 2, 5, "" + getXRight());
                 xa.add(t);
                 Xaxis.getChildren().add(t);
             }
             moveBoard(-1, 0);
             if (robot_moving) {
-                //gr_pos.x--;
+                if (move_from_key) {
+                    gr_pos.x--;
+                }
+                move_from_key = false;
             } else if (play_mode) {
-                //gr_pos.x++;
+                if (move_from_key) {
+                    gr_pos.x++;
+                }
+                move_from_key = false;
             }
+            reAddGR();
+        }
+
+        private void reAddGR() {
+            map.getChildren().remove(gr_iv);
+            map.getChildren().add(gr_iv);
         }
 
         private void moveBoardPerInch(double ddx, double ddy) {
@@ -593,6 +796,7 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
             running = !running;
             timer.schedule(new TimerTask() {
                 int count = 0;
+
                 @Override
                 public void run() {
                     moveBoardPerInch((double) jj * distance, (double) ii * distance);
@@ -643,37 +847,46 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
             m.get(d.getY()).add(d.getX(), nw);
             setMapLayout(nw, d.getX(), d.getY());
             getChildren().add(nw);
-            field.getHex().put(c, getFieldObject(Objects.valueOf(iv.getId()), c));
+            Field_object fo = getFieldObject(Objects.valueOf(iv.getId()), c);
+            field.getHex().put(c, fo);
+        }
+
+        private void deleteItem(ImageView iv) {
+            Coordinate c = (Coordinate) iv.getUserData();
+            deleteFieldObject(c.getX(), c.getY());
         }
 
         public Field_object getFieldObject(Objects ob, Coordinate c) {
             switch (ob) {
-//                case GOOD_ROBOT:
-//                    return new good_robot();
-//                case BAD_ROBOT:
-//                    return new bad_robot();
                 case LIQUID:
                     return new Liquid(field, c);
                 case PIT:
                     return new Pit(field, c);
                 case STONE:
                     return new Stone(field, c);
+                case LARGE_BONUS:
+                    return new largeHealth(field, null, c);
+                case SMALL_BONUS:
+                    return new smallHealth(field, null, c);
+                case MEDIUM_BONUS:
+                    return new mediumHealth(field, null, c);
                 default:
                     return null;
             }
         }
 
-        private void deleteItem(ImageView iv) {
-
-        }
     }
 
-    private class ItemPanel extends Pane {
+    private class ItemPanel extends VBox {
 
         private final double iconw;
-        private final GridPane grid = new GridPane();
+        private double height;
+        private Button chWP;
+        private final VBox vbox = new VBox(3);
         private ImageView bin;
+        private final ArrayList<ImageView> Objs = new ArrayList<>();
         private Image trash, trashr;
+        private ScrollPane sp;
 
         private ImageView getItemImageView(String path, Objects id) {
             ImageView iv = new ImageView(new Image(getClass().getResourceAsStream(path)));
@@ -683,6 +896,7 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
             iv.setCursor(Cursor.HAND);
             iv.setOpacity(0.8);
             iv.setId(id.name());
+            iv.setUserData(id);
             iv.setOnDragDetected((MouseEvent event) -> {
                 Dragboard db = iv.startDragAndDrop(TransferMode.ANY);
                 iv.startFullDrag();
@@ -695,41 +909,71 @@ public class GraphicMap extends Pane implements GraphicMapAPI {
             return iv;
         }
 
-        private ItemPanel(double cell_width) {
-            iconw = cell_width;
-            //grid.setStyle("-fx-background-color: #3eabff;");
-            grid.setHgap(5);
-            grid.setVgap(5);
-            grid.setPadding(new Insets(10, 0, 10, 0));
-            double w1 = iconw * 5 + 5 * 4, h1 = iconw * 2 + 2 * 4;
-            Rectangle bg = new Rectangle(w1, h1);
-            bg.setArcHeight(5);
-            bg.setArcWidth(5);
-            bg.setFill(Color.GHOSTWHITE);
-            grid.setPrefSize(w1, h1);
-            ImageView i1 = getItemImageView("field_objects/gr_1.png", Objects.GOOD_ROBOT);
-            ImageView i2 = getItemImageView("field_objects/l_1.png", Objects.LIQUID);
-            ImageView i3 = getItemImageView("field_objects/s_1.png", Objects.STONE);
-            if (has_good_robot) {
-                i1.setVisible(false);
+        public void setNewHeight(double h) {
+            this.setHeight(h);
+            height = h;
+            sp.setPrefSize(iconw, h - iconw - chWP.getPrefHeight() - 10);
+        }
+
+        private final EventHandler<MouseEvent> onChooseWPClick = (MouseEvent event) -> {
+            fileChooser.setTitle("Choose a New Picture");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+            System.out.println("Working Directory = "
+                    + System.getProperty("user.dir"));
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.dir") + "\\src"));
+            File file = fileChooser.showOpenDialog(this.getScene().getWindow());
+
+            if (file != null) {
+                try {
+                    map.setWallpaper(file.toURI().toURL().toExternalForm());
+                } catch (MalformedURLException e) {
+                    System.out.println(e.toString());
+                }
             }
-            grid.add(i1, 0, 0);
-            grid.add(i2, 1, 0);
-            grid.add(i3, 2, 0);
-            bg.setStyle("-fx-effect: innershadow(gaussian , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );");
+        };
+
+        private ItemPanel(double cell_width, double h) {
+            iconw = cell_width;
+            height = h;
+            this.setSpacing(5);
+            this.setStyle("-fx-background-color: #ffffff;");
+
+            chWP = new Button();
+            chWP.setStyle("-fx-background-color: linear-gradient(#505050, #707070);\n"
+                    + "    -fx-background-radius: 10;\n"
+                    + "    -fx-background-insets: 0;\n"
+                    + "    -fx-text-fill: white;");
+            chWP.setPrefSize(cell_width, 50);
+            chWP.setText("Change Wallpaper");
+            chWP.setWrapText(true);
+            chWP.setOnMouseClicked(onChooseWPClick);
+            sp = new ScrollPane();
+            sp.setPrefSize(iconw, height - cell_width - chWP.getPrefHeight() - 10);
+            sp.setContent(vbox);
+            sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            Objs.add(getItemImageView("field_objects/pit.png", Objects.PIT));
+            Objs.add(getItemImageView("field_objects/l_1.png", Objects.LIQUID));
+            Objs.add(getItemImageView("field_objects/stone_h.png", Objects.STONE));
+            Objs.add(getItemImageView("field_objects/lbonus_h.png", Objects.LARGE_BONUS));
+            Objs.add(getItemImageView("field_objects/mbonus_h.png", Objects.MEDIUM_BONUS));
+            Objs.add(getItemImageView("field_objects/sbonus_h.png", Objects.SMALL_BONUS));
+            double w1 = iconw, h1 = iconw * Objs.size();
+            vbox.setPrefSize(w1, h1);
+            vbox.setStyle("-fx-effect: innershadow(gaussian , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );"
+                    + "-fx-background-color: #707070;");
+            vbox.getChildren().addAll(Objs);
             trash = new Image(getClass().getResourceAsStream("window_objects/trash.png"));
             trashr = new Image(getClass().getResourceAsStream("window_objects/trashr.png"));
             bin = new ImageView(trash);
-            bin.setFitHeight(iconw + 20);
-            bin.setFitWidth(iconw + 20);
-            bin.setLayoutX(w1 + 20);
+            bin.setFitHeight(iconw);
+            bin.setFitWidth(iconw);
             bin.setOnDragDropped(onDragTrashDropped);
             bin.setOnDragOver(onDragOver);
             bin.setOnDragEntered(onDragTrashEntered);
             bin.setOnDragExited(onDragTrashExited);
             bin.setStyle("-fx-background-color: #991d14;");
-            getChildren().addAll(bg, grid, bin);
-
+            getChildren().addAll(chWP, sp, bin);
         }
         private final EventHandler<DragEvent> onDragOver = (DragEvent event) -> {
             event.acceptTransferModes(TransferMode.ANY);
