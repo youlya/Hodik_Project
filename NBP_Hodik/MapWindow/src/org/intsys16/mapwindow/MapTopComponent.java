@@ -67,8 +67,6 @@ public final class MapTopComponent extends TopComponent {
 //    private Lookup lookup;
     
     public MapTopComponent() {
-        System.out.println("Working Directory = "
-                    + System.getProperty("user.dir"));
         initComponents();
         setName(Bundle.CTL_MapTopComponent());
         setToolTipText(Bundle.HINT_MapTopComponent());

@@ -16,6 +16,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -59,7 +60,17 @@ import org.openide.util.NbBundle.Messages;
     "Text_Steps=Step",
     "Button_Fill_Map=Fill the Map",
     "Button_ReturnToPlayMode=Return",
-    "Button_SetWallpaper=Change Image"
+    "Button_SetWallpaper=Change Image",
+    "ToolTipText_Pit=Obstacle: Pit",
+    "ToolTipText_Stone=Obstacle: Stone",
+    "ToolTipText_Liquid=Obstacle: Liquid",
+    "ToolTipText_LargeBonus=Bonus: Large",
+    "ToolTipText_MediumBonus=Bonus: Medium",
+    "ToolTipText_SmallBonus=Bonus: Small",
+    "ToolTipText_GoodRobot=Good Robot",
+    "ToolTipText_Fill_Map=Fill the Map",
+    "ToolTipText_ReturnToPlayMode=Return to Play Mode",
+        
 })
 public class GraphicMap extends ScrollPane implements GraphicMapAPI {
 
@@ -79,7 +90,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
     private Text textEaten;
     private Text textBI;
     private Text textSS;
-    private final double panel_width = 70;
+    private final double panel_width = 80;
     private final FileChooser fileChooser = new FileChooser();
 
     static public enum Objects {
@@ -183,15 +194,16 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         change_mode.setOnMouseClicked(changeModeClicked);
         change_mode.setLayoutX(height);
         change_mode.setLayoutY(panel_width + 10);
-        change_mode.setPrefSize(panel_width, 20);
+        change_mode.setPrefSize(panel_width, 40);
         change_mode.setStyle("-fx-background-color: linear-gradient(#604343, #905757);"
                 + "       -fx-background-radius: 5;"
                 + "       -fx-background-insets: 0;"
                 + "       -fx-text-fill: white;");
-
-        ip = new ItemPanel(panel_width, height - (panel_width + 40));
+        Tooltip t = new Tooltip(Bundle.ToolTipText_Fill_Map());
+        Tooltip.install(change_mode, t);
+        ip = new ItemPanel(panel_width, height - (panel_width + 55));
         ip.setLayoutX(height);
-        ip.setLayoutY(panel_width + 40);
+        ip.setLayoutY(panel_width + 55);
         ip.setDisable(true);
         main.getChildren().addAll(Xaxis, map, Yaxis, change_mode, ip, scoreRect, textEaten, textBI, textSS);
         this.setContent(main);
@@ -241,9 +253,13 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         play_mode = !play_mode;
         if (play_mode) {
             change_mode.setText(Bundle.Button_Fill_Map());
+            Tooltip t = new Tooltip(Bundle.ToolTipText_Fill_Map());
+            Tooltip.install(change_mode, t);
             ip.setDisable(true);
         } else {
             change_mode.setText(Bundle.Button_ReturnToPlayMode());
+            Tooltip t = new Tooltip(Bundle.ToolTipText_ReturnToPlayMode());
+            Tooltip.install(change_mode, t);
             ip.setDisable(false);
         }
         map.requestFocus();
@@ -888,7 +904,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         private Image trash, trashr;
         private ScrollPane sp;
 
-        private ImageView getItemImageView(String path, Objects id) {
+        private ImageView getItemImageView(String path, Objects id, String str) {
             ImageView iv = new ImageView(new Image(getClass().getResourceAsStream(path)));
             iv.setFitHeight(iconw);
             iv.setFitWidth(iconw);
@@ -906,6 +922,8 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                 event.consume();
             });
             iv.setOnDragDone(onDragDone);
+            Tooltip t = new Tooltip(str);
+            Tooltip.install(iv, t);
             return iv;
         }
 
@@ -941,7 +959,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
 
             chWP = new Button();
             chWP.setStyle("-fx-background-color: linear-gradient(#505050, #707070);\n"
-                    + "    -fx-background-radius: 10;\n"
+                    + "    -fx-background-radius: 5;\n"
                     + "    -fx-background-insets: 0;\n"
                     + "    -fx-text-fill: white;");
             chWP.setPrefSize(cell_width, 50);
@@ -952,12 +970,12 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             sp.setPrefSize(iconw, height - cell_width - chWP.getPrefHeight() - 10);
             sp.setContent(vbox);
             sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            Objs.add(getItemImageView("field_objects/pit.png", Objects.PIT));
-            Objs.add(getItemImageView("field_objects/l_1.png", Objects.LIQUID));
-            Objs.add(getItemImageView("field_objects/stone_h.png", Objects.STONE));
-            Objs.add(getItemImageView("field_objects/lbonus_h.png", Objects.LARGE_BONUS));
-            Objs.add(getItemImageView("field_objects/mbonus_h.png", Objects.MEDIUM_BONUS));
-            Objs.add(getItemImageView("field_objects/sbonus_h.png", Objects.SMALL_BONUS));
+            Objs.add(getItemImageView("field_objects/pit.png", Objects.PIT, Bundle.ToolTipText_Pit()));
+            Objs.add(getItemImageView("field_objects/l_1.png", Objects.LIQUID, Bundle.ToolTipText_Liquid()));
+            Objs.add(getItemImageView("field_objects/stone_h.png", Objects.STONE, Bundle.ToolTipText_Stone()));
+            Objs.add(getItemImageView("field_objects/lbonus_h.png", Objects.LARGE_BONUS, Bundle.ToolTipText_LargeBonus()));
+            Objs.add(getItemImageView("field_objects/mbonus_h.png", Objects.MEDIUM_BONUS, Bundle.ToolTipText_MediumBonus()));
+            Objs.add(getItemImageView("field_objects/sbonus_h.png", Objects.SMALL_BONUS, Bundle.ToolTipText_SmallBonus()));
             double w1 = iconw, h1 = iconw * Objs.size();
             vbox.setPrefSize(w1, h1);
             vbox.setStyle("-fx-effect: innershadow(gaussian , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );"
@@ -974,6 +992,26 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             bin.setOnDragExited(onDragTrashExited);
             bin.setStyle("-fx-background-color: #991d14;");
             getChildren().addAll(chWP, sp, bin);
+            if (height - cell_width - chWP.getPrefHeight() - 10 <= vbox.getHeight())
+                    resizeIconsM();
+            sp.heightProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldHeight, Number newHeight) -> {
+                if ((double) newHeight <= vbox.getHeight()) {
+                    resizeIconsM();
+                } else resizeIconsP();
+            });
+        }
+
+        private void resizeIconsM() {
+            Objs.stream().forEach((img) -> {
+                img.setFitHeight(iconw - 13);
+                img.setFitWidth(iconw - 13);
+            });
+        }
+        private void resizeIconsP() {
+            Objs.stream().forEach((img) -> {
+                img.setFitHeight(iconw);
+                img.setFitWidth(iconw);
+            });
         }
         private final EventHandler<DragEvent> onDragOver = (DragEvent event) -> {
             event.acceptTransferModes(TransferMode.ANY);
