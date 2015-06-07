@@ -90,7 +90,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
     private Text textEaten;
     private Text textBI;
     private Text textSS;
-    private final double panel_width = 80;
+    private final double panel_width = 90;
     private final FileChooser fileChooser = new FileChooser();
 
     static public enum Objects {
@@ -963,7 +963,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     + "    -fx-background-insets: 0;\n"
                     + "    -fx-text-fill: white;");
             chWP.setPrefSize(cell_width, 50);
-            chWP.setText("Change Wallpaper");
+            chWP.setText(Bundle.Button_SetWallpaper());
             chWP.setWrapText(true);
             chWP.setOnMouseClicked(onChooseWPClick);
             sp = new ScrollPane();
@@ -984,8 +984,8 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             trash = new Image(getClass().getResourceAsStream("window_objects/trash.png"));
             trashr = new Image(getClass().getResourceAsStream("window_objects/trashr.png"));
             bin = new ImageView(trash);
-            bin.setFitHeight(iconw);
-            bin.setFitWidth(iconw);
+            bin.setFitHeight(iconw-10);
+            bin.setFitWidth(iconw-10);
             bin.setOnDragDropped(onDragTrashDropped);
             bin.setOnDragOver(onDragOver);
             bin.setOnDragEntered(onDragTrashEntered);
