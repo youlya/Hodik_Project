@@ -52,7 +52,9 @@ import org.openide.util.NbBundle.Messages;
     "# {0} - Filename",
     "MSG_SaveFailed=Could not write to file {0}",
     "# {0} - Filename",
-    "MSG_Overwrite=File {0} exists. Overwrite?"
+    "MSG_Overwrite=File {0} exists. Overwrite?",
+    "# {0} - Filename",
+    "LBL_SaveProgram=Save {0} as:"
 })
 public final class ProgramSaveAction implements ActionListener {
 
@@ -65,10 +67,9 @@ public final class ProgramSaveAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent ev) {
-        String title = "Save " + context.getProgramName() + " as";
         File f = new FileChooserBuilder(
-                ProgramSaveAction.class).setTitle(title).setFileFilter(
-                        new FileNameExtensionFilter("txt file", "txt"))
+                ProgramSaveAction.class).setTitle(Bundle.LBL_SaveProgram(context.getProgramName()))
+                    .setFileFilter(new FileNameExtensionFilter("txt file", "txt"))
                             .setDefaultWorkingDirectory(new File(context.getProgramPath()))
                                 .showSaveDialog();
         if (f != null) {
