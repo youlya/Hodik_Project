@@ -22,7 +22,7 @@ public class Interpretator {
     Parser parser;
     Boolean debugMode = false;
     good_robot currRobot;
-    ArrayList<CMD> cmdList;
+    ArrayList<CMD> cmdList = new ArrayList<>();
     Iterator<CMD> iterator = cmdList.iterator();
     private static final Logger log = Logger.getLogger(Interpretator.class.getName());
     private GraphicMapAPI GraphicMap = GraphicMapAPI.getGraphicMap();

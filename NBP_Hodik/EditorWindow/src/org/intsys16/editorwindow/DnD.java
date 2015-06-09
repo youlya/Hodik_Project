@@ -269,9 +269,9 @@ public class DnD extends Pane{
         //commands.add(new Command("down","images/down.png",commands.size()));
         //commands.add(new Command("left","images/left.png",commands.size()));
         //commands.add(new Command("right","images/right.png",commands.size()));
-        commands.add(new Command("TURN_RIGHT","images/turn_right.png",commands.size()));
-        commands.add(new Command("TURN_LEFT","images/turn_left.png",commands.size()));
-        commands.add(new Command("STEP","images/step.png",commands.size()));
+        commands.add(new Command("Rotate Right","images/turn_right.png",commands.size()));
+        commands.add(new Command("Rotate Left","images/turn_left.png",commands.size()));
+        commands.add(new Command("Step","images/step.png",commands.size()));
         trash = new Image(getClass().getResourceAsStream("images/trash.png"));
         trashr = new Image(getClass().getResourceAsStream("images/trashr.png"));
         

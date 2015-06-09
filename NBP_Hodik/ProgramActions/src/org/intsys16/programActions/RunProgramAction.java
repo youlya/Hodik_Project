@@ -42,6 +42,6 @@ public final class RunProgramAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ev) {
         //check if this program was added to the robot
-        Integrator.getIntegrator().launchProgram(context.getProgramName());
+        Integrator.getIntegrator().launchProgram(context.getProgramPath());
     }
 }

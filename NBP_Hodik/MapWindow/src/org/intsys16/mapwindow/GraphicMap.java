@@ -10,6 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -625,25 +626,34 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                 Logger.getLogger(GraphicMap.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+        private int count = 0;
         private void turnRobot(double dir) {
+
             Timer timer = new Timer();
             double times = 60;
             double dist = 90 / times;
             running = !running;
             robot_moving = true;
+            count = 0;
             TimerTask tt = new TimerTask() {
-                int count = 0;
-
                 @Override
                 public void run() {
-                    gr_iv.setRotate(gr_iv.getRotate() + dir * dist);
-                    count++;
-                    if (count == times) {
-                        running = !running;
-                        map.requestFocus();
-                        this.cancel();
-                    }
+                    Platform.setImplicitExit(false);
+                    TimerTask thread = this;
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            gr_iv.setRotate(gr_iv.getRotate() + dir * dist);
+                            count++;
+                            if (count == times) {
+                                running = !running;
+                                map.requestFocus();
+                                thread.cancel();
+                            }
+                        }
+
+                    });
+                    
                 }
             };
             timer.schedule(tt, 0, 25);
@@ -802,7 +812,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                 gr_iv.setLayoutY(gr_iv.getLayoutY() + ddy);
             }
         }
-
+        private int count2 = 0;
         private void moveBoard(int jj, int ii) throws InterruptedException {
             final Timer timer = new Timer();
             double times = 60;
@@ -811,19 +821,22 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             diry = ii;
             running = !running;
             timer.schedule(new TimerTask() {
-                int count = 0;
-
                 @Override
                 public void run() {
-                    moveBoardPerInch((double) jj * distance, (double) ii * distance);
-                    count++;
-                    if (count == times) {
-                        running = !running;
-                        map.requestFocus();
-                        this.cancel();
-                    }
-                }
-            }, 0, 25);
+                    Platform.setImplicitExit(false);
+                    TimerTask thread = this;
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            moveBoardPerInch((double) jj * distance, (double) ii * distance);
+                            count++;
+                            if (count == times) {
+                                running = !running;
+                                map.requestFocus();
+                                thread.cancel();
+                            }
+                        }
+                    });}}, 0, 25);
         }
 
         private void deleteInvisibleCells(int jj, int ii) {

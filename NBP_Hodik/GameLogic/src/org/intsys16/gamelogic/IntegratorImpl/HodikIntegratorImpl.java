@@ -13,6 +13,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
@@ -45,7 +46,7 @@ public class HodikIntegratorImpl extends Integrator {
     private ObservableList<Unit> units; //коллекция роботов
     private final loadLevel load = new loadLevel(); 
     private int level;
-    Interpretator interp;
+    Interpretator interp = new Interpretator();
     //String RobotName;
     // нужные
     private ObservableList<String> selectedPrograms = null;
@@ -195,10 +196,12 @@ public class HodikIntegratorImpl extends Integrator {
         }
     
     @Override
-    public void launchProgram(String programName)
+    public void launchProgram(String programPath)
     {
-        units.get(0).add_prog(programName);
-        units.get(0).launch_prog(programName, 0);
+//        units.get(0).add_prog(programName);
+//        units.get(0).launch_prog(programName, 0);
+        interp.translate(programPath, getCurrentRobot());
+        interp.Run();       
     }
 //=======================================================================================    
     // From hodikgit.integrator

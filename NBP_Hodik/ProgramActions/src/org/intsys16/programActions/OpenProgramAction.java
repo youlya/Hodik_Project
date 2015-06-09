@@ -70,14 +70,14 @@ public final class OpenProgramAction implements ActionListener {
 
                     in = new BufferedReader(new FileReader(f.getAbsoluteFile()));
                     String t = "";
-                    String ls = System.getProperty("line.separator");
+//                    String ls = System.getProperty("line.separator");
                     String fullProgText = "";
 
                     while ((t = in.readLine()) != null) {
 //                        tc_editor.getProgramTextControl().appendText(t);
 //                        tc_editor.getProgramTextControl().appendText(ls);
-                        fullProgText += t;
-                        fullProgText += ls;
+                        fullProgText += (t + "\n");
+                        //fullProgText += ls;
                     }
                     in.close();
                     

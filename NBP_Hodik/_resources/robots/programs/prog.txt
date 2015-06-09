@@ -1,6 +1,8 @@
-Rotate 
+Rotate Left
+
 Step 
+
 Step 
-Step
-End
+
+Rotate Right
 

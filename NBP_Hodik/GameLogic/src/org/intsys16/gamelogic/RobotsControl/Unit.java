@@ -28,7 +28,7 @@ public class Unit {
     {
         name=n;
         robots=new ArrayList();
-        progs=new HashMap<>();
+        progs=new HashMap<>();       
     }
     public ArrayList<String> getProgs()
     {
@@ -88,7 +88,7 @@ public class Unit {
         Algorithm alg=progs.get(n);
         good_robot cur=robots.get(rob);
         // Interpretator in=cur.getInterpr();
-        alg.translate(alg.getname(), alg.getPath(), cur); //java.lang.NullPointerException
+        alg.translate(alg.getname(), alg.getPath(), cur);
     }  
     public void del_prog(String n)
     {
