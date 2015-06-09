@@ -70,7 +70,7 @@ public class Rotate implements CMD
 //                dir=Direction.DOWN; 
 //                break;
         }
-        return "TURN_"+direction;
+        return "TURN_"+direction.toUpperCase();
     }
 }
    
