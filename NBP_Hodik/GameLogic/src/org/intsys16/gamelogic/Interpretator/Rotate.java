@@ -42,13 +42,13 @@ public class Rotate implements CMD
                 if(currRobot.dir==Direction.DOWN){
                     currRobot.dir=Direction.RIGHT;
                 }
-                if(currRobot.dir==Direction.LEFT){
+                else if(currRobot.dir==Direction.LEFT){
                     currRobot.dir=Direction.DOWN;
                 }
-                if(currRobot.dir==Direction.UP){
+                else if(currRobot.dir==Direction.UP){
                     currRobot.dir=Direction.LEFT;
                 }
-                if(currRobot.dir==Direction.RIGHT){
+                else if(currRobot.dir==Direction.RIGHT){
                     currRobot.dir=Direction.UP;
                 }
                 break;
@@ -56,13 +56,13 @@ public class Rotate implements CMD
                 if(currRobot.dir==Direction.DOWN){
                     currRobot.dir=Direction.LEFT;
                 }
-                if(currRobot.dir==Direction.LEFT){
+                else if(currRobot.dir==Direction.LEFT){
                     currRobot.dir=Direction.UP;
                 }
-                if(currRobot.dir==Direction.UP){
+                else if(currRobot.dir==Direction.UP){
                     currRobot.dir=Direction.RIGHT;
                 }
-                if(currRobot.dir==Direction.RIGHT){
+                else if(currRobot.dir==Direction.RIGHT){
                     currRobot.dir=Direction.DOWN;
                 }
                 break;
