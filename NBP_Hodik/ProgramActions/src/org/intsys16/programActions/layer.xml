@@ -86,15 +86,15 @@
             </file>
             <file name="org-netbeans-modules-print-action-PageSetupAction.shadow_hidden"/>
             <file name="org-netbeans-modules-print-action-PrintAction.shadow_hidden"/>
-            <file name="org-openide-actions-SaveAction.shadow">
+            <file name="org-openide-actions-SaveAction.shadow_hidden">
                 <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-SaveAction.instance"/>
                 <attr name="position" intvalue="1500"/>
             </file>
-            <file name="org-openide-actions-SaveAllAction.shadow">
+            <file name="org-openide-actions-SaveAllAction.shadow_hidden">
                 <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-SaveAllAction.instance"/>
                 <attr name="position" intvalue="1700"/>
             </file>
-            <file name="org-openide-actions-SaveAsAction.shadow">
+            <file name="org-openide-actions-SaveAsAction.shadow_hidden">
                 <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-SaveAsAction.instance"/>
                 <attr name="position" intvalue="1600"/>
             </file>
@@ -196,6 +196,15 @@
             </folder>
             <file name="org-netbeans-core-io-ui-IOWindowAction.shadow_hidden"/>
             <file name="org-netbeans-modules-favorites-View.shadow_hidden"/>
+        </folder>
+    </folder>
+    <folder name="Toolbars">
+        <folder name="File">
+            <file name="org-openide-actions-SaveAllAction.shadow_hidden"/>
+            <file name="org-openide-actions-SaveAllAction.shadow_hidden">
+                <attr name="originalFile" stringvalue="Actions/System/org-openide-actions-SaveAllAction.instance"/>
+                <attr name="position" intvalue="400"/>
+            </file>
         </folder>
     </folder>
 </filesystem>

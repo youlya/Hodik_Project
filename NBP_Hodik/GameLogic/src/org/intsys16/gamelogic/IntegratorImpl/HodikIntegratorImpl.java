@@ -197,6 +197,7 @@ public class HodikIntegratorImpl extends Integrator {
     @Override
     public void launchProgram(String programName)
     {
+        units.get(0).add_prog(programName);
         units.get(0).launch_prog(programName, 0);
     }
 //=======================================================================================    

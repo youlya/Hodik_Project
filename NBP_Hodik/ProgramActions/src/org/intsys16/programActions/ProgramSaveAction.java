@@ -46,7 +46,7 @@ import org.openide.util.NbBundle.Messages;
     @ActionReference(path = "Loaders/content/unknown/Actions", position = 0) //?
 })
 @Messages({
-    "CTL_ProgramSaveAction=Save current program",
+    "CTL_ProgramSaveAction=Save program",
     "# {0} - windowname",
     "MSG_SAVE_DIALOG=Save {0}",
     "# {0} - Filename",

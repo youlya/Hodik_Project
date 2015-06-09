@@ -88,7 +88,7 @@ public class Unit {
         Algorithm alg=progs.get(n);
         good_robot cur=robots.get(rob);
         // Interpretator in=cur.getInterpr();
-        alg.translate(alg.getname(), alg.getPath(), cur);
+        alg.translate(alg.getname(), alg.getPath(), cur); //java.lang.NullPointerException
     }  
     public void del_prog(String n)
     {
