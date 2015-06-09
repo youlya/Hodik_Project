@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
 import org.intsys16.GraphicMapAPI.GraphicMapAPI;
+import org.intsys16.gamelogic.FieldControl.Field_object;
 
 /**
  *
@@ -69,18 +70,15 @@ public class Interpretator implements ActionListener{
         String[] parts = result.split(" ");
         if (parts[0].equals("stepTo")) {
             Coordinate newC = new Coordinate(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
-//            if (currRobot.getField().isFilled(newC) != true) {
-//                if(currRobot.getField().endofField(newC) != true){
-                       currRobot.setCoords(newC);
-//                }
-//                else{
-//                    log.log(Level.SEVERE, "this coordinates are out of FIELD", result);
-//                    return "this coordinates are out of FIELD "+result;
-//                }
-//            } else {
- //               log.log(Level.SEVERE, "this coordinates are filled with FieldObject ", result);
- //               return "this coordinates are filled with FieldObject "+result;
-  //          }   
+            Field_object buf = currRobot.getField().isFilled(newC);
+            if (buf != null) {
+                    buf.interact(currRobot);
+                    currRobot.setCoords(newC);
+                }
+            else {
+                log.log(Level.SEVERE, "this coordinates are filled with FieldObject ", result);
+                return "this coordinates are filled with FieldObject "+result;
+            }
         }
         System.out.println(result);
         log.log(Level.FINE, result);

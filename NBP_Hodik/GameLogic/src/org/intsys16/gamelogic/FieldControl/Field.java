@@ -14,9 +14,9 @@ public class Field
     HashMap<Coordinate, Field_object> hex = new HashMap<>();
     public int width;
     public int height;
-    public boolean isFilled(Coordinate coord)
+    public Field_object isFilled(Coordinate coord)
     {
-        return hex.get(coord)==null;
+        return hex.getOrDefault(hex, null);
     }
     public boolean endofField(Coordinate c)
     {  
