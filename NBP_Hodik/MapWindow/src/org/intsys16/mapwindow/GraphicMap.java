@@ -313,7 +313,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         private final ImageView bg;
         private ImageView gr_iv = null;
         private final int rows;
-        private final Coordinate gr_pos;
+        private Coordinate gr_pos;
         private good_robot good_r;
         private boolean robot_moving = false, move_from_key = false;
         private int dirx = 0, diry = 0;
@@ -545,19 +545,23 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         }
 
         private boolean atUpperEdge() {
-            return gr_pos.getY() == 0 - dy;
+            return (move_from_key ? gr_pos.getY() == 0 - dy :
+                        gr_pos.getY() + 1 == 0 - dy);
         }
 
         private boolean atBottomEdge() {
-            return gr_pos.getY() == rows - 1 - dy;
+            return (move_from_key ? gr_pos.getY() == rows - 1 - dy: 
+                        gr_pos.getY() - 1 == rows - 1 - dy);
         }
 
         private boolean atLeftEdge() {
-            return gr_pos.getX() == 0 - dx;
+            return (move_from_key ? gr_pos.getX() == 0 - dx :
+                        gr_pos.getX() + 1 == 0 - dx);
         }
 
         private boolean atRightEdge() {
-            return gr_pos.getX() == rows - 1 - dx;
+            return (move_from_key ? gr_pos.getX() == rows - 1 - dx: 
+                        gr_pos.getX() - 1== rows - 1 - dx);
         }
 
         private void drawCells() {
@@ -599,6 +603,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         }
 
         public void move(Actions act) {
+            //gr_pos = this.good_r.getCoord();
             try {
                 if (running) {
                     return;
