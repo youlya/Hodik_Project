@@ -16,7 +16,7 @@ public class Field
     public int height;
     public Field_object isFilled(Coordinate coord)
     {
-        return hex.getOrDefault(hex, null);
+        return hex.getOrDefault(coord, null);
     }
     public boolean endofField(Coordinate c)
     {  
