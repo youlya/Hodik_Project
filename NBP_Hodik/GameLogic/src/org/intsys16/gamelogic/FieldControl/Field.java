@@ -38,7 +38,9 @@ public class Field
     {
 
     }
-    
+    public void deleteFieldObject(Coordinate coord){
+        hex.remove(coord);
+    }
 //    public Field(int width, int height) 
 //    {
 //		this.width = width;

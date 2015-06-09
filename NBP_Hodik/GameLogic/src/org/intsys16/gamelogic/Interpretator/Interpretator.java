@@ -74,6 +74,8 @@ public class Interpretator implements ActionListener{
             if (buf != null) {
                     buf.interact(currRobot);
                     currRobot.setCoords(newC);
+                    GraphicMap.deleteFieldObject(buf.getCoord().getX(), buf.getCoord().getY());
+                    currRobot.getField().deleteFieldObject(newC);
                 }
             else {
                 log.log(Level.SEVERE, "this coordinates are filled with FieldObject ", result);
