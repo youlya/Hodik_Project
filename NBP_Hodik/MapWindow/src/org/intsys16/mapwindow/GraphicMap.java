@@ -196,27 +196,28 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         textBI = new Text(Bundle.Text_Obstacles() + ": 0");
         textBI.setFill(Color.WHITE);
         textBI.setLayoutX(height + 5);
-        textBI.setLayoutY(45);
+        textBI.setLayoutY(50);
         textSS = new Text(Bundle.Text_Steps() + ": 0");
         textSS.setFill(Color.WHITE);
         textSS.setLayoutX(height + 5);
-        textSS.setLayoutY(65);
+        textSS.setLayoutY(75);
 
         change_mode = new Button();
         change_mode.setText(Bundle.Button_Fill_Map());
         change_mode.setOnMouseClicked(changeModeClicked);
         change_mode.setLayoutX(height);
         change_mode.setLayoutY(panel_width + 10);
-        change_mode.setPrefSize(panel_width, 40);
+        change_mode.setPrefSize(panel_width, 50);
         change_mode.setStyle("-fx-background-color: linear-gradient(#604343, #905757);"
                 + "       -fx-background-radius: 5;"
-                + "       -fx-background-insets: 0;"
+                + "    -fx-background-insets: 0;\n"
                 + "       -fx-text-fill: white;");
+        change_mode.setWrapText(true);
         Tooltip t = new Tooltip(Bundle.ToolTipText_Fill_Map());
         Tooltip.install(change_mode, t);
-        ip = new ItemPanel(panel_width, height - (panel_width + 55));
+        ip = new ItemPanel(panel_width, height - (panel_width + 65));
         ip.setLayoutX(height);
-        ip.setLayoutY(panel_width + 55);
+        ip.setLayoutY(panel_width + 65);
         ip.setDisable(true);
         main.getChildren().addAll(Xaxis, map, Yaxis, change_mode, ip, scoreRect, textEaten, textBI, textSS);
         this.setContent(main);
