@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import javafx.scene.control.TextArea;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.intsys16.editorwindow.EditorMultiViewPanelCreation;
 import org.intsys16.editorwindow.TextEditorTopComponent;
 import org.openide.DialogDisplayer;
@@ -52,7 +53,9 @@ public final class OpenProgramAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {    
         File f = new FileChooserBuilder(
-                OpenProgramAction.class).setTitle(Bundle.MSG_OpenProgram()).showOpenDialog();
+                OpenProgramAction.class).setTitle(Bundle.MSG_OpenProgram())
+                    .setFileFilter(new FileNameExtensionFilter("txt file", "txt"))
+                        .showOpenDialog();
         if (f != null ) {
             if (!f.getAbsolutePath().endsWith(".txt")) {
                 DialogDisplayer.getDefault().notify(
