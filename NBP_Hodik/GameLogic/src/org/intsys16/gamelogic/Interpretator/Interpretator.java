@@ -69,13 +69,14 @@ public class Interpretator implements ActionListener{
     String checkResult(String result) {
         String[] parts = result.split(" ");
         if (parts[0].equals("stepTo")) {
-            Coordinate newC = new Coordinate(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
-            Field_object buf = currRobot.getField().isFilled(newC);
+            currRobot.getCoord().setX(Integer.parseInt(parts[1]));
+            currRobot.getCoord().setY(Integer.parseInt(parts[2]));
+            Field_object buf = currRobot.getField().isFilled(currRobot.getCoord());
             if (buf != null) {
                     buf.interact(currRobot);
-                    currRobot.setCoords(newC);
+                    currRobot.setCoords(currRobot.getCoord());
                     GraphicMap.deleteFieldObject(buf.getCoord().getX(), buf.getCoord().getY());
-                    currRobot.getField().deleteFieldObject(newC);
+                    currRobot.getField().deleteFieldObject(currRobot.getCoord());
                 }
             else {
                 log.log(Level.SEVERE, "this coordinates are filled with FieldObject ", result);
