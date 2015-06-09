@@ -5,19 +5,22 @@
  */
 package org.intsys16.gamelogic.Interpretator;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.RobotsControl.good_robot;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Timer;
 import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 
 /**
  *
  * @author micen
  */
-public class Interpretator {
+public class Interpretator implements ActionListener{
 
     Parser parser;
     Boolean debugMode = false;
@@ -26,6 +29,7 @@ public class Interpretator {
     Iterator<CMD> iterator = cmdList.iterator();
     private static final Logger log = Logger.getLogger(Interpretator.class.getName());
     private GraphicMapAPI GraphicMap = GraphicMapAPI.getGraphicMap();
+    Timer timer;
 
     String runNextCMD() {
         return iterator.next().Run();
@@ -83,11 +87,9 @@ public class Interpretator {
         return result;
     }
 
-    public void Run() {
-        if (debugMode) {
-            //NTD
-        } else {
-            while (iterator.hasNext()) {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(iterator.hasNext()) {
                 String result = runNextCMD();
                 String check=checkResult(result);
                 if(result.startsWith("TURN")){
@@ -99,17 +101,43 @@ public class Interpretator {
                     //move(MOVE_+currRobot.dir.name());
                 }
                 System.out.println(check);
-                
-               // if(check.startsWith("this coordinates are filled with FieldObject")){
-                    //return check;
-                //}
-                    
-                //else
-                  // if(check.startsWith("this coordinates are out of FIELD"))
-                       //return check;
-            }
         }
-        //return "success";
+        else{
+            timer.stop();
+        }
+    }
+    
+    
+    
+    public void Run() {
+        timer=new Timer(2500, this);
+        timer.start();
+//        if (debugMode) {
+//            //NTD
+//        } else {
+//            while (iterator.hasNext()) {
+//                String result = runNextCMD();
+//                String check=checkResult(result);
+//                if(result.startsWith("TURN")){
+//                    GraphicMap.move(result);
+//                    //move(result);
+//                }
+//                else{  
+//                    GraphicMap.move("MOVE_"+currRobot.dir.name());
+//                    //move(MOVE_+currRobot.dir.name());
+//                }
+//                System.out.println(check);
+//                
+//               // if(check.startsWith("this coordinates are filled with FieldObject")){
+//                    //return check;
+//                //}
+//                    
+//                //else
+//                  // if(check.startsWith("this coordinates are out of FIELD"))
+//                       //return check;
+//            }
+//        }
+//        //return "success";
     }
 
     public Interpretator() {
