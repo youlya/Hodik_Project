@@ -1,4 +1,5 @@
 package org.intsys16.mapwindow;
+
 /**
  *
  * @author grinar
@@ -70,9 +71,7 @@ import org.openide.util.NbBundle.Messages;
     "ToolTipText_SmallBonus=Bonus: Small",
     "ToolTipText_GoodRobot=Good Robot",
     "ToolTipText_Fill_Map=Fill the Map",
-    "ToolTipText_ReturnToPlayMode=Return to Play Mode",
-        
-})
+    "ToolTipText_ReturnToPlayMode=Return to Play Mode",})
 public class GraphicMap extends ScrollPane implements GraphicMapAPI {
 
     private Pane main;
@@ -93,6 +92,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
     private Text textSS;
     private final double panel_width = 90;
     private final FileChooser fileChooser = new FileChooser();
+    private GraphicMap gMap;
 
     static public enum Objects {
 
@@ -106,23 +106,44 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
 
     @Override
     public void setEaten(int num) {
-        this.textEaten.setText(Bundle.Text_Bonus() + ": " + num);
+        Platform.setImplicitExit(false);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                gMap.textEaten.setText(Bundle.Text_Bonus() + ": " + num);
+            }
+        });
     }
 
     @Override
     public void setBumbedInto(int num) {
-        this.textBI.setText(Bundle.Text_Obstacles() + ": " + num);
+        Platform.setImplicitExit(false);
+        Platform.runLater(() -> {
+            gMap.textBI.setText(Bundle.Text_Obstacles() + ": " + num);
+        });
     }
 
     @Override
     public void setStepScore(int num) {
-        this.textSS.setText(Bundle.Text_Steps() + ": " + num);
+        Platform.setImplicitExit(false);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                gMap.textSS.setText(Bundle.Text_Steps() + ": " + num);
+            }
+        });
     }
 
     @Override
     public void deleteFieldObject(int x, int y) {
-        field.getHex().remove(new Coordinate(x, y));
-        map.deleteObjFromMap(map.getLocalCoordFromGR(x, y));
+        Platform.setImplicitExit(false);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                field.getHex().remove(new Coordinate(x, y));
+                map.deleteObjFromMap(map.getLocalCoordFromGR(x, y));
+            }
+        });
     }
 
     private final EventHandler<DragEvent> onDragOver = (DragEvent event) -> {
@@ -217,6 +238,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             setNewHeight((double) newSceneHeight);
 
         });
+        gMap = this;
     }
 
     public GraphicMap(double height, int r, good_robot gr, Field f) {
@@ -627,6 +649,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             }
         }
         private int count = 0;
+
         private void turnRobot(double dir) {
 
             Timer timer = new Timer();
@@ -653,28 +676,34 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                         }
 
                     });
-                    
+
                 }
             };
             timer.schedule(tt, 0, 25);
         }
 
         private void moveDown() throws InterruptedException {
-            if (!robot_moving) {
-                ArrayList<Node> na = new ArrayList<>();
-                for (int j = 0; j < rows; j++) {
-                    Node r = getCellImage(j, -1);
-                    r.setLayoutX(border_width * (j + 1) + cell_width * j);
-                    r.setLayoutY(-cell_width);
-                    na.add(r);
-                    getChildren().add(r);
+            Platform.setImplicitExit(false);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    if (!robot_moving) {
+                        ArrayList<Node> na = new ArrayList<>();
+                        for (int j = 0; j < rows; j++) {
+                            Node r = getCellImage(j, -1);
+                            r.setLayoutX(border_width * (j + 1) + cell_width * j);
+                            r.setLayoutY(-cell_width);
+                            na.add(r);
+                            getChildren().add(r);
+                        }
+                        dy++;
+                        m.add(0, na);
+                        Text t = getNumText(5, -cell_width / 2, "" + getYUp());
+                        ya.add(0, t);
+                        Yaxis.getChildren().add(t);
+                    }
                 }
-                dy++;
-                m.add(0, na);
-                Text t = getNumText(5, -cell_width / 2, "" + getYUp());
-                ya.add(0, t);
-                Yaxis.getChildren().add(t);
-            }
+            });
             moveBoard(0, 1);
             if (robot_moving) {
                 if (move_from_key) {
@@ -691,22 +720,27 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         }
 
         private void moveUp() throws InterruptedException {
-            if (!robot_moving) {
-
-                ArrayList<Node> na = new ArrayList<>();
-                for (int j = 0; j < rows; j++) {
-                    Node r = getCellImage(j, rows);
-                    r.setLayoutX(border_width * (j + 1) + cell_width * j);
-                    r.setLayoutY(width);
-                    na.add(r);
-                    getChildren().add(r);
+            Platform.setImplicitExit(false);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    if (!robot_moving) {
+                        ArrayList<Node> na = new ArrayList<>();
+                        for (int j = 0; j < rows; j++) {
+                            Node r = getCellImage(j, rows);
+                            r.setLayoutX(border_width * (j + 1) + cell_width * j);
+                            r.setLayoutY(width);
+                            na.add(r);
+                            getChildren().add(r);
+                        }
+                        dy--;
+                        m.add(na);
+                        Text t = getNumText(5, width + cell_width / 2, "" + getYDown());
+                        ya.add(t);
+                        Yaxis.getChildren().add(t);
+                    }
                 }
-                dy--;
-                m.add(na);
-                Text t = getNumText(5, width + cell_width / 2, "" + getYDown());
-                ya.add(t);
-                Yaxis.getChildren().add(t);
-            }
+            });
             moveBoard(0, -1);
             if (robot_moving) {
                 if (move_from_key) {
@@ -723,21 +757,27 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         }
 
         private void moveRight() throws InterruptedException {
-            if (!robot_moving) {
+            Platform.setImplicitExit(false);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    if (!robot_moving) {
 
-                for (int i = 0; i < rows; i++) {
-                    Node r = getCellImage(-1, i);
-                    r.setLayoutX(-cell_width);
-                    r.setLayoutY(border_width * (i + 1) + cell_width * i);
-                    m.get(i).add(0, r);
-                    this.getChildren().add(r);
+                        for (int i = 0; i < rows; i++) {
+                            Node r = getCellImage(-1, i);
+                            r.setLayoutX(-cell_width);
+                            r.setLayoutY(border_width * (i + 1) + cell_width * i);
+                            m.get(i).add(0, r);
+                            map.getChildren().add(r);
 
+                        }
+                        dx++;
+                        Text t = getNumText(-cell_width / 2, 5, "" + getXLeft());
+                        xa.add(0, t);
+                        Xaxis.getChildren().add(t);
+                    }
                 }
-                dx++;
-                Text t = getNumText(-cell_width / 2, 5, "" + getXLeft());
-                xa.add(0, t);
-                Xaxis.getChildren().add(t);
-            }
+            });
             moveBoard(1, 0);
             if (robot_moving) {
                 if (move_from_key) {
@@ -754,20 +794,26 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         }
 
         private void moveLeft() throws InterruptedException {
-            if (!robot_moving) {
+            Platform.setImplicitExit(false);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    if (!robot_moving) {
 
-                for (int i = 0; i < rows; i++) {
-                    Node r = getCellImage(rows, i);
-                    r.setLayoutX(width);
-                    r.setLayoutY(border_width * (i + 1) + cell_width * i);
-                    m.get(i).add(rows, r);
-                    this.getChildren().add(r);
+                        for (int i = 0; i < rows; i++) {
+                            Node r = getCellImage(rows, i);
+                            r.setLayoutX(width);
+                            r.setLayoutY(border_width * (i + 1) + cell_width * i);
+                            m.get(i).add(rows, r);
+                            map.getChildren().add(r);
+                        }
+                        dx--;
+                        Text t = getNumText(width + cell_width / 2, 5, "" + getXRight());
+                        xa.add(t);
+                        Xaxis.getChildren().add(t);
+                    }
                 }
-                dx--;
-                Text t = getNumText(width + cell_width / 2, 5, "" + getXRight());
-                xa.add(t);
-                Xaxis.getChildren().add(t);
-            }
+            });
             moveBoard(-1, 0);
             if (robot_moving) {
                 if (move_from_key) {
@@ -819,6 +865,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             }
         }
         private int count2 = 0;
+
         private void moveBoard(int jj, int ii) throws InterruptedException {
             final Timer timer = new Timer();
             double times = 60;
@@ -843,35 +890,43 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                                 thread.cancel();
                             }
                         }
-                    });}}, 0, 25);
+                    });
+                }
+            }, 0, 25);
         }
 
         private void deleteInvisibleCells(int jj, int ii) {
-            if (ii == -1) {
-                getChildren().removeAll(m.get(0));
-                m.remove(0);
-                Yaxis.getChildren().remove(ya.get(0));
-                ya.remove(0);
-            } else if (ii == 1) {
-                getChildren().removeAll(m.get(rows));
-                m.remove(rows);
-                Yaxis.getChildren().remove(ya.get(rows));
-                ya.remove(rows);
-            } else if (jj == 1) {
-                m.stream().forEach((ar) -> {
-                    getChildren().remove(ar.get(rows));
-                    ar.remove(rows);
-                });
-                Xaxis.getChildren().remove(xa.get(rows));
-                xa.remove(rows);
-            } else if (jj == -1) {
-                m.stream().forEach((ar) -> {
-                    getChildren().remove(ar.get(0));
-                    ar.remove(0);
-                });
-                Xaxis.getChildren().remove(xa.get(0));
-                xa.remove(0);
-            }
+            Platform.setImplicitExit(false);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    if (ii == -1) {
+                        getChildren().removeAll(m.get(0));
+                        m.remove(0);
+                        Yaxis.getChildren().remove(ya.get(0));
+                        ya.remove(0);
+                    } else if (ii == 1) {
+                        getChildren().removeAll(m.get(rows));
+                        m.remove(rows);
+                        Yaxis.getChildren().remove(ya.get(rows));
+                        ya.remove(rows);
+                    } else if (jj == 1) {
+                        m.stream().forEach((ar) -> {
+                            getChildren().remove(ar.get(rows));
+                            ar.remove(rows);
+                        });
+                        Xaxis.getChildren().remove(xa.get(rows));
+                        xa.remove(rows);
+                    } else if (jj == -1) {
+                        m.stream().forEach((ar) -> {
+                            getChildren().remove(ar.get(0));
+                            ar.remove(0);
+                        });
+                        Xaxis.getChildren().remove(xa.get(0));
+                        xa.remove(0);
+                    }
+                }
+            });
         }
 
         private void addItem(ImageView iv, Coordinate c) {
@@ -1004,20 +1059,23 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             trash = new Image(getClass().getResourceAsStream("window_objects/trash.png"));
             trashr = new Image(getClass().getResourceAsStream("window_objects/trashr.png"));
             bin = new ImageView(trash);
-            bin.setFitHeight(iconw-10);
-            bin.setFitWidth(iconw-10);
+            bin.setFitHeight(iconw - 10);
+            bin.setFitWidth(iconw - 10);
             bin.setOnDragDropped(onDragTrashDropped);
             bin.setOnDragOver(onDragOver);
             bin.setOnDragEntered(onDragTrashEntered);
             bin.setOnDragExited(onDragTrashExited);
             bin.setStyle("-fx-background-color: #991d14;");
             getChildren().addAll(chWP, sp, bin);
-            if (height - cell_width - chWP.getPrefHeight() - 10 <= vbox.getHeight())
-                    resizeIconsM();
+            if (height - cell_width - chWP.getPrefHeight() - 10 <= vbox.getHeight()) {
+                resizeIconsM();
+            }
             sp.heightProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldHeight, Number newHeight) -> {
                 if ((double) newHeight <= vbox.getHeight()) {
                     resizeIconsM();
-                } else resizeIconsP();
+                } else {
+                    resizeIconsP();
+                }
             });
         }
 
@@ -1027,6 +1085,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                 img.setFitWidth(iconw - 13);
             });
         }
+
         private void resizeIconsP() {
             Objs.stream().forEach((img) -> {
                 img.setFitHeight(iconw);

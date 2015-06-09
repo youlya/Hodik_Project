@@ -1,5 +1,3 @@
-Rotate Right
-Rotate Left
 Step
-Rotate Left
+Step
 Step
