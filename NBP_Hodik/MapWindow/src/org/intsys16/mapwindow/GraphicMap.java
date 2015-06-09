@@ -784,8 +784,14 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         }
 
         private void reAddGR() {
-            map.getChildren().remove(gr_iv);
-            map.getChildren().add(gr_iv);
+            Platform.setImplicitExit(false);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    map.getChildren().remove(gr_iv);
+                    map.getChildren().add(gr_iv);
+                }
+            });
         }
 
         private void moveBoardPerInch(double ddx, double ddy) {
@@ -820,6 +826,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             dirx = jj;
             diry = ii;
             running = !running;
+            count2 = 0;
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
@@ -829,8 +836,8 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                         @Override
                         public void run() {
                             moveBoardPerInch((double) jj * distance, (double) ii * distance);
-                            count++;
-                            if (count == times) {
+                            count2++;
+                            if (count2 == times) {
                                 running = !running;
                                 map.requestFocus();
                                 thread.cancel();
