@@ -25,9 +25,10 @@ public class healthBonus extends Field_object {
         this.hp=hp;        
     };
     
-    public void healRobot (good_robot gr)
+    @Override
+    public void interact (good_robot gr)
     { 
-       gr.score.Eaten+=1;
+          gr.score.Eaten+=1;
           gr.HP+=hp;
     }
     
