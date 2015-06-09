@@ -6,6 +6,7 @@
 package org.intsys16.gamelogic.RobotsControl;
 import org.intsys16.gamelogic.XMLParser.XMLobject;
 import org.w3c.dom.*;
+import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 /**
  *
  * @author r545-2 Syzko Anastasia

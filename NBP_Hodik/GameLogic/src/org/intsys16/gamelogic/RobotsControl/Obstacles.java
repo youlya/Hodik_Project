@@ -9,6 +9,7 @@ import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.XMLParser.XMLobject;
 import org.w3c.dom.*;
+import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 /**
  *
  * @author Lenus1k
@@ -22,8 +23,11 @@ public class Obstacles extends Field_object {
         this.damage=dmg;
     }
     
-    public void damageRobot(good_robot gr)
-    {//gr.sc.Bump+=1;
+    @Override
+    public void interact(good_robot gr)
+    {
+        gr.score.BumbedInto+=1;
+        GraphicMapAPI.getGraphicMap().setBumbedInto(gr.score.getObs_sc());
         gr.HP-=damage;
     }
     

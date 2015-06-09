@@ -9,6 +9,7 @@ import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.FieldControl.Direction;
 import org.intsys16.gamelogic.RobotsControl.good_robot;
 import org.intsys16.gamelogic.RobotsControl.Scores;
+import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 /**
  *
  * @author micen
@@ -46,6 +47,9 @@ public class Step implements CMD {
     public String Step() {
         int X = currRobot.getCoord().getX() + currRobot.dir.deltaX();
         int Y = currRobot.getCoord().getY() + currRobot.dir.deltaY();
+        currRobot.score.StepScore++;
+        GraphicMapAPI.getGraphicMap().setStepScore( currRobot.score.get_Stepsc());
         return "stepTo " + X + " " + Y + " " + dir.name();
+   
     }
 }

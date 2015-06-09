@@ -10,6 +10,7 @@ import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.RobotsControl.Scores;
 import org.intsys16.gamelogic.XMLParser.XMLobject;
+import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 //import robots.good_robot;
 
 /**
@@ -29,6 +30,7 @@ public class healthBonus extends Field_object {
     public void interact (good_robot gr)
     { 
           gr.score.Eaten+=1;
+          GraphicMapAPI.getGraphicMap().setEaten(gr.score.Eaten);
           gr.HP+=hp;
     }
     
