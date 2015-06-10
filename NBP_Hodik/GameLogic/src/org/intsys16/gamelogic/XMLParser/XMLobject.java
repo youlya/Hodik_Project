@@ -24,13 +24,15 @@ import org.w3c.dom.*;
 public class XMLobject 
 {
     public Document doc;
+    private int level;
     private Element robot;
-    private List<Element> mobs = new ArrayList();     //в level
+    private List<Element> mobs = new ArrayList();     
+    private List<Element> obstacles = new ArrayList();
     private Element currScore;
     private Element currCoord;
     
-    //public List<Element> getMobs()
-    //{return mobs;}
+    public int getcurrLevel()
+    {return level;}
     public Element getcurrCoord()
     {return currCoord;}
     public Element getRobot()
@@ -38,9 +40,17 @@ public class XMLobject
     public Element getcurrScore()
     {return currScore;}
     
+    public void setcurrLevel(int currlevel)
+    {
+        this.level = currlevel;
+    }
     public void addMob(Element mob)
     {
         this.mobs.add(mob);
+    }
+    public void addObst(Element o)
+    {
+        this.obstacles.add(o);
     }
     public void setcurrCoord(Element c)
     {
@@ -62,8 +72,6 @@ public class XMLobject
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             doc = documentBuilder.newDocument();
-            //Element root = doc.createElement("game");
-            //doc.appendChild(root);
         }
         catch (ParserConfigurationException e)
         {
@@ -72,14 +80,43 @@ public class XMLobject
         }
     }
     
+    private Element createLevel()
+    {
+        Element lev = doc.createElement("level");
+        Attr attr = doc.createAttribute("number");
+        attr.setValue(level+"");              
+        lev.setAttributeNode(attr);
+        return lev;
+    }
+    
+    private void makeFullXML()
+    {
+        Element root = doc.createElement("game");
+        doc.appendChild(root);
+        Element lev = this.createLevel();
+        lev.appendChild(robot);
+        for (Element mob : this.mobs) 
+        {
+            lev.appendChild(mob);
+        }
+        for (Element obst : this.obstacles) 
+        {
+            lev.appendChild(obst);
+        }
+        lev.appendChild(currScore);
+        root.appendChild(lev);
+    }
+    
     public void toXMLfile(String Path)
     {
         try
         {
+            this.makeFullXML();
+            
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource domSource = new DOMSource(doc);
-            //сделать проверку на запись нового файла или перезапись старого
+            //нужно ли сделать проверку на запись нового файла или перезапись старого?
             StreamResult streamResult = new StreamResult(new File(Path));
  
             transformer.transform(domSource, streamResult);
@@ -88,8 +125,6 @@ public class XMLobject
         catch (TransformerException e)
         {
             System.out.println("XML saving error!");
-            //System.out.println(e.getLocalizedMessage());
-            //e.printStackTrace();
         }
     }
 }

@@ -36,6 +36,7 @@ public abstract class Integrator {
     public abstract void loadNewSession(String robotName, /*ObservableList<String> selectedPrograms,*/ int planetId);
     public abstract ObservableList<String> getSelectedPrograms(); // programs selected when loading new session (for the Editor Window to open)
     public abstract void loadSavedSession(String xmlMapName); // xml file from Rina
+    public abstract void saveCurrentSession(String xmlPathNameToSave); //save session to XML file
     public abstract int getLevel();
     public abstract void launchProgram(String programName);
     public abstract Object getCurrentField();
@@ -137,6 +138,11 @@ public abstract class Integrator {
             Logger.getLogger(Integrator.class.getName()).
                 log(Level.INFO, "Loading saved session [{0}]...",
                         xmlMapName); 
+        }
+        @Override
+        public void saveCurrentSession(String xmlPathNameToSave)
+        {
+            //заглушка от Рины. доделать
         }
         @Override
         public ObservableList<String> getSelectedPrograms() {

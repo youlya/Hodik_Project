@@ -5,6 +5,7 @@
  */
 package org.intsys16.gamelogic.FieldControl;
 import java.util.HashMap;
+import org.intsys16.gamelogic.XMLParser.XMLobject;
 /**
  *
  * @author NS
@@ -59,5 +60,18 @@ public class Field
     public int getHeight()
     {
         return this.height;
+    }
+    
+    public XMLobject toXML(XMLobject obj)
+    {
+        for (Field_object o : hex.values()) 
+        {
+            if(o.getClass().getSimpleName().equalsIgnoreCase("good_robot") == false)
+            {
+                obj = o.toXML(obj);
+            }
+        }
+        
+        return obj;
     }
 }

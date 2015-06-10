@@ -28,7 +28,9 @@ import org.intsys16.gamelogic.RobotsControl.good_robot;
 import org.intsys16.gamelogic.XMLParser.Info;
 import org.intsys16.gamelogic.XMLParser.loadLevel;
 import org.intsys16.gamelogic.XMLParser.mobInfo;
+import org.intsys16.gamelogic.XMLParser.XMLobject;
 import org.openide.util.Exceptions;
+import org.w3c.dom.*;
 
 /**
  *
@@ -158,6 +160,7 @@ public class HodikIntegratorImpl extends Integrator {
                     xmlMapName);
             load.getDocument(xmlMapName);
             Info i= load.getInfo();
+            level = i.levelNumber;
             List<mobInfo> mob = new ArrayList();
             mob=i.getMobs();
             Unit u = new Unit(i.robotName);
@@ -172,6 +175,17 @@ public class HodikIntegratorImpl extends Integrator {
             //Exceptions.printStackTrace(ex);
             logger.log(Level.SEVERE, "ERROR: failed to load document", ex);
         }
+    }
+    @Override
+    public void saveCurrentSession(String xmlPathNameToSave)
+    {
+        XMLobject obj = new XMLobject();
+        obj.setcurrLevel(level);
+        obj = this.getCurrentRobot().toXML(obj);        //good_robot
+        obj = this.getCurrentField().toXML(obj);        //собрать мобов и препятствия
+        obj = this.getCurrentRobot().score.toXML(obj);  //забрать счет
+        obj.toXMLfile(xmlPathNameToSave);
+        //сохранение программ для робота?
     }
     @Override
     public Field getCurrentField() {

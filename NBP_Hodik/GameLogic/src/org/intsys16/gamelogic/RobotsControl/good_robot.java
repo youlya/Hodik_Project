@@ -77,10 +77,9 @@ public class good_robot extends Field_object{
         at.setValue(HP+"");
         hp.setAttributeNode(at);
         r.appendChild(hp);
-        
-        //добавить робота в список
-        //или сохранить отдельно?   obj.setcurrRobot(r);
-        obj.addMob(r);
+
+        //сохранить робота 
+        obj.setcurrRobot(r);
         
         return obj;
     }

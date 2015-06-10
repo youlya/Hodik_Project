@@ -85,7 +85,7 @@ public class Obstacles extends Field_object {
         obstacle.appendChild(hp);
         
         //добавить препятствие в список
-        obj.addMob(obstacle);
+        obj.addObst(obstacle);
         
         return obj;
     }
