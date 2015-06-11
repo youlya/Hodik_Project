@@ -19,12 +19,16 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.openide.util.NbBundle;
+import org.openide.windows.IOProvider;
+import org.openide.windows.InputOutput;
 
 
 /**
  *
  * @author micen
  */
+@NbBundle.Messages("ERR_NoCommand=Error: no such command:")
 public class Parser {
 
     Coordinate c=new Coordinate(2,3);
@@ -143,7 +147,10 @@ public class Parser {
                 }
             } else {
                 log.log(Level.SEVERE, i+"no such command:", buffer.get(i));
-                JOptionPane.showMessageDialog(null, "no such command: "+buffer.get(i));
+                InputOutput io =  IOProvider.getDefault().getIO(Bundle.LBL_Running(), false);
+                io.getErr().println(Bundle.ERR_NoCommand() + " "+buffer.get(i));
+                io.getOut().close();
+                //JOptionPane.showMessageDialog(null, "no such command: "+buffer.get(i));
                 status="Syntax error "+i+buffer.get(i);
                 break;
             }

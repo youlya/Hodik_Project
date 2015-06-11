@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
+    <folder name="Menu">
+        <folder name="Window">
+            <file name="org-netbeans-core-io-ui-IOWindowAction.shadow" url="org-netbeans-core-io-ui-IOWindowAction.shadow"/>
+        </folder>
+    </folder>
     <folder name="Windows2">
         <folder name="Modes">
             <file name="properties_map.wsmode" url="properties_mapWsmode.xml"/>

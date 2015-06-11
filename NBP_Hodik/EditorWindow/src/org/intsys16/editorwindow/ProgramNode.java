@@ -13,6 +13,7 @@ import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.Lookups;
+import org.openide.windows.TopComponent;
 
 /**
  *
@@ -23,6 +24,7 @@ public class ProgramNode extends AbstractProgram implements Serializable, Lookup
     private StringProperty progText = new SimpleStringProperty(this, "programText", "");
     private String path;
     private Lookup lookup;
+    TopComponent editor;
     
     public ProgramNode(String progName, String progText, String path) {
         this.progName = progName;
@@ -37,6 +39,18 @@ public class ProgramNode extends AbstractProgram implements Serializable, Lookup
     @Override
     public String getProgramPath() {
         return path;
+    }
+    @Override
+    public void setProgramPath(String path) {
+        this.path = path;
+    }
+    @Override
+    public void setEditorTC(TopComponent editor) {
+        this.editor = editor;
+    }
+    @Override
+    public TopComponent getEditorTC() {
+        return editor;
     }
     @Override
     public String getProgramText() {

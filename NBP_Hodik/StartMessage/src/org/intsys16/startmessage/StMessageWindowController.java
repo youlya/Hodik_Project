@@ -51,6 +51,7 @@ public class StMessageWindowController implements Initializable {
                 new BackgroundSize(root.getWidth(), root.getHeight(), true, true, true, true))));
         
         welcomeText.setText(Bundle.CTL_StartText());
+        welcomeText.setPrefHeight(200);
         welcomeText.setEffect(new Bloom());
         /** @todoVika bind the text width and hight to the window's width */
         

@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.intsys16.openEditor;
+package org.intsys16.editorwindow;
 
 import java.io.File;
 import javafx.collections.ObservableList;
-import org.intsys16.editorwindow.EditorMultiViewPanelCreation;
-
 import org.openide.windows.TopComponent;
 
 /**
@@ -19,7 +17,7 @@ public class OpenEditor {
     public OpenEditor(ObservableList<String> selectedPrograms) {
         //todo
         if (selectedPrograms.isEmpty()) {
-            File f = new File(".../_resources/robots/programs/NewProgram.txt");
+            File f = new File("_resources\\robots\\programs\\NewProgram.txt");
             TopComponent multiEditor_tc = new EditorMultiViewPanelCreation(
                     f.getName(), "", f.getAbsolutePath()).getEditor();
             multiEditor_tc.setName(f.getName());

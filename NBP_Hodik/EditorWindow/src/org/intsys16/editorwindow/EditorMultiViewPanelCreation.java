@@ -40,6 +40,7 @@ public class EditorMultiViewPanelCreation {
     public EditorMultiViewPanelCreation(String programName, String programText, String path) {
         progNode = new ProgramNode(programName, programText, path);
         tc = MultiViews.createMultiView("application/multieditor", progNode);
+        progNode.setEditorTC(tc);
         
         
 //        MultiViewTextEditorDescription text_editor = new MultiViewTextEditorDescription();

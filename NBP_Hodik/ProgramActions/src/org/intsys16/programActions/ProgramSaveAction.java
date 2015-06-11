@@ -105,6 +105,9 @@ public final class ProgramSaveAction implements ActionListener {
                 BufferedWriter out = new BufferedWriter(new FileWriter(f.getAbsoluteFile()));
                 out.write(program);
                 out.close();
+                context.setProgramPath(f.getAbsolutePath());
+                context.setProgramName(f.getName());
+                context.getEditorTC().setName(context.getProgramName());
                 
             } catch (IOException ioe) {
                 Exceptions.printStackTrace(ioe);

@@ -41,6 +41,7 @@ public abstract class Integrator {
     public abstract void launchProgram(String programName);
     public abstract Object getCurrentField();
     public abstract Object getCurrentRobot();
+    public abstract boolean sessionIsLoaded();
     
     // etc
     
@@ -173,6 +174,10 @@ public abstract class Integrator {
         @Override
         public Object getCurrentRobot() {
             return null;
+        }
+        @Override
+        public boolean sessionIsLoaded() {
+            return false;
         }
     }
 }

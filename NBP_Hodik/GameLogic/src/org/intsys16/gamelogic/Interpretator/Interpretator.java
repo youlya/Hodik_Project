@@ -16,11 +16,21 @@ import java.util.logging.Logger;
 import javax.swing.Timer;
 import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 import org.intsys16.gamelogic.FieldControl.Field_object;
+import org.openide.windows.IOProvider;
+import org.openide.windows.InputOutput;
+import org.openide.util.NbBundle;
 
 /**
  *
  * @author micen
  */
+@NbBundle.Messages({
+    "LBL_Running=Running:",
+    "LBL_Going=going to",
+    "LBL_Rotating=rotating",
+    "DIR_Left=left",
+    "DIR_Right=rigth"
+})
 public class Interpretator implements ActionListener{
 
     Parser parser;
@@ -90,17 +100,25 @@ public class Interpretator implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(iterator.hasNext()) {
+                InputOutput io =  IOProvider.getDefault().getIO(Bundle.LBL_Running(), false);
                 String result = runNextCMD();
                 String check=checkResult(result);
                 if(result.startsWith("TURN")){
                     GraphicMap.move(result);
+                    io.getOut().println(Bundle.LBL_Rotating() + " " +
+                            (result.substring(5).toLowerCase().equals("left") ? Bundle.DIR_Left() : Bundle.DIR_Right())
+                            + "...");                    
                     //move(result);
                 }
                 else{  
                     GraphicMap.move("MOVE_"+currRobot.dir.name());
+                    io.getOut().println(Bundle.LBL_Going() + 
+                            result.substring(6, result.length()-2).toLowerCase() + "...");   
                     //move(MOVE_+currRobot.dir.name());
                 }
-                System.out.println(check);
+                //System.out.println(check);            
+                //io.getOut().println(check);
+                io.getOut().close();
         }
         else{
             timer.stop();

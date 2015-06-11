@@ -30,6 +30,7 @@ import org.intsys16.gamelogic.XMLParser.loadLevel;
 import org.intsys16.gamelogic.XMLParser.mobInfo;
 import org.intsys16.gamelogic.XMLParser.XMLobject;
 import org.openide.util.Exceptions;
+import org.openide.util.NbBundle;
 import org.w3c.dom.*;
 
 /**
@@ -37,6 +38,7 @@ import org.w3c.dom.*;
  * @author Julia
  */
 /** To see changes after editing this file you need to clean and build the project */
+@NbBundle.Messages("LBL_Planet=Planet")
 @ServiceProvider(
         service = Integrator.class,
         path = "HodikIntegrator")  //for the quick access via Lookups.forPath()*/
@@ -109,7 +111,7 @@ public class HodikIntegratorImpl extends Integrator {
         ObservableList<String> planets = FXCollections.observableArrayList();
         for (int i = 0; i<getPlanetsNumber(); i++)
         {
-            planets.add("Планета "+ (i + 1));
+            planets.add(Bundle.LBL_Planet() + " "+ (i + 1));
             
         }
         return planets;
@@ -132,11 +134,12 @@ public class HodikIntegratorImpl extends Integrator {
 //                        new Object[]{robotName, planetId + 1});
 //            this.selectedPrograms = selectedPrograms;
             level = planetId + 1;
-            String pathTo = "level" + level + ".xml";
-            load.getDocument(pathTo);
-            Info i= load.getInfo();
-            List<mobInfo> mob = new ArrayList();
-            mob=i.getMobs();
+            //does not connect with the field
+//            String pathTo = "_resources\\maps\\initial\\level" + level + ".xml";
+//            load.getDocument(pathTo);
+//            Info i= load.getInfo();
+//            List<mobInfo> mob = new ArrayList();
+//            mob=i.getMobs();
             Unit u = new Unit(robotName);
             units.add(u);
             Coordinate c = new Coordinate();
@@ -189,11 +192,25 @@ public class HodikIntegratorImpl extends Integrator {
     }
     @Override
     public Field getCurrentField() {
-        return fields.get(0);
+        if (sessionIsLoaded())
+            return fields.get(0);
+        else {
+            logger.log(Level.SEVERE, "No field");
+            return new Field();
+        }
     }
     @Override
     public good_robot getCurrentRobot() {
-        return units.get(0).getAvatar(fields.get(0));
+        if (!units.isEmpty())
+            return units.get(0).getAvatar(fields.get(0));
+        else {
+            logger.log(Level.SEVERE, "No robot yet");
+            return null;
+        }
+    }
+    @Override
+    public boolean sessionIsLoaded() {
+        return !fields.isEmpty(); //robot?
     }
     @Override
     public ObservableList<String> getSelectedPrograms() {
@@ -206,8 +223,8 @@ public class HodikIntegratorImpl extends Integrator {
     
     @Override
     public int getLevel() {
-            return level;
-        }
+        return level;
+    }
     
     @Override
     public void launchProgram(String programPath)

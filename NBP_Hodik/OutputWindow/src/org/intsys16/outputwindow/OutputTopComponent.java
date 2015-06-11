@@ -10,6 +10,7 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.windows.OutputWriter;
 
 /**
  * Top component which displays something.
@@ -24,12 +25,12 @@ import org.openide.util.NbBundle.Messages;
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
 @TopComponent.Registration(mode = "output", openAtStartup = false)
-@ActionID(category = "Window", id = "org.intsys16.outputwindow.OutputTopComponent")
-@ActionReference(path = "Menu/Window" /*, position = 333 */)
-@TopComponent.OpenActionRegistration(
-        displayName = "#CTL_OutputAction",
-        preferredID = "OutputTopComponent"
-)
+//@ActionID(category = "Window", id = "org.intsys16.outputwindow.OutputTopComponent")
+//@ActionReference(path = "Menu/Window" /*, position = 333 */)
+//@TopComponent.OpenActionRegistration(
+//        displayName = "#CTL_OutputAction",
+//        preferredID = "OutputTopComponent"
+//)
 @Messages({
     "CTL_OutputAction=Output",
     "CTL_OutputTopComponent=Output Window",

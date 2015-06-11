@@ -45,9 +45,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import org.intsys16.editorwindow.EditorMultiViewPanelCreation;
+import org.intsys16.editorwindow.OpenEditor;
 import org.intsys16.integrator.api.Integrator;
 import org.openide.LifecycleManager;
 import org.openide.util.Lookup;
+import org.openide.windows.IOContainer;
+import org.openide.windows.IOProvider;
+import org.openide.windows.InputOutput;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 
@@ -263,10 +267,14 @@ public class StartWindowController extends AnchorPane implements Initializable {
                 WindowManager.getDefault().findTopComponent("StMsgTopComponent").close();
 
                 WindowManager.getDefault().findTopComponent("MapTopComponent").open();
-                WindowManager.getDefault().findTopComponent("OutputTopComponent").open();
+                //WindowManager.getDefault().findTopComponent("OutputTopComponent").open();
  
-                // OpenEditor
+                OpenEditor emptyEditor = new OpenEditor(selectedPrograms);
                 
+                IOContainer.getDefault().open();
+//                InputOutput io =  IOProvider.getDefault().getIO("Hello", false);
+//                io.getOut().println("Hi there");
+//                io.getOut().close();
             }
         });     
     }

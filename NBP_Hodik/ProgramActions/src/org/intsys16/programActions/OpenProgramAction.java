@@ -54,6 +54,7 @@ public final class OpenProgramAction implements ActionListener {
     public void actionPerformed(ActionEvent e) {    
         File f = new FileChooserBuilder(
                 OpenProgramAction.class).setTitle(Bundle.MSG_OpenProgram())
+                    .setDefaultWorkingDirectory(new File("_resources\\robots\\programs\\NewProgram.txt"))
                     .setFileFilter(new FileNameExtensionFilter("txt file", "txt"))
                         .showOpenDialog();
         if (f != null ) {

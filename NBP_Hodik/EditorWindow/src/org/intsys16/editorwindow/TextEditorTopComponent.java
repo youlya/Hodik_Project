@@ -227,7 +227,7 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
 
     @Override
     public void componentActivated() {
-        //callback.updateTitle(Bundle.CTL_TextEditorTopComponent());
+        //callback.updateTitle(getLookup().lookup(AbstractProgram.class).getProgramName());
     }
 
     @Override
