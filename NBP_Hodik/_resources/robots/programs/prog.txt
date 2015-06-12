@@ -1,7 +1,8 @@
-Rotate Right
 
-
-Rotate Left
 
 
 Step
+Step
+Step
+Step
+Fly

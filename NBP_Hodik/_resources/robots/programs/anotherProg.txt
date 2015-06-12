@@ -1,15 +1,6 @@
 Rotate Right
-
-
 Rotate Left
-
-
 Step
-
 Rotate Right
-
-
 Rotate Left
-
-
 Step

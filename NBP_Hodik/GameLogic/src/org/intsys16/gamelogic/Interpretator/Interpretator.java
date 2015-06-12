@@ -112,8 +112,18 @@ public class Interpretator implements ActionListener{
                 }
                 else{  
                     GraphicMap.move("MOVE_"+currRobot.dir.name());
-                    io.getOut().println(Bundle.LBL_Going() + 
+                    if (result.substring(result.length()-2).toLowerCase().equals("up"))                        
+                        io.getOut().println(Bundle.LBL_Going() + 
                             result.substring(6, result.length()-2).toLowerCase() + "...");   
+                    else if (result.substring(result.length()-4).toLowerCase().equals("down"))
+                        io.getOut().println(Bundle.LBL_Going() + 
+                            result.substring(6, result.length()-4).toLowerCase() + "...");  
+                    else if (result.substring(result.length()-5).toLowerCase().equals("right"))
+                        io.getOut().println(Bundle.LBL_Going() + 
+                            result.substring(6, result.length()-5).toLowerCase() + "..."); 
+                    else if (result.substring(result.length()-4).toLowerCase().equals("left"))
+                        io.getOut().println(Bundle.LBL_Going() + 
+                            result.substring(6, result.length()-4).toLowerCase() + "...");   
                     //move(MOVE_+currRobot.dir.name());
                 }
                 //System.out.println(check);            

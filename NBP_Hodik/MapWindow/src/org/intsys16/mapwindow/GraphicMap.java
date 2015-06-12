@@ -648,9 +648,9 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                         moveLeft();
                     }
                 } else if (act == Actions.TURN_LEFT) {
-                    turnRobot(1);
-                } else if (act == Actions.TURN_RIGHT) {
                     turnRobot(-1);
+                } else if (act == Actions.TURN_RIGHT) {
+                    turnRobot(1);
                 } else if (act == Actions.STEP) {
                     move(Actions.valueOf("MOVE_" + this.good_r.dir.name()));
                 }
