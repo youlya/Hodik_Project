@@ -82,9 +82,9 @@ public abstract class Integrator {
             ObservableList<String> sessions = FXCollections.observableArrayList();
             String session = Bundle.CTL_Session();
             /* default names */
-            sessions.add(session + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            sessions.add(session + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            sessions.add(session + currentTimeMillis()/ (rand.nextInt(20) + 10));
+            for (int i = 0; i < 3; i++)
+                sessions.add(session + currentTimeMillis()/ (rand.nextInt(20) + 10));
+           
             return sessions;
         }
         @Override
@@ -93,13 +93,9 @@ public abstract class Integrator {
             ObservableList<String> programs = FXCollections.observableArrayList();
             String program = Bundle.CTL_Program();
             /* default names */
-            programs.add(program + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            programs.add(program + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            programs.add(program + currentTimeMillis()/ (rand.nextInt(20) + 10));   
-            programs.add(program + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            programs.add(program + currentTimeMillis()/ (rand.nextInt(20) + 10));
-            programs.add(program + currentTimeMillis()/ (rand.nextInt(20) + 10));  
-            
+            for (int i = 0; i < 6; i++)
+                programs.add(program + currentTimeMillis()/ (rand.nextInt(20) + 10)); 
+            /* alternation of programs lists: random names - empty list */
             if (robotsNames.indexOf(robotName) % 2 == 0) {
                 ObservableList<String> emptyProgramsList =
                         FXCollections.observableArrayList();
@@ -132,7 +128,7 @@ public abstract class Integrator {
                 Logger.getLogger(Integrator.class.getName()).
                     log(Level.INFO, "Loading new program for {0} on the planet {1}...",
                             new Object[]{robotName, planetId + 1});      
-            this.selectedPrograms = selectedPrograms;
+            //this.selectedPrograms = selectedPrograms;
         }
         @Override
         public void loadSavedSession(String xmlMapName) {
