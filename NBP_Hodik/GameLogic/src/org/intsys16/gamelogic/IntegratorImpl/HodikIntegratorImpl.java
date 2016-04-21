@@ -38,10 +38,16 @@ import org.w3c.dom.*;
  * @author Julia
  */
 /** To see changes after editing this file you need to clean and build the project */
-@NbBundle.Messages("LBL_Planet=Planet")
+@NbBundle.Messages({
+    "LBL_Planet=Planet",
+    "CTL_Session=Session",
+    "CTL_Program=Program",
+    "CTL_RobotsNames=Hodik,Sue,Matthew,Hannah,Stephan,Denise,Mike,Tatyana",
+    "CTL_PlanetsNames=Planet 1,Planet 2,Planet 3,Planet 4,Planet 5"
+})
 @ServiceProvider(
         service = Integrator.class,
-        path = "HodikIntegrator")  //for the quick access via Lookups.forPath()*/
+        path = "HodikIntegrator")  /* for the quick access via Lookups.forPath()*/
 public class HodikIntegratorImpl extends Integrator {
     
     //private Map<String, Unit> rMap; //was Map<String, Robot> rMap
@@ -58,7 +64,7 @@ public class HodikIntegratorImpl extends Integrator {
 //======================================================================================    
     // для заглушек
     protected ObservableList<String> robotsNames = FXCollections.observableArrayList(
-          "Ходик", "Юнна", "Женя", "Рина", "Коля", "Леша", "Лена", "Настя");
+            Bundle.CTL_RobotsNames().split(","));
     private static final Logger logger = Logger.getLogger(HodikIntegratorImpl.class.getName());
     
     //Заглушки
@@ -73,22 +79,19 @@ public class HodikIntegratorImpl extends Integrator {
     @Override
     public ObservableList<String> getSessionTitles() { 
         Random rand = new Random(currentTimeMillis());
-        ObservableList<String> sessions = FXCollections.observableArrayList();
-        sessions.add("Сессия" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        sessions.add("Сессия" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        sessions.add("Сессия" + currentTimeMillis()/ (rand.nextInt(20) + 10));
+        ObservableList<String> sessions = FXCollections.observableArrayList(); 
+        String session = Bundle.CTL_Session();
+            for (int i = 0; i < 3; i++)
+                sessions.add(session + currentTimeMillis()/ (rand.nextInt(20) + 10));
         return sessions;
     }
     @Override
     public ObservableList<String> getRobotProgramsTitles(String robotName) {
         Random rand = new Random(currentTimeMillis());
         ObservableList<String> programs = FXCollections.observableArrayList();
-        programs.add("Программа" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        programs.add("Программа" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        programs.add("Программа" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        programs.add("Программа" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        programs.add("Программа" + currentTimeMillis()/ (rand.nextInt(20) + 10));
-        programs.add("Программа" + currentTimeMillis()/ (rand.nextInt(20) + 10)); 
+        String program = Bundle.CTL_Program();
+            for (int i = 0; i < 6; i++)
+                programs.add(program + currentTimeMillis()/ (rand.nextInt(20) + 10)); 
         
         if (robotsNames.indexOf(robotName) % 2 == 0) {  // для разнообразия)
             ObservableList<String> emptyProgramsList =
@@ -134,7 +137,7 @@ public class HodikIntegratorImpl extends Integrator {
 //                        new Object[]{robotName, planetId + 1});
 //            this.selectedPrograms = selectedPrograms;
             level = planetId + 1;
-            //does not connect with the field
+            //does not connect with the field /* !! Somewhere here was an error with loading XML */
 //            String pathTo = "_resources\\maps\\initial\\level" + level + ".xml";
 //            load.getDocument(pathTo);
 //            Info i= load.getInfo();
