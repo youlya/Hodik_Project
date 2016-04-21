@@ -65,6 +65,10 @@ public class Obstacles extends Field_object {
         }
     }
     
+    /**
+    *
+    * @author Rinaly
+    */
     @Override
     public XMLobject toXML(XMLobject obj)
     {

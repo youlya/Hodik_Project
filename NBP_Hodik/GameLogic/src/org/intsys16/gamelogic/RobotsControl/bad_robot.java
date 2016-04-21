@@ -51,7 +51,11 @@ public class bad_robot extends Field_object{
     public String getType() {
         return "mob";
     }
-
+    
+    /**
+    *
+    * @author Rinaly
+    */
     @Override
     public XMLobject toXML(XMLobject obj)
     {

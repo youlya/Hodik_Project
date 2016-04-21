@@ -59,6 +59,10 @@ public class good_robot extends Field_object{
         return 0;
     }
     
+    /**
+    *
+    * @author Rinaly
+    */
     @Override
     public XMLobject toXML(XMLobject obj)
     {

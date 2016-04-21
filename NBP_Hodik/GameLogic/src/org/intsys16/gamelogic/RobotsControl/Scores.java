@@ -35,7 +35,11 @@ public class Scores {
     public int get_Stepsc() {
         return StepScore;
     }
-
+    
+    /**
+    *
+    * @author Rinaly
+    */
     public XMLobject toXML(XMLobject obj) {
         Element Score = obj.doc.createElement("score");
         Attr attr1 = obj.doc.createAttribute("s1");
