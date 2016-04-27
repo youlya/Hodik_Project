@@ -999,7 +999,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
             System.out.println("Working Directory = "
                     + System.getProperty("user.dir"));
-            fileChooser.setInitialDirectory(new File(System.getProperty("user.dir") + "\\src"));
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")+"\\MapWindow\\src\\org\\intsys16\\mapwindow\\wallpapers"));
             File file = fileChooser.showOpenDialog(this.getScene().getWindow());
 
             if (file != null) {
