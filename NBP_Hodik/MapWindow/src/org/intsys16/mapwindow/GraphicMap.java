@@ -302,6 +302,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         prog.List().stream().forEach((cmd) -> {
             if (cmd instanceof Rotate) {
                 map.move(Actions.valueOf("TURN_" + ((Rotate) cmd).toString().toUpperCase()));
+                //а вот тут, наверное, будет поворот стрелочек
             }
             cmd.Run();
             if (cmd instanceof Step) {
@@ -661,7 +662,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         }
         private int count = 0;
 
-        private void turnRobot(double dir) {
+        private void turnRobot(double dir) { //поворот робота
 
             Timer timer = new Timer();
             double times = 60;
@@ -1097,5 +1098,10 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             event.consume();
         };
 
-    }
-}
+    } //здесь закончился класс ItemPanel
+    
+    /**
+ *
+ * @author ksusha
+ */
+}//здесь закончился класс GraphicMap
