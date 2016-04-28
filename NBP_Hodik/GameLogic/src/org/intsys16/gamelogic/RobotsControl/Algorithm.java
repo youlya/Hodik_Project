@@ -13,7 +13,7 @@ import org.intsys16.gamelogic.Interpretator.Program;
 
 /**
  *
- * @author jbenua
+ * @author Anastasiya Mostovaya
  */
 public class Algorithm {
     String name;
