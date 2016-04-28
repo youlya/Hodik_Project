@@ -6,6 +6,9 @@
             <file name="org-netbeans-core-io-ui-IOWindowAction.shadow" url="org-netbeans-core-io-ui-IOWindowAction.shadow"/>
         </folder>
     </folder>
+    <folder name="Toolbars">
+        <folder name="Debug"/>
+    </folder>
     <folder name="Windows2">
         <folder name="Modes">
             <file name="properties_map.wsmode" url="properties_mapWsmode.xml"/>
