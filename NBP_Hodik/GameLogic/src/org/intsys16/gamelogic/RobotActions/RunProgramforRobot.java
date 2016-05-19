@@ -17,7 +17,7 @@ import org.openide.util.NbBundle.Messages;
         id = "org.intsys16.gamelogic.RobotActions.RunProgramforRobot"
 )
 @ActionRegistration(
-        iconBase = "org/intsys16/gamelogic/RobotActions/1.png",
+        iconBase = "org/intsys16/gamelogic/RobotActions/Run.png",
         displayName = "#CTL_RunProgramforRobot"      
 )
 @ActionReference(path = "Menu/Robot", position = 3333)
