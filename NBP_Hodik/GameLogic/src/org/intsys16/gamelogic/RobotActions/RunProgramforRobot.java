@@ -17,10 +17,11 @@ import org.openide.util.NbBundle.Messages;
         id = "org.intsys16.gamelogic.RobotActions.RunProgramforRobot"
 )
 @ActionRegistration(
-        displayName = "#CTL_RunProgramforRobot"
+        iconBase = "org/intsys16/gamelogic/RobotActions/1.png",
+        displayName = "#CTL_RunProgramforRobot"      
 )
 @ActionReference(path = "Menu/Robot", position = 3333)
-@Messages("CTL_RunProgramforRobot=Run program")
+@Messages("CTL_RunProgramforRobot=Выполнить программу")
 public final class RunProgramforRobot implements ActionListener {
 
     @Override
