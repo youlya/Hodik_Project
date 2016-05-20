@@ -2,6 +2,18 @@
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
     <folder name="Menu">
+        <folder name="Robot">
+            <attr name="iconBase" stringvalue="MenuProgRob.png"/>
+            <file name="Item1_hidden"/>
+            <file name="RobotMenu_hidden"/>
+            <file name="org-intsys16-gamelogic-RobotActions-RobotMenu.shadow_hidden"/>
+            <folder name="Доступные программы">
+                <attr name="iconBase" stringvalue="MenuProgRob.png"/>
+                <file name="org-intsys16-gamelogic-RobotActions-RobotMenu.shadow">
+                    <attr name="originalFile" stringvalue="Actions/Edit/org-intsys16-gamelogic-RobotActions-RobotMenu.instance"/>
+                </file>
+            </folder>
+        </folder>
         <folder name="Window">
             <file name="org-netbeans-core-io-ui-IOWindowAction.shadow" url="org-netbeans-core-io-ui-IOWindowAction.shadow"/>
         </folder>
