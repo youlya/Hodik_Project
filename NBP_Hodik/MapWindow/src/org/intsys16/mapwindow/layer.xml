@@ -17,7 +17,7 @@
         <folder name="Window">
             <file name="org-netbeans-core-io-ui-IOWindowAction.shadow" url="org-netbeans-core-io-ui-IOWindowAction.shadow"/>
         </folder>
-        <folder name="Настройки"/>
+        <folder name="Settings"/>
        
     </folder>
     <folder name="Toolbars">
