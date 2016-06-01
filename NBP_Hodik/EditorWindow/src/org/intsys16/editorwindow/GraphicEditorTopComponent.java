@@ -89,7 +89,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
         Platform.runLater(() -> createScene());      
     }
     
-    private void createScene() {      
+    private void createScene() {      ///создаем поле для стрелок
         Scene scene = new Scene(dragNDrop);
         fxPanel.setScene(scene);
         scene.widthProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) -> {
@@ -106,12 +106,24 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
     }
     public void setCommandSequence() {
         ArrayList<String> commands = new ArrayList<>();
-        //запись в commands из getLookup().lookup(AbstractProgram.class).getProgramText()
+        commands = getLookup().lookup(ProgramNode.class).getSequence(); //в commands запихиваем последовательность команд
         //if(dragNDrop.isCommand(programLine))
         dragNDrop.setSequence(commands);
-    }
+       
+         if (dragNDrop.sequence.isEmpty()==true)
+             fxPanel.updateUI(); //очистить панель?
+        
+        else {
+             
+         int i = dragNDrop.commands.size();
+          while(dragNDrop.sequence.isEmpty()==false)
+          {
+              dragNDrop.deleteItem(dragNDrop.getPicture(dragNDrop.commands.get(i), true, i));
+              i--;
+          }} }
+        
     public void setMultiPanel(TopComponent multiPanel) {
-        this.multiPanel = multiPanel;
+      this.multiPanel = multiPanel;
     }
 
     /**

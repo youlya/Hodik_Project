@@ -29,7 +29,7 @@ import org.netbeans.core.spi.multiview.MultiViewElementCallback;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.UndoRedo;
-import org.openide.util.HelpCtx;
+//import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
@@ -119,7 +119,9 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
         fxPanel.setScene(new Scene(pane));
         programText.setMinSize(fxPanel.getWidth(), fxPanel.getHeight());
         //binding
-        programText.textProperty().bindBidirectional(
+        
+        //переопред
+        programText.textProperty().bindBidirectional(  
                 getLookup().lookup(AbstractProgram.class).programTextProperty());
     }
     

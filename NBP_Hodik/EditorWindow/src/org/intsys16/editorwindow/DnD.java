@@ -27,6 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import org.intsys16.GameObjectUtilities.AbstractProgram;
+import org.openide.util.Lookup;
 
 
 public class DnD extends Pane{
@@ -36,6 +37,7 @@ public class DnD extends Pane{
     private ImageView bin;
     private ScrollPane sp1;
     private Image trash, trashr;
+    private Lookup lookup;
     private int iconw = 60, xx=5, yy=3, st = 0, count = 0;
     private double curX, curY=0;
     public class Command{
@@ -73,15 +75,17 @@ public class DnD extends Pane{
         }
     }
     
-    private ArrayList<Command> commands = new ArrayList<>();
+    public ArrayList<Command> commands = new ArrayList<>();
     public ArrayList<String> sequence = new ArrayList<>();
     private ArrayList<ImageView> imageseq = new ArrayList<>();
     public ArrayList<String> getSequence(){
         return sequence;
     }
     public void setSequence(ArrayList<String> sequence){
-        this.sequence = sequence;
+      this.sequence = sequence;
         //todo repaint
+   
+      
     }
     public boolean isCommand(String command) {
         return true; //todo
@@ -89,7 +93,7 @@ public class DnD extends Pane{
     private String sequenceToString() {
         return "sequence"; //todo
     }
-    private ImageView getPicture(Command item, Boolean shadow) {
+    public ImageView getPicture(Command item, Boolean shadow) {
         ImageView iv = new ImageView(item.getImage());
         iv.setFitWidth(iconw);
         iv.setFitHeight(iconw);
@@ -112,7 +116,7 @@ public class DnD extends Pane{
         iv.setId(item.getID());
         return iv;
     }
-    private ImageView getPicture(Command item, Boolean shadow, int id) {
+    public ImageView getPicture(Command item, Boolean shadow, int id) {
         ImageView iv = getPicture(item, shadow);
         iv.setId(id+"");
         return iv;
@@ -178,7 +182,7 @@ public class DnD extends Pane{
         event.consume();
     };
     
-    private void deleteItem(ImageView src){
+    public void deleteItem(ImageView src){
         grid.getChildren().clear();
         imageseq.remove(src);
         int pos = Integer.parseInt(src.getId());
@@ -188,6 +192,7 @@ public class DnD extends Pane{
             int x = i - y*xx;
             imageseq.get(i).setId(""+i);
             grid.add(createAnchorPane(imageseq.get(i),i), x, y);
+            //здесь убирать текст из prg Node
         }
     }
     
@@ -215,7 +220,8 @@ public class DnD extends Pane{
             int w = Integer.parseInt(src.getId());
             Command c = commands.get(w);
             sequence.add(c.getCommandName());
-            graphicTC.getLookup().lookup(AbstractProgram.class).addLineToProgram(c.getCommandName());
+            /////////добавление
+            graphicTC.getLookup().lookup(AbstractProgram.class).addLineToProgram(c.getCommandName()); 
             ImageView nw = getPicture(c, false, sequence.size() - 1);
             tt.add(createAnchorPane(nw,sequence.size() - 1), x, y);
             imageseq.add(nw);
@@ -227,6 +233,7 @@ public class DnD extends Pane{
         int w = Integer.parseInt(src.getId());
         Command c = commands.get(w);
         sequence.add(w, c.getCommandName());
+        ////////добавление
         graphicTC.getLookup().lookup(AbstractProgram.class).setProgramText(sequenceToString());
         ImageView nw = getPicture(c, false, n);
         imageseq.add(n, nw);

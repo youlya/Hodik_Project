@@ -23,7 +23,7 @@ import org.netbeans.core.spi.multiview.MultiViewFactory;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.UndoRedo;
-import org.openide.util.HelpCtx;
+//import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
