@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import org.openide.util.lookup.Lookups;
 
 public interface GraphicMapAPI {
+    
     public static GraphicMapAPI getGraphicMap() {
         GraphicMapAPI GraphicMap = Lookups.forPath("GraphicMapImpl")
                 .lookup(GraphicMapAPI.class);

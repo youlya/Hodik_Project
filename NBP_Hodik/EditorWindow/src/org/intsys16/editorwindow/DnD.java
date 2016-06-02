@@ -154,6 +154,7 @@ public class DnD extends Pane{
         event.consume();
     };
     private final EventHandler<DragEvent> onDragImageDropped = (DragEvent event) -> {
+        //дд для изображения на поле
         this.setCursor(Cursor.DEFAULT);
         ImageView iv = (ImageView)event.getGestureTarget();
         addNewItem((ImageView) event.getGestureSource(), Integer.parseInt(iv.getId()));
@@ -161,6 +162,7 @@ public class DnD extends Pane{
         event.consume();
     };
     private final EventHandler<DragEvent> onDragGridDropped = (DragEvent event) -> {
+        //дд для поля с изображ (мб наоборот?)
         this.setCursor(Cursor.DEFAULT);
         addNewItem((ImageView) event.getGestureSource());
         event.setDropCompleted(true);
@@ -222,6 +224,7 @@ public class DnD extends Pane{
             sequence.add(c.getCommandName());
             /////////добавление
             graphicTC.getLookup().lookup(AbstractProgram.class).addLineToProgram(c.getCommandName()); 
+            //добавление команды в граф режиме
             ImageView nw = getPicture(c, false, sequence.size() - 1);
             tt.add(createAnchorPane(nw,sequence.size() - 1), x, y);
             imageseq.add(nw);
@@ -278,6 +281,7 @@ public class DnD extends Pane{
         //commands.add(new Command("right","images/right.png",commands.size()));
         commands.add(new Command("Rotate Right","images/turn_right.png",commands.size()));
         commands.add(new Command("Rotate Left","images/turn_left.png",commands.size()));
+        ///преобразование графической команды в текст
         commands.add(new Command("Step","images/step.png",commands.size()));
         trash = new Image(getClass().getResourceAsStream("images/trash.png"));
         trashr = new Image(getClass().getResourceAsStream("images/trashr.png"));
