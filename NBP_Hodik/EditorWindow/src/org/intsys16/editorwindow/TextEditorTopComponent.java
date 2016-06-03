@@ -119,7 +119,7 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
         fxPanel.setScene(new Scene(pane));
         programText.setMinSize(fxPanel.getWidth(), fxPanel.getHeight());
         //binding
-        
+       
         //переопред
         programText.textProperty().bindBidirectional(  
                 getLookup().lookup(AbstractProgram.class).programTextProperty());
