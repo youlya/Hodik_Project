@@ -127,7 +127,19 @@
             <attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.core.ui.resources.Bundle"/>
             <attr name="displayName" bundlevalue="org.intsys16.programActions.Bundle#Menu/Robot"/>
             <attr name="position" intvalue="150"/>
-            
+            <folder name="Доступные программы">
+                <attr name="iconBase" stringvalue="MenuProgRob.png"/>
+                <file name="org-intsys16-gamelogic-RobotActions-RobotMenu.shadow">
+                    <attr name="originalFile" stringvalue="Actions/Edit/org-intsys16-gamelogic-RobotActions-RobotMenu.instance"/>
+                </file>
+            </folder>
+            <folder name="Rotate">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.core.ui.resources.Bundle"/>
+                <attr name="displayName" bundlevalue="org.intsys16.programActions.Bundle#Menu/Robot/Rotate"/>
+                <file name="org-intsys16-gamelogic-RobotActions-RotateToRight.shadow" url="org-intsys16-gamelogic-RobotActions-RotateToRight.shadow">
+                    <attr name="originalFile" stringvalue="Actions/Edit/org-intsys16-gamelogic-RobotActions-RotateToRight.instance"/>
+                </file>
+            </folder>
         </folder>    
         <folder name="Tools_hidden">
             <attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.core.ui.resources.Bundle"/>
