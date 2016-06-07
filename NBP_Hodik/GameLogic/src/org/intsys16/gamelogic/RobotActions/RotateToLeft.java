@@ -7,40 +7,36 @@ package org.intsys16.gamelogic.RobotActions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.intsys16.GameObjectUtilities.AbstractProgram;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
-import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
+import org.intsys16.GameObjectUtilities.AbstractProgram;
+import org.intsys16.GraphicMapAPI.GraphicMapAPI;
+import org.openide.util.Exceptions;
 
 @ActionID(
         category = "Edit",
-        id = "org.intsys16.gamelogic.RobotActions.RotateToRight"
+        id = "org.intsys16.gamelogic.RobotActions.RotateToLeft"
 )
 @ActionRegistration(
-        iconBase = "org/intsys16/gamelogic/RobotActions/right.png",
-        displayName = "#CTL_RotateToRight"
+        iconBase = "org/intsys16/gamelogic/RobotActions/left.png",
+        displayName = "#CTL_RotateToLeft"
 )
-@ActionReference(path = "Menu/Robot/Rotate", position = 3333)
-@Messages("CTL_RotateToRight=Направо")
-public final class RotateToRight implements ActionListener {
+@ActionReference(path = "Menu/Robot/Rotate", position = 3233)
+@Messages("CTL_RotateToLeft=Налево")
+public final class RotateToLeft implements ActionListener {
 
     private final AbstractProgram context;
     private GraphicMapAPI GraphicMap = GraphicMapAPI.getGraphicMap();
-    // private static final Logger logger = Logger.getLogger(ProgramSaveAction.class.getName());
-   // private static final Logger logger = Logger.getLogger(RotateToRight.class.getName());
-    public RotateToRight(AbstractProgram context) {
+    public RotateToLeft(AbstractProgram context) {
         this.context = context;
     }
 
     @Override
     public void actionPerformed(ActionEvent ev) {
         try{
-        GraphicMap.move("TURN_RIGHT");
+        GraphicMap.move("TURN_LEFT");
         //Logger.getLogger(RotateToRight.class.getName());
         //throw new ExceptionRR("Menu/Robot/RotateToRight");
         //throw new ExceptionA("I am Exception Alpha!");
@@ -49,7 +45,5 @@ public final class RotateToRight implements ActionListener {
            //Exceptions.printStackTrace(err);
            Exceptions.printStackTrace(err);
         }
-   
-       
     }
 }
