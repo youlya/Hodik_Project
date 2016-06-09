@@ -47,7 +47,8 @@ public final class RotateToRight implements ActionListener {
         } 
         catch (Exception err) {
            //Exceptions.printStackTrace(err);
-           Exceptions.printStackTrace(err);
+           java.util.logging.Logger.getLogger(getClass().getName()).log(Level.SEVERE, 
+                err.getMessage(), getClass().getName());
         }
    
        

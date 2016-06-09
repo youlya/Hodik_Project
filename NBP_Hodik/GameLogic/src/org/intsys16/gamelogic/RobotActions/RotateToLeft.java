@@ -7,6 +7,7 @@ package org.intsys16.gamelogic.RobotActions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
@@ -41,9 +42,10 @@ public final class RotateToLeft implements ActionListener {
         //throw new ExceptionRR("Menu/Robot/RotateToRight");
         //throw new ExceptionA("I am Exception Alpha!");
         } 
-        catch (Exception err) {
+         catch (Exception err) {
            //Exceptions.printStackTrace(err);
-           Exceptions.printStackTrace(err);
+           java.util.logging.Logger.getLogger(getClass().getName()).log(Level.SEVERE, 
+                err.getMessage(), getClass().getName());
         }
     }
 }
