@@ -32,7 +32,8 @@ import org.intsys16.gamelogic.XMLParser.XMLobject;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.w3c.dom.*;
-
+import java.io.File;
+import java.io.FileFilter;
 /**
  *
  * @author Julia
@@ -76,7 +77,27 @@ public class HodikIntegratorImpl extends Integrator {
         }
         return robotsNames;
     }
-    @Override
+     @Override
+        public ObservableList<String> getRobotProgramsTitles(String robotName) { 
+    class MyFileFilter implements FileFilter {
+    public boolean accept(File pathname) 
+    {
+        // проверям, что это файл и что он заканчивается на .txt 
+       return pathname.isFile() && pathname.getName().endsWith(".txt");
+    }
+}
+    File f = new File("_resources\\robots\\programs");
+    ObservableList<String> programs = FXCollections.observableArrayList();
+        String program = Bundle.CTL_Program();
+     MyFileFilter filter = new MyFileFilter();
+      File[] list = f.listFiles(filter);
+      for(int i = 0; i<list.length; i++) {
+          programs.add(program + " " + list[i]);
+      }
+      return programs;
+            }
+        @Override
+    
     public ObservableList<String> getSessionTitles() { 
         Random rand = new Random(currentTimeMillis());
         ObservableList<String> sessions = FXCollections.observableArrayList(); 
@@ -84,10 +105,9 @@ public class HodikIntegratorImpl extends Integrator {
             for (int i = 0; i < 3; i++)
                 sessions.add(session + currentTimeMillis()/ (rand.nextInt(20) + 10));
         return sessions;
-    }
-    @Override
-    public ObservableList<String> getRobotProgramsTitles(String robotName) {
-        Random rand = new Random(currentTimeMillis());
+    }  
+    /* public ObservableList<String> getRobotProgramsTitles(String robotName) { // составление рандомных названий для программ, оставлю на всякий случай
+      Random rand = new Random(currentTimeMillis());
         ObservableList<String> programs = FXCollections.observableArrayList();
         String program = Bundle.CTL_Program();
             for (int i = 0; i < 6; i++)
@@ -100,7 +120,7 @@ public class HodikIntegratorImpl extends Integrator {
         }
         else
             return programs;
-    }
+    } */
     @Override
     public void createNewRobot(String newRobotName) {  // или возвращает робота       
         robotsNames.add(newRobotName);
