@@ -42,6 +42,7 @@ public abstract class Integrator {
     public abstract Object getCurrentField();
     public abstract Object getCurrentRobot();
     public abstract boolean sessionIsLoaded();
+    public abstract String getCommandAt(int i);
     
     // etc
     
@@ -174,6 +175,11 @@ public abstract class Integrator {
         @Override
         public boolean sessionIsLoaded() {
             return false;
+        }
+        @Override
+        public String getCommandAt(int i){
+            return "";
+        
         }
     }
 }
