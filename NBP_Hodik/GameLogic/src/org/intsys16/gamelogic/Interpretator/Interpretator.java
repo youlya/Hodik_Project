@@ -49,8 +49,6 @@ public class Interpretator implements ActionListener{
     public boolean debugMode() {
         return debugMode;
     }
-    
-
 
     public String translate(String url, good_robot robot) {
         currRobot = robot;
