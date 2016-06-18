@@ -35,11 +35,8 @@ public class Parser {
     Direction d;
     private static final Logger log = Logger.getLogger(Parser.class.getName());
     good_robot currRobot;
-<<<<<<< HEAD
+
     public static ArrayList<String> alphabet = new ArrayList();
-=======
-    ArrayList<String> alphabet = new ArrayList();
->>>>>>> origin/master
     ArrayList<String> readedText = new ArrayList();
     ArrayList<CMD> cmdList = new ArrayList();
     String status="";

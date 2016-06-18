@@ -23,6 +23,7 @@ import org.intsys16.integrator.api.Integrator;
 import org.intsys16.gamelogic.RobotsControl.Unit;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.Interpretator.Interpretator;
+import org.intsys16.gamelogic.Interpretator.Parser;
 import org.intsys16.gamelogic.RobotsControl.Scores;
 import org.intsys16.gamelogic.RobotsControl.good_robot;
 import org.intsys16.gamelogic.XMLParser.Info;
@@ -57,13 +58,13 @@ public class HodikIntegratorImpl extends Integrator {
     private ObservableList<Unit> units; //коллекция роботов
     private final loadLevel load = new loadLevel(); 
     private int level;
-<<<<<<< HEAD
+
     private good_robot currRobot;
     private Interpretator interp = new Interpretator(); //???????
    // private Parser pars = new Parser("", currRobot);
-=======
-    Interpretator interp = new Interpretator();
->>>>>>> origin/master
+
+    //Interpretator interp = new Interpretator();
+
     //String RobotName;
     // нужные
     private ObservableList<String> selectedPrograms = null;
@@ -263,7 +264,7 @@ public class HodikIntegratorImpl extends Integrator {
         interp.translate(programPath, getCurrentRobot());
         interp.Run();       
     }
-<<<<<<< HEAD
+
     
     @Override
     public String getCommandAt(int i)
@@ -271,8 +272,7 @@ public class HodikIntegratorImpl extends Integrator {
         return Parser.getAlphabet().get(i);
     
     }
-=======
->>>>>>> origin/master
+
 //=======================================================================================    
     // From hodikgit.integrator
     public HodikIntegratorImpl() throws Exception  {

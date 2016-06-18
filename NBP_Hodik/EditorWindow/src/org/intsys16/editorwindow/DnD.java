@@ -28,6 +28,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import org.intsys16.GameObjectUtilities.AbstractProgram;
 import org.openide.util.Lookup;
+import org.intsys16.integrator.api.Integrator;
 
 
 public class DnD extends Pane{
@@ -40,6 +41,8 @@ public class DnD extends Pane{
     private Lookup lookup;
     private int iconw = 60, xx=5, yy=3, st = 0, count = 0;
     private double curX, curY=0;
+    private Integrator integr = Integrator.getIntegrator();
+    
     public class Command{
         private String command;
         private String image_path;
@@ -279,17 +282,17 @@ public class DnD extends Pane{
         //commands.add(new Command("down","images/down.png",commands.size()));
         //commands.add(new Command("left","images/left.png",commands.size()));
         //commands.add(new Command("right","images/right.png",commands.size()));
-<<<<<<< HEAD
+
         
         String rotRight = integr.getCommandAt(1)+" "+integr.getCommandAt(3);
         String rotLeft = integr.getCommandAt(1)+" "+integr.getCommandAt(2);
         String step = integr.getCommandAt(0);
         commands.add(new Command(rotRight, "images/turn_right.png",commands.size()));
         commands.add(new Command(rotLeft ,"images/turn_left.png",commands.size()));
-=======
+
         commands.add(new Command("Rotate Right","images/turn_right.png",commands.size()));
         commands.add(new Command("Rotate Left","images/turn_left.png",commands.size()));
->>>>>>> origin/master
+
         ///преобразование графической команды в текст
         commands.add(new Command("Step","images/step.png",commands.size()));
         trash = new Image(getClass().getResourceAsStream("images/trash.png"));
