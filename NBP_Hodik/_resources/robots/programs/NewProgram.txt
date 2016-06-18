@@ -1,11 +1,4 @@
 
-<<<<<<< HEAD
-=======
-Step
 Step
 Step
 Rotate Left
-Rotate Left
-Step
->>>>>>> origin/master
-Rotate Right

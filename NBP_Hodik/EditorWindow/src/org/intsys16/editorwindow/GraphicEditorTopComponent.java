@@ -86,6 +86,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
         fxPanel = new JFXPanel();
         add(fxPanel, BorderLayout.NORTH);   
         Platform.setImplicitExit(false);
+        fxPanel.updateUI();
         Platform.runLater(() -> createScene());      
     }
     
@@ -110,7 +111,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
         //if(dragNDrop.isCommand(programLine))
         dragNDrop.setSequence(commands);
        
-         if (dragNDrop.sequence.isEmpty()==true)
+        /* if (dragNDrop.sequence.isEmpty()==true)
              fxPanel.updateUI(); //очистить панель?
         
         else {
@@ -120,7 +121,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
           {
               dragNDrop.deleteItem(dragNDrop.getPicture(dragNDrop.commands.get(i), true, i));
               i--;
-          }} }
+          }}*/ }
         
     public void setMultiPanel(TopComponent multiPanel) {
       this.multiPanel = multiPanel;

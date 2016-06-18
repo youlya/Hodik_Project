@@ -58,9 +58,9 @@ public class HodikIntegratorImpl extends Integrator {
     private ObservableList<Unit> units; //коллекция роботов
     private final loadLevel load = new loadLevel(); 
     private int level;
-    good_robot currRobot;
-    Interpretator interp = new Interpretator(); //???????
-    Parser pars = new Parser("", currRobot);
+    private good_robot currRobot;
+    private Interpretator interp = new Interpretator(); //???????
+   // private Parser pars = new Parser("", currRobot);
     //String RobotName;
     // нужные
     private ObservableList<String> selectedPrograms = null;
@@ -81,7 +81,7 @@ public class HodikIntegratorImpl extends Integrator {
         return robotsNames;
     }
      @Override
-        public ObservableList<String> getRobotProgramsTitles(String robotName) { 
+       /* public ObservableList<String> getRobotProgramsTitles(String robotName) { 
     class MyFileFilter implements FileFilter {
     public boolean accept(File pathname) 
     {
@@ -89,7 +89,7 @@ public class HodikIntegratorImpl extends Integrator {
        return pathname.isFile() && pathname.getName().endsWith(".txt");
     }
 }
-    File f = new File("_resources\\robots\\programs");
+    File f = new File("..\\_resources\\robots\\programs");
     ObservableList<String> programs = FXCollections.observableArrayList();
         String program = Bundle.CTL_Program();
      MyFileFilter filter = new MyFileFilter();
@@ -99,7 +99,7 @@ public class HodikIntegratorImpl extends Integrator {
       }
       return programs;
             }
-        @Override
+        @Override*/
     
     public ObservableList<String> getSessionTitles() { 
         Random rand = new Random(currentTimeMillis());
@@ -109,7 +109,7 @@ public class HodikIntegratorImpl extends Integrator {
                 sessions.add(session + currentTimeMillis()/ (rand.nextInt(20) + 10));
         return sessions;
     }  
-    /* public ObservableList<String> getRobotProgramsTitles(String robotName) { // составление рандомных названий для программ, оставлю на всякий случай
+     public ObservableList<String> getRobotProgramsTitles(String robotName) { // составление рандомных названий для программ, оставлю на всякий случай
       Random rand = new Random(currentTimeMillis());
         ObservableList<String> programs = FXCollections.observableArrayList();
         String program = Bundle.CTL_Program();
@@ -123,7 +123,7 @@ public class HodikIntegratorImpl extends Integrator {
         }
         else
             return programs;
-    } */
+    } 
     @Override
     public void createNewRobot(String newRobotName) {  // или возвращает робота       
         robotsNames.add(newRobotName);
@@ -264,8 +264,7 @@ public class HodikIntegratorImpl extends Integrator {
     @Override
     public String getCommandAt(int i)
     {
-        
-        return pars.alphabet.get(i);
+        return Parser.getAlphabet().get(i);
     
     }
 //=======================================================================================    

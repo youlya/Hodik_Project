@@ -35,42 +35,50 @@ public class Parser {
     Direction d;
     private static final Logger log = Logger.getLogger(Parser.class.getName());
     good_robot currRobot;
-    public ArrayList<String> alphabet = new ArrayList();
+    public static ArrayList<String> alphabet = new ArrayList();
     ArrayList<String> readedText = new ArrayList();
     ArrayList<CMD> cmdList = new ArrayList();
     String status="";
+    BufferedReader br = null;
+    File file = null;
+
     
     public Parser(String Url, good_robot robot) {
         currRobot=robot;
         this.d = Direction.UP;
-        alphabet.add("Step");
-        alphabet.add("Rotate");
-        alphabet.add("Left");
-        alphabet.add("Right");
+        initAlphabet();
 //        alphabet.add("Forward");
 //        alphabet.add("Back");
         openFile(Url);
         read();
         Parse();
     }
+    
+ 
+       
        public Parser(String[]cmd, good_robot robot) {
         currRobot=robot;
         this.d = Direction.UP;
-        alphabet.add("Step");
-        alphabet.add("Rotate");
-        alphabet.add("Left");
-        alphabet.add("Right");
+        initAlphabet();
 //        alphabet.add("Forward");
 //        alphabet.add("Back");
         for (int i = 0; i < cmd.length; i++) {
             readedText.add(cmd[i]);
         }
         Parse();
+        }
+       public static void initAlphabet() {
+            alphabet.add("Step");
+            alphabet.add("Rotate");
+            alphabet.add("Left");
+            alphabet.add("Right");
+       }
+ 
+    public static ArrayList<String> getAlphabet()
+    {
+        initAlphabet();
+        return alphabet;
     }
-    
-    BufferedReader br = null;
-    File file = null;
-
     public ArrayList<CMD> getList(){
         return cmdList;
     }

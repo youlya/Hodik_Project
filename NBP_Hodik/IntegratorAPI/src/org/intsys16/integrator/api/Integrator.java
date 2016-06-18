@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.lookup.Lookups;
 
+
 /**
  *
  * @author Julia
@@ -59,6 +60,7 @@ public abstract class Integrator {
             logger.log(Level.WARNING, "Cannot get an Integrator object. " 
                     + "The Default Integrator was built.");
             i = new DefaultIntegrator();
+            
         }
         return i;
     }

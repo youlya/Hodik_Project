@@ -283,8 +283,8 @@ public class DnD extends Pane{
         //commands.add(new Command("left","images/left.png",commands.size()));
         //commands.add(new Command("right","images/right.png",commands.size()));
         
-        String rotRight = integr.getCommandAt(1)+" "+integr.getCommandAt(2);
-        String rotLeft = integr.getCommandAt(1)+" "+integr.getCommandAt(3);
+        String rotRight = integr.getCommandAt(1)+" "+integr.getCommandAt(3);
+        String rotLeft = integr.getCommandAt(1)+" "+integr.getCommandAt(2);
         String step = integr.getCommandAt(0);
         commands.add(new Command(rotRight, "images/turn_right.png",commands.size()));
         commands.add(new Command(rotLeft ,"images/turn_left.png",commands.size()));

@@ -109,6 +109,7 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
         add(fxPanel, BorderLayout.NORTH);  
         //fxPanel.setSize(fxPanel.getWidth(), borderLayout.);
         Platform.setImplicitExit(false);
+         fxPanel.updateUI();
         Platform.runLater(() -> createScene());      
     }
     
@@ -116,11 +117,13 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
         StackPane pane = new StackPane();
         programText = new TextArea(getLookup().lookup(AbstractProgram.class).getProgramText());      
         pane.getChildren().add(programText);
+        fxPanel.updateUI();
         fxPanel.setScene(new Scene(pane));
         programText.setMinSize(fxPanel.getWidth(), fxPanel.getHeight());
         //binding
        
         //переопред
+        programText.clear();
         programText.textProperty().bindBidirectional(  
                 getLookup().lookup(AbstractProgram.class).programTextProperty());
     }
