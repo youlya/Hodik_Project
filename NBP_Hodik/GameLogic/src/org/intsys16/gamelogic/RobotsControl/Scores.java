@@ -14,9 +14,9 @@ import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 
 public class Scores {
 
-    public int StepScore;
-    public int BumbedInto; //счётчик препятствий, на которые попал робот(кстати
-    public int Eaten;
+    private int StepScore;
+    private int BumbedInto; //счётчик препятствий, на которые попал робот(кстати
+    private int Eaten;
 
     public Scores() {
         StepScore = 0;
@@ -35,6 +35,19 @@ public class Scores {
     public int get_Stepsc() {
         return StepScore;
     }
+    
+    public void setEat_sc(int e) {
+        Eaten = e;
+    }
+
+    public void setObs_sc(int b) {
+        BumbedInto = b;
+    }
+
+    public void set_Stepsc(int s) {
+        StepScore = s;
+    }
+
     
     /**
     *

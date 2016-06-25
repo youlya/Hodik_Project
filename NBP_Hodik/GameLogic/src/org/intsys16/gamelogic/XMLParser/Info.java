@@ -61,17 +61,17 @@ public class Info
     
     public int getStepScore()
     {
-        return score.StepScore;
+        return score.get_Stepsc();
     }
     
     public int getBumbedInto()
     {
-        return score.BumbedInto;
+        return score.getObs_sc();
     }
     
     public int getEaten()
     {
-        return score.Eaten;
+        return score.getEat_sc();
     }
     
     public List<mobInfo> getMobs()

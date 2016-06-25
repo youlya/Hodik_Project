@@ -47,8 +47,8 @@ public class Step implements CMD {
     public String Step() {
         int X = currRobot.getCoord().getX() + currRobot.dir.deltaX();
         int Y = currRobot.getCoord().getY() + currRobot.dir.deltaY();
-        currRobot.score.StepScore++;
-        GraphicMapAPI.getGraphicMap().setStepScore( currRobot.score.get_Stepsc());
+        currRobot.score.set_Stepsc(currRobot.score.get_Stepsc() + 1);
+        GraphicMapAPI.getGraphicMap().setStepScore(currRobot.score.get_Stepsc());
         return "stepTo " + X + " " + Y + " " + dir.name();
    
     }
