@@ -35,6 +35,8 @@ import org.openide.util.NbBundle;
 import org.w3c.dom.*;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 /**
  *
  * @author Julia
@@ -86,23 +88,27 @@ public class HodikIntegratorImpl extends Integrator {
     }
      @Override
        public ObservableList<String> getRobotProgramsTitles(String robotName) { 
-    class MyFileFilter implements FileFilter {
-    public boolean accept(File pathname) 
-    {
-        // проверям, что это файл и что он заканчивается на .txt 
-       return pathname.isFile() && pathname.getName().endsWith(".txt");
-    }
-}
-    File f = new File("_resources\\robots\\programs");
-    ObservableList<String> programs = FXCollections.observableArrayList();
-        String program = Bundle.CTL_Program();
-     MyFileFilter filter = new MyFileFilter();
-      File[] list = f.listFiles(filter);
-      for(int i = 0; i<list.length; i++) {
-          programs.add(program + " " + list[i]);
-      }
-      return programs;
+            /*class MyFileFilter implements FileFilter {
+            public boolean accept(File pathname) 
+            {
+                // проверям, что это файл и что он заканчивается на .txt 
+               return pathname.isFile() && pathname.getName().endsWith(".txt");
             }
+        } */
+        File f = new File("_resources\\robots\\programs");
+        ObservableList<String> programs = FXCollections.observableArrayList();
+        MyFileFilter filter = new MyFileFilter();
+        try {
+            String program = Bundle.CTL_Program();
+            File[] list = f.listFiles(filter);
+            for(int i = 0; i<list.length; i++) {
+                programs.add(program + " " + list[i]);
+            }            
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        return programs;
+    }
         @Override
     
     public ObservableList<String> getSessionTitles() { 
@@ -339,4 +345,11 @@ public class HodikIntegratorImpl extends Integrator {
        logfr.setLocationRelativeTo(null);*/
     }
             
+}
+class MyFileFilter implements FileFilter {
+    public boolean accept(File pathname) 
+    {
+        // проверям, что это файл и что он заканчивается на .txt 
+       return pathname.isFile() && pathname.getName().endsWith(".txt");
+    }
 }
