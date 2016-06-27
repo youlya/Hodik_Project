@@ -7,23 +7,18 @@ package org.intsys16.gamelogic.RobotActions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
-import java.lang.annotation.Annotation;
 import org.intsys16.GameObjectUtilities.AbstractProgram;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ActionMap;
 import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
-import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
-import org.openide.windows.TopComponent;
-import javax.swing.ActionMap;
 
+/**
+ *
+ * @author Georgiy
+ */
 @ActionID(
         category = "Edit",
         id = "org.intsys16.gamelogic.RobotActions.RotateToRight"
@@ -38,7 +33,7 @@ public final class RotateToRight implements ActionListener {
 
     private final AbstractProgram context;
     private GraphicMapAPI GraphicMap = GraphicMapAPI.getGraphicMap();
-    private ActionMap actionMap;
+    //private ActionMap actionMap;
     // private static final Logger logger = Logger.getLogger(ProgramSaveAction.class.getName());
    // private static final Logger logger = Logger.getLogger(RotateToRight.class.getName());
     public RotateToRight(AbstractProgram context) {

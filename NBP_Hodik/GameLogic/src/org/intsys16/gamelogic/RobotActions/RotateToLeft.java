@@ -14,8 +14,11 @@ import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
 import org.intsys16.GameObjectUtilities.AbstractProgram;
 import org.intsys16.GraphicMapAPI.GraphicMapAPI;
-import org.openide.util.Exceptions;
 
+/**
+ *
+ * @author Georgiy
+ */
 @ActionID(
         category = "Edit",
         id = "org.intsys16.gamelogic.RobotActions.RotateToLeft"

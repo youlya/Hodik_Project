@@ -7,11 +7,16 @@ package org.intsys16.gamelogic.RobotActions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
-
+/**
+ *
+ * @author Georgiy
+ */
 @ActionID(
         category = "Edit",
         id = "org.intsys16.gamelogic.RobotActions.RunProgramforRobot"
@@ -26,6 +31,6 @@ public final class RunProgramforRobot implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO implement action body
-    }
+    
+}
 }
