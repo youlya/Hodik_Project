@@ -137,19 +137,73 @@ public class Parser {
                     cmdList.add(result);
                     continue;
                 }
+                
                 if (buffer.get(i).equals("Rotate") || (buffer.get(i).equals("Turn"))) {
                     String tag = buffer.get(i + 1);
+                    
                     if (tag.toLowerCase().equals("left")) {
-                        result = new Rotate("left",currRobot);
+                        /*result = new Rotate("left",currRobot);
                         cmdList.add(result);
-                        i++;
-                        continue;                      
+                        i++;*/
+                        String angle = buffer.get(i + 2);
+                        if((angle.toLowerCase().equals("90"))){
+                            result = new Rotate("left",currRobot);
+                            cmdList.add(result);
+                            i = i+2;
+                            continue; 
+                        }
+                        else if((angle.toLowerCase().equals("180"))){
+                            result = new Rotate("left",currRobot);
+                            cmdList.add(result);
+                            result = new Rotate("left",currRobot);
+                            cmdList.add(result);
+                            i = i+2;
+                            continue; 
+                        }
+                        else if((angle.toLowerCase().equals("270"))){
+                            result = new Rotate("right", currRobot);
+                            cmdList.add(result);
+                            i=i+2;
+                            continue; 
+                        }
+                        else{
+                            result = new UnknownCommand(currRobot, buffer.get(i), "angle");
+                            cmdList.add(result);
+                            i++;
+                            continue; 
+                        }                     
                     }
-                    else if (tag.toLowerCase().equals("right")) {
-                         result = new Rotate("right",currRobot);
+                    if (tag.toLowerCase().equals("right")) {
+                        /*result = new Rotate("left",currRobot);
                         cmdList.add(result);
-                        i++;
-                        //continue;
+                        i++;*/
+                        String angle = buffer.get(i + 2);
+                        if((angle.toLowerCase().equals("90"))){
+                            result = new Rotate("right",currRobot);
+                            cmdList.add(result);
+                            i = i+2;
+                            continue; 
+                        }
+                        else if((angle.toLowerCase().equals("180"))){
+                            result = new Rotate("right",currRobot);
+                            cmdList.add(result);
+                            result = new Rotate("right",currRobot);
+                            cmdList.add(result);
+                            i = i+2;
+                            continue; 
+                        }
+                        else if((angle.toLowerCase().equals("270"))){
+                            result = new Rotate("left", currRobot);
+                            cmdList.add(result);
+                            i=i+2;
+                            continue; 
+                        }
+                        else{
+                            result = new UnknownCommand(currRobot, buffer.get(i), "angle");
+                            cmdList.add(result);
+                            i++;
+                            continue; 
+                        }                     
                     }
                     else{
                         result = new UnknownCommand(currRobot, buffer.get(i), "direction");
@@ -169,8 +223,9 @@ public class Parser {
                 //status="Syntax error "+i+buffer.get(i);
                 //continue;
         }
-        status="success";
+       
     }
+         status="success";
     }
     public String getStatus() {
         return status;
