@@ -64,11 +64,12 @@ public class Parser {
         }
        public static void initAlphabet() {
             alphabet.add("Step");
-            alphabet.add("Forward"); 
             alphabet.add("Rotate");
-            alphabet.add("Turn");
-            alphabet.add("Left");
+             alphabet.add("Left");
             alphabet.add("Right");
+            alphabet.add("Forward"); 
+            alphabet.add("Turn");
+           
        }
  
     public static ArrayList<String> getAlphabet()

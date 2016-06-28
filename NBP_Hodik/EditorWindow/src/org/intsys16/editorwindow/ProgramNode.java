@@ -92,5 +92,10 @@ public class ProgramNode extends AbstractProgram implements Serializable, Lookup
         return progText; 
     }
     
+    @Override
+    public StringProperty setProgramTextProperty(String str) { 
+        progText.setValue(str);
+        return progText;
+    }
     
 }

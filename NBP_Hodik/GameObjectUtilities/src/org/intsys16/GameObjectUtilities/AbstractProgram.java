@@ -5,6 +5,7 @@
  */
 package org.intsys16.GameObjectUtilities;
 
+import java.util.ArrayList;
 import javafx.beans.property.StringProperty;
 import org.openide.windows.TopComponent;
 
@@ -15,6 +16,7 @@ import org.openide.windows.TopComponent;
 public abstract class AbstractProgram {
     public abstract String getProgramName();
     public abstract String getProgramPath();
+    public abstract ArrayList<String> getSequence();
     public abstract void setProgramPath(String progPath);
     public abstract void setEditorTC(TopComponent editor);
     public abstract TopComponent getEditorTC();
@@ -23,4 +25,6 @@ public abstract class AbstractProgram {
     public abstract void setProgramText(String progText);
     public abstract void addLineToProgram(String line);
     public abstract StringProperty programTextProperty();
+    public abstract StringProperty setProgramTextProperty(String str);
+    
 }

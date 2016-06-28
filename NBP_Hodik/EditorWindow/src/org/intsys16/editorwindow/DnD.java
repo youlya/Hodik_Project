@@ -38,7 +38,6 @@ public class DnD extends Pane{
     private ImageView bin;
     private ScrollPane sp1;
     private Image trash, trashr;
-    private Lookup lookup;
     private int iconw = 60, xx=5, yy=3, st = 0, count = 0;
     private double curX, curY=0;
     private Integrator integr = Integrator.getIntegrator();
@@ -100,7 +99,11 @@ public class DnD extends Pane{
             return false;
     }
     private String sequenceToString() {
-        return "sequence"; //todo
+        String s = "";
+        for(int i = 0; i<sequence.size(); i++){
+            s = s + sequence.get(i)+"\n";
+        }
+        return s;
     }
     public ImageView getPicture(Command item, Boolean shadow) {
         ImageView iv = new ImageView(item.getImage());
@@ -193,7 +196,9 @@ public class DnD extends Pane{
         event.consume();
     };
     
+    
     public void deleteItem(ImageView src){
+      //  deleteProgText();
         grid.getChildren().clear();
         imageseq.remove(src);
         int pos = Integer.parseInt(src.getId());
@@ -203,17 +208,12 @@ public class DnD extends Pane{
             int x = i - y*xx;
             imageseq.get(i).setId(""+i);
             grid.add(createAnchorPane(imageseq.get(i),i), x, y);
-        lookup.lookup(AbstractProgram.class).setProgramText(" ");
-     //   lookup.lookup(TextEditorTopComponent.class).programText.textProperty().bindBidirectional(
-      //          getLookup().lookup(AbstractProgram.class).programTextProperty());
-        
-  
-          
-            //здесь убирать текст из prg Node
-       //     lookup.lookup(TextEditorTopComponent.class).clearAll();
-           //lookup.lookup(ProgramNode.class).setProgramText(" ");
-           //lookup.lookup(TextEditorTopComponent.class).createScene();
+
         }
+        String s = sequenceToString();
+        graphicTC.getLookup().lookup(AbstractProgram.class).setProgramText(s);
+
+
     }
     
     private AnchorPane createAnchorPane(ImageView iv, int id){
@@ -299,8 +299,8 @@ public class DnD extends Pane{
         //commands.add(new Command("right","images/right.png",commands.size()));
 
         
-        String rotRight = integr.getCommandAt(1)+" "+integr.getCommandAt(3);
-        String rotLeft = integr.getCommandAt(1)+" "+integr.getCommandAt(2);
+        String rotRight = integr.getCommandAt(1)+" "+integr.getCommandAt(3)+" 90";
+        String rotLeft = integr.getCommandAt(1)+" "+integr.getCommandAt(2)+" 90";
         String step = integr.getCommandAt(0);
         commands.add(new Command(rotRight, "images/turn_right.png",commands.size()));
         commands.add(new Command(rotLeft ,"images/turn_left.png",commands.size()));
@@ -373,6 +373,9 @@ public class DnD extends Pane{
             bin.setLayoutX(20 + (double)newSceneWidth - 40 - (iconw+20));
             grid.setPrefSize(w, h);
             grid.getChildren().clear();
+            
+            //String s = sequenceToString();
+           // sequence = graphicTC.getLookup().lookup(AbstractProgram.class).getSequence();
             for (int i = 0; i<sequence.size();i++){
                 int y = i / xx;
                 int x = i - y*xx;

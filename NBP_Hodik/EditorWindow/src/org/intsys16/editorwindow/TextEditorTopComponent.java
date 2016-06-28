@@ -85,11 +85,11 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
     private JToolBar toolbar = new JToolBar();
     private TopComponent multiPanel;
     private static JFXPanel fxPanel;
-    public TextArea programText;
+    public TextArea programText;   
     private BorderLayout borderLayout = new BorderLayout();
     //private final InstanceContent content = new InstanceContent();
     //private Lookup proxyLookup;
-    private Lookup lookup;
+    public Lookup lookup;
     //private ProgramNode progNode;
     
 
@@ -130,24 +130,28 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
     }
     public void createScene() {
         StackPane pane = new StackPane();
-        programText = new TextArea(getLookup().lookup(AbstractProgram.class).getProgramText());      
+       programText = new TextArea(getLookup().lookup(AbstractProgram.class).getProgramText()); 
+       // programText = new TextArea("kjhgfds");
+       programText.setVisible(true);
+      // programText.appendText("lllllll");
         pane.getChildren().add(programText);
-        fxPanel.updateUI();
+  
         fxPanel.setScene(new Scene(pane));
         programText.setMinSize(fxPanel.getWidth(), fxPanel.getHeight());
         // fxPanel.addPropertyChangeListener(this); //добавлен слушатель событий, исправить this, тк это класс
         //binding
-      
-        //переопред
-        programText.clear();
-        programText.textProperty().bindBidirectional(  
+
+       programText.textProperty().bindBidirectional(  
                 getLookup().lookup(AbstractProgram.class).programTextProperty());
-        
+        //getLookup().lookup(DnD.class).sequence.
         
           //  programText.addEventHandler(EventType.ROOT, EventHandler ); //нужно создать объект eventHandler
     }
     
-    
+    public void setVis()
+    {
+        programText.setVisible(true);
+    }
     public void setMultiPanel(TopComponent multiPanel) {
         this.multiPanel = multiPanel;  
     }
