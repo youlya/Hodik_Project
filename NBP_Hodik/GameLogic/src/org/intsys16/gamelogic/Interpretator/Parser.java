@@ -28,7 +28,7 @@ import org.openide.windows.InputOutput;
  *
  * @author micen
  */
-@NbBundle.Messages("ERR_NoCommand=Error: no such command:")
+//@NbBundle.Messages("ERR_NoCommand=Error: no such command:")
 public class Parser {
 
     Coordinate c=new Coordinate(2,3);
@@ -48,21 +48,15 @@ public class Parser {
         currRobot=robot;
         this.d = Direction.UP;
         initAlphabet();
-//        alphabet.add("Forward");
-//        alphabet.add("Back");
         openFile(Url);
         read();
         Parse();
     }
     
- 
-       
        public Parser(String[]cmd, good_robot robot) {
         currRobot=robot;
         this.d = Direction.UP;
         initAlphabet();
-//        alphabet.add("Forward");
-//        alphabet.add("Back");
         for (int i = 0; i < cmd.length; i++) {
             readedText.add(cmd[i]);
         }
@@ -70,7 +64,9 @@ public class Parser {
         }
        public static void initAlphabet() {
             alphabet.add("Step");
+            alphabet.add("Forward"); 
             alphabet.add("Rotate");
+            alphabet.add("Turn");
             alphabet.add("Left");
             alphabet.add("Right");
        }
@@ -117,6 +113,7 @@ public class Parser {
 
         }
     }
+    
    ArrayList<String> prepare() {
         ArrayList<String> buffer = new ArrayList();
         for (String readedText1 : readedText) {
@@ -131,40 +128,104 @@ public class Parser {
     }
     void Parse() {
         ArrayList<String> buffer=prepare();
-        for (int i = 0; i < buffer.size(); i++) {
+  
+        for (int i = 0; i < buffer.size(); i++){
             CMD result = null;
             if (alphabet.contains(buffer.get(i))) {
-                if (buffer.get(i).equals("Step")) {
+                if (buffer.get(i).equals("Step") || (buffer.get(i).equals("Forward"))) {
                 result = new Step(currRobot);
                     cmdList.add(result);
                     continue;
                 }
-                if (buffer.get(i).equals("Rotate")) {
+                
+                if (buffer.get(i).equals("Rotate") || (buffer.get(i).equals("Turn"))) {
                     String tag = buffer.get(i + 1);
+                    
                     if (tag.toLowerCase().equals("left")) {
-                        result = new Rotate("left",currRobot);
+                        /*result = new Rotate("left",currRobot);
                         cmdList.add(result);
-                        i++;
-                        continue;
+                        i++;*/
+                        String angle = buffer.get(i + 2);
+                        if((angle.toLowerCase().equals("90"))){
+                            result = new Rotate("left",currRobot);
+                            cmdList.add(result);
+                            i = i+2;
+                            continue; 
+                        }
+                        else if((angle.toLowerCase().equals("180"))){
+                            result = new Rotate("left",currRobot);
+                            cmdList.add(result);
+                            result = new Rotate("left",currRobot);
+                            cmdList.add(result);
+                            i = i+2;
+                            continue; 
+                        }
+                        else if((angle.toLowerCase().equals("270"))){
+                            result = new Rotate("right", currRobot);
+                            cmdList.add(result);
+                            i=i+2;
+                            continue; 
+                        }
+                        else{
+                            result = new UnknownCommand(currRobot, buffer.get(i), "angle");
+                            cmdList.add(result);
+                            i++;
+                            continue; 
+                        }                     
                     }
                     if (tag.toLowerCase().equals("right")) {
-                         result = new Rotate("right",currRobot);
+                        /*result = new Rotate("left",currRobot);
                         cmdList.add(result);
-                        i++;
-                        //continue;
+                        i++;*/
+                        String angle = buffer.get(i + 2);
+                        if((angle.toLowerCase().equals("90"))){
+                            result = new Rotate("right",currRobot);
+                            cmdList.add(result);
+                            i = i+2;
+                            continue; 
+                        }
+                        else if((angle.toLowerCase().equals("180"))){
+                            result = new Rotate("right",currRobot);
+                            cmdList.add(result);
+                            result = new Rotate("right",currRobot);
+                            cmdList.add(result);
+                            i = i+2;
+                            continue; 
+                        }
+                        else if((angle.toLowerCase().equals("270"))){
+                            result = new Rotate("left", currRobot);
+                            cmdList.add(result);
+                            i=i+2;
+                            continue; 
+                        }
+                        else{
+                            result = new UnknownCommand(currRobot, buffer.get(i), "angle");
+                            cmdList.add(result);
+                            i++;
+                            continue; 
+                        }                     
                     }
-                }
-            } else {
-                log.log(Level.SEVERE, i+"no such command:", buffer.get(i));
+                    else{
+                        result = new UnknownCommand(currRobot, buffer.get(i), "direction");
+                        cmdList.add(result);
+                    }
+            } 
+            }
+            else {
+                result = new UnknownCommand(currRobot, buffer.get(i));
+                cmdList.add(result);
+                //i++;
+               /* log.log(Level.SEVERE, i+"no such command:", buffer.get(i));
                 InputOutput io =  IOProvider.getDefault().getIO(Bundle.LBL_Running(), false);
                 io.getErr().println(Bundle.ERR_NoCommand() + " "+buffer.get(i));
-                io.getOut().close();
-                //JOptionPane.showMessageDialog(null, "no such command: "+buffer.get(i));
-                status="Syntax error "+i+buffer.get(i);
-                break;
-            }
+                io.getOut().close(); */
+                //JOptionPane.showMessageDialog(null, "no such command: "+buffer.get(i)); 
+                //status="Syntax error "+i+buffer.get(i);
+                //continue;
         }
-        status="success";
+       
+    }
+         status="success";
     }
     public String getStatus() {
         return status;

@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.RobotsControl.good_robot;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +30,8 @@ import org.openide.util.NbBundle;
     "LBL_Going=going to",
     "LBL_Rotating=rotating",
     "DIR_Left=left",
-    "DIR_Right=rigth"
+    "DIR_Right=rigth",
+    "ERR_NoCommand=No Such Command"
 })
 public class Interpretator implements ActionListener{
 
@@ -110,7 +112,7 @@ public class Interpretator implements ActionListener{
                             + "...");                    
                     //move(result);
                 }
-                else{  
+                else if(result.startsWith("stepTo")){  
                     GraphicMap.move("MOVE_"+currRobot.dir.name());
                     if (result.substring(result.length()-2).toLowerCase().equals("up"))                        
                         io.getOut().println(Bundle.LBL_Going() + 
@@ -126,9 +128,16 @@ public class Interpretator implements ActionListener{
                             result.substring(6, result.length()-4).toLowerCase() + "...");   
                     //move(MOVE_+currRobot.dir.name());
                 }
+                else if(result.startsWith("Unknown")){
+                    //log.log(Level.SEVERE,"no such command:");
+                    //InputOutput io =  IOProvider.getDefault().getIO(Bundle.LBL_Running(), false);
+                    io.getOut().println(Bundle.ERR_NoCommand() + result + "...");
+                    //io.getOut().close();
+                    //runNextCMD();
+                }
                 //System.out.println(check);            
                 //io.getOut().println(check);
-                io.getOut().close();
+                //io.getOut().close();
         }
         else{
             timer.stop();
