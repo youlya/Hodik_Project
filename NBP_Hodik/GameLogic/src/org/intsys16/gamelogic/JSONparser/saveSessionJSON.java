@@ -18,7 +18,6 @@ import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-
 /**
  *
  * @author Daria Artemova
@@ -52,7 +51,7 @@ public class saveSessionJSON {
         JSONArray robots = new JSONArray();
         for (int i = 0; i < robotList.size(); i++) {
             JSONObject robot = new JSONObject();
-            robot = toJSON(robotList.get(i));
+            robot = robotList.get(i).toJSON(robotList.get(i));
             robots.add(robot);
         }
 //        for () {
