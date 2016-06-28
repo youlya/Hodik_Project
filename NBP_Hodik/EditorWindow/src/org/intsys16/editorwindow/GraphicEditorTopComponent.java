@@ -66,7 +66,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
     private TopComponent multiPanel;
     private static JFXPanel fxPanel;
     //private ProgramNode progNode;
-    private Lookup lookup;
+    public Lookup lookup;
     private DnD dragNDrop = new DnD(500, this);
     
     public GraphicEditorTopComponent() {
@@ -89,6 +89,8 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
         fxPanel.updateUI();
         Platform.runLater(() -> createScene());      
     }
+    
+  
     
     private void createScene() {      ///создаем поле для стрелок
         Scene scene = new Scene(dragNDrop);

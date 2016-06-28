@@ -37,6 +37,13 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.Lookups;
 import org.openide.util.lookup.ProxyLookup;
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.*;
+import java.beans.EventHandler;
+import javafx.event.EventType;
+import javax.swing.event.*; //библиотека для событий
+
 
 /**
  * Top component which displays something.
@@ -69,19 +76,23 @@ import org.openide.util.lookup.ProxyLookup;
     "CTL_TextEditorTopComponent=Text Editor Window",
     "HINT_TextEditorTopComponent=This is a Text Editor window",
     "LBL_TextDisplayName=Text view"
+        
+        
 })
-public final class TextEditorTopComponent extends TopComponent implements MultiViewElement {
+public final class TextEditorTopComponent extends TopComponent implements MultiViewElement{
     
     private MultiViewElementCallback callback = null;
     private JToolBar toolbar = new JToolBar();
     private TopComponent multiPanel;
     private static JFXPanel fxPanel;
-    private TextArea programText;
+    public TextArea programText;
     private BorderLayout borderLayout = new BorderLayout();
     //private final InstanceContent content = new InstanceContent();
     //private Lookup proxyLookup;
     private Lookup lookup;
     //private ProgramNode progNode;
+    
+
     
     public TextEditorTopComponent() {
         java.util.logging.Logger.getLogger(getClass().getName()).log(Level.WARNING, 
@@ -112,25 +123,36 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
          fxPanel.updateUI();
         Platform.runLater(() -> createScene());      
     }
-    
-    private void createScene() {
+      public void clearAll()
+    {
+        programText.getChildrenUnmodifiable().clear();
+        fxPanel.updateUI();
+    }
+    public void createScene() {
         StackPane pane = new StackPane();
         programText = new TextArea(getLookup().lookup(AbstractProgram.class).getProgramText());      
         pane.getChildren().add(programText);
         fxPanel.updateUI();
         fxPanel.setScene(new Scene(pane));
         programText.setMinSize(fxPanel.getWidth(), fxPanel.getHeight());
+        // fxPanel.addPropertyChangeListener(this); //добавлен слушатель событий, исправить this, тк это класс
         //binding
-       
+      
         //переопред
         programText.clear();
         programText.textProperty().bindBidirectional(  
                 getLookup().lookup(AbstractProgram.class).programTextProperty());
+        
+        
+          //  programText.addEventHandler(EventType.ROOT, EventHandler ); //нужно создать объект eventHandler
     }
+    
     
     public void setMultiPanel(TopComponent multiPanel) {
         this.multiPanel = multiPanel;  
     }
+    
+    
     
     /*
     public TextArea getProgramTextControl() {
@@ -255,4 +277,15 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
         return CloseOperationState.STATE_OK;
     }
     
+   private class myListener implements DocumentListener{
+       
+        @Override
+        public void changedUpdate(DocumentEvent e){}
+        
+        @Override
+        public void insertUpdate(DocumentEvent e){}
+        
+        @Override
+        public void removeUpdate(DocumentEvent e){}
+   }
 }

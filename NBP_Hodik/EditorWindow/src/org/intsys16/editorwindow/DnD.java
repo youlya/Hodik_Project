@@ -91,7 +91,13 @@ public class DnD extends Pane{
       
     }
     public boolean isCommand(String command) {
-        return true; //todo
+        if(command.equals(integr.getCommandAt(1)+" "+integr.getCommandAt(3)) ||
+                command.equals(integr.getCommandAt(1)+" "+integr.getCommandAt(2)) ||
+                command.equals(integr.getCommandAt(0)))
+            return true; 
+        
+        else
+            return false;
     }
     private String sequenceToString() {
         return "sequence"; //todo
@@ -174,7 +180,7 @@ public class DnD extends Pane{
     private final EventHandler<DragEvent> onDragTrashDropped = (DragEvent event) -> {
         this.setCursor(Cursor.DEFAULT);
         ImageView iv = (ImageView)event.getGestureTarget();
-        deleteItem((ImageView)event.getGestureSource());   
+        deleteItem((ImageView)event.getGestureSource()); 
         iv.setImage(trash);
         event.setDropCompleted(true);
         event.consume();
@@ -197,7 +203,16 @@ public class DnD extends Pane{
             int x = i - y*xx;
             imageseq.get(i).setId(""+i);
             grid.add(createAnchorPane(imageseq.get(i),i), x, y);
+        lookup.lookup(AbstractProgram.class).setProgramText(" ");
+     //   lookup.lookup(TextEditorTopComponent.class).programText.textProperty().bindBidirectional(
+      //          getLookup().lookup(AbstractProgram.class).programTextProperty());
+        
+  
+          
             //здесь убирать текст из prg Node
+       //     lookup.lookup(TextEditorTopComponent.class).clearAll();
+           //lookup.lookup(ProgramNode.class).setProgramText(" ");
+           //lookup.lookup(TextEditorTopComponent.class).createScene();
         }
     }
     
@@ -290,11 +305,11 @@ public class DnD extends Pane{
         commands.add(new Command(rotRight, "images/turn_right.png",commands.size()));
         commands.add(new Command(rotLeft ,"images/turn_left.png",commands.size()));
 
-        commands.add(new Command("Rotate Right","images/turn_right.png",commands.size()));
-        commands.add(new Command("Rotate Left","images/turn_left.png",commands.size()));
+       // commands.add(new Command("Rotate Right","images/turn_right.png",commands.size()));
+        //commands.add(new Command("Rotate Left","images/turn_left.png",commands.size()));
 
         ///преобразование графической команды в текст
-        commands.add(new Command("Step","images/step.png",commands.size()));
+        commands.add(new Command(step,"images/step.png",commands.size()));
         trash = new Image(getClass().getResourceAsStream("images/trash.png"));
         trashr = new Image(getClass().getResourceAsStream("images/trashr.png"));
         
