@@ -7,6 +7,8 @@ package org.intsys16.gamelogic.JSONparser;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.FieldControl.Direction;
 import org.intsys16.gamelogic.RobotsControl.Scores;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -58,4 +60,18 @@ public class robotsInfo {
     public void setRobotScore(Scores s){
         score = s;
     }  
+    public JSONObject toJSON(robotsInfo r){
+        JSONObject obj = new JSONObject();
+        obj.put("robotName", r.getRobotName());
+        obj.put("steps", r.getRobotScore().get_Stepsc());
+        obj.put("bum", r.getRobotScore().getObs_sc());
+        obj.put("nyam", r.getRobotScore().getEat_sc());
+        obj.put("health", r.getRobotHealth());
+        obj.put("direction", r.getRobotDirection());
+        JSONArray coords = new JSONArray();
+        coords.add(r.getRobotCoords().getX());
+        coords.add(r.getRobotCoords().getY());
+        obj.put("coordinates", coords);
+        return obj;
+    }
 }
