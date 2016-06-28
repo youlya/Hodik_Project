@@ -29,7 +29,7 @@ public class Step implements CMD {
     
     @Override
     public String toString() {
-        return "step";
+        return "Step";
     }
     @Override
     public String Run() {

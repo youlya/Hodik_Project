@@ -375,9 +375,14 @@ public class DnD extends Pane{
             grid.getChildren().clear();
             
             //String s = sequenceToString();
-           // sequence = graphicTC.getLookup().lookup(AbstractProgram.class).getSequence();
+            sequence = graphicTC.getLookup().lookup(AbstractProgram.class).getSequence();
+            graphicTC.getLookup().lookup(AbstractProgram.class).setProgramText(" ");
+            graphicTC.getLookup().lookup(AbstractProgram.class).addLineToProgram(sequence.get(0));
+            Command c = commands.get(2);
+            ImageView nw = getPicture(c, false, sequence.size() - 1);
+            imageseq.add(nw);
             for (int i = 0; i<sequence.size();i++){
-                int y = i / xx;
+                int y = i / (xx+1);
                 int x = i - y*xx;
                 imageseq.get(i).setId(""+i);
                 grid.add(createAnchorPane(imageseq.get(i),i), x, y);

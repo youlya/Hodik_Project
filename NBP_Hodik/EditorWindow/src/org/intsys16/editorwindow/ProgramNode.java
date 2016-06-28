@@ -35,12 +35,7 @@ public class ProgramNode extends AbstractProgram implements Serializable, Lookup
     }
     public ArrayList<String> getSequence(){ //пробуем создать последовательность команд
         ArrayList<String> sequence = new ArrayList<>();
-        int i = 0;
-        String parts[] = this.progText.toString().split(" ");
-        for (i=0; i!=parts.length; i++)
-        {
-            sequence.add(parts[i]);
-        }
+        sequence.add("Step");
         //System.out.print(sequence.get(0));
         return sequence;
     }

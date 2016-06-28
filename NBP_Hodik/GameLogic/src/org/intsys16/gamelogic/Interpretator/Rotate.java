@@ -38,7 +38,7 @@ public class Rotate implements CMD
 //            case "up":
 //                dir=Direction.UP;
 //                break;
-            case "left":
+            case "Left":
                 if(currRobot.dir==Direction.DOWN){
                     currRobot.dir=Direction.RIGHT;
                 }
@@ -52,7 +52,7 @@ public class Rotate implements CMD
                     currRobot.dir=Direction.UP;
                 }
                 break;
-            case "right":
+            case "Right":
                 if(currRobot.dir==Direction.DOWN){
                     currRobot.dir=Direction.LEFT;
                 }

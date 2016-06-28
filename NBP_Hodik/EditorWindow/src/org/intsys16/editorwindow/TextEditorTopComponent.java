@@ -42,7 +42,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.EventHandler;
 import javafx.event.EventType;
-import javax.swing.event.*; //библиотека для событий
+import javax.swing.event.*;//библиотека для событий
 
 
 /**
@@ -131,9 +131,7 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
     public void createScene() {
         StackPane pane = new StackPane();
        programText = new TextArea(getLookup().lookup(AbstractProgram.class).getProgramText()); 
-       // programText = new TextArea("kjhgfds");
        programText.setVisible(true);
-      // programText.appendText("lllllll");
         pane.getChildren().add(programText);
   
         fxPanel.setScene(new Scene(pane));
@@ -143,8 +141,8 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
 
        programText.textProperty().bindBidirectional(  
                 getLookup().lookup(AbstractProgram.class).programTextProperty());
-        //getLookup().lookup(DnD.class).sequence.
-        
+ 
+    
           //  programText.addEventHandler(EventType.ROOT, EventHandler ); //нужно создать объект eventHandler
     }
     
