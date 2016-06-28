@@ -14,6 +14,8 @@ import org.openide.windows.TopComponent;
  * @author Julia
  */
 public abstract class AbstractProgram {
+    public abstract void setDebugStat(Boolean debugState);
+    public abstract Boolean getDebugStat();
     public abstract String getProgramName();
     public abstract String getProgramPath();
     public abstract ArrayList<String> getSequence();

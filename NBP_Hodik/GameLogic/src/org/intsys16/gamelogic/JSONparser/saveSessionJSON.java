@@ -14,8 +14,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
 
 /**
  *
@@ -24,18 +26,18 @@ import org.json.simple.JSONObject;
 public class saveSessionJSON {
     private String sessionName;
     private int mapNumber; //номер планеты
-    List <mobsInfo> mobs = new ArrayList();
-    List <obstaclesInfo> obstacles = new ArrayList();
-    List <robotsInfo> robots = new ArrayList();
+    List<mobsInfo> mobList = new ArrayList();
+    List<obstaclesInfo> obstacleList = new ArrayList();
+    List<robotsInfo> robotList = new ArrayList();
     saveSessionJSON(){
         
     }
     saveSessionJSON (String sN, int m, List mbs, List obstcls, List rbts){
         sessionName = sN;
         mapNumber = m;
-        mobs = mbs;
-        obstacles = obstcls;
-        robots = rbts;
+        mobList = mbs;
+        obstacleList = obstcls;
+        robotList = rbts;
     }
     public void saveSession (){
         Date date = new Date() ;
@@ -48,20 +50,11 @@ public class saveSessionJSON {
         JSONArray mobs = new JSONArray();
         JSONArray obstacles = new JSONArray();
         JSONArray robots = new JSONArray();
-//        for () {
-//            JSONObject robot = new JSONObject();
-//            robot.put("robotName", robot);
-//            robot.put("steps", currScore.StepScore);
-//            robot.put("bum", currScore.BumbedInto);
-//            robot.put("nyam", currScore.Eaten);
-//            robot.put("health", this.HP);
-//            robot.put("direction", this.dir);
-//            JSONArray coords = new JSONArray();
-//            coords.add(currCoord.x);
-//            coords.add(currCoord.y);
-//            robot.put("coordinates", coords);
-//            robots.add(robot);
-//        }
+        for (int i = 0; i < robotList.size(); i++) {
+            JSONObject robot = new JSONObject();
+            robot = toJSON(robotList.get(i));
+            robots.add(robot);
+        }
 //        for () {
 //            JSONObject mob = new JSONObject();
 //            mob.put("mobActType", act_type);
