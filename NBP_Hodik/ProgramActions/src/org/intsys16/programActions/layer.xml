@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
+    <folder name="Actions">
+        <folder name="File"/>
+    </folder>
     <folder name="Menu">
         <folder name="Edit_hidden">
             <attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.core.ui.resources.Bundle"/>
@@ -213,8 +216,49 @@
             </file>
             <file name="org-netbeans-modules-favorites-View.shadow_hidden"/>
         </folder>
+        <folder name="Debug">
+            <attr name="displayName" bundlevalue="org.intsys16.programActions.Bundle#Menu/Debug"/>
+            <file name="org-intsys16-programActions-DebugProgramAction-separatorAfter.instance">
+                <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+            </file>
+            <file name="org-intsys16-programActions-DebugProgramAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/File/org-intsys16-programActions-DebugProgramAction.instance"/>
+            </file>
+            <file name="org-intsys16-programActions-RedoProgramAction-separatorAfter.instance">
+                <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+            </file>
+            <file name="org-intsys16-programActions-RedoProgramAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/File/org-intsys16-programActions-RedoProgramAction.instance"/>
+            </file>
+            <file name="org-intsys16-programActions-StepProgramAction-separatorAfter.instance">
+                <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+            </file>
+            <file name="org-intsys16-programActions-StepProgramAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/File/org-intsys16-programActions-StepProgramAction.instance"/>
+            </file>
+            <file name="org-intsys16-programActions-UndoProgramAction-separatorAfter.instance">
+                <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+            </file>
+            <file name="org-intsys16-programActions-UndoProgramAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/File/org-intsys16-programActions-UndoProgramAction.instance"/>
+            </file>
+        </folder>
     </folder>
     <folder name="Toolbars">
+        <folder name="Debug">
+            <file name="org-intsys16-programActions-DebugProgramAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/File/org-intsys16-programActions-DebugProgramAction.instance"/>
+            </file>
+            <file name="org-intsys16-programActions-UndoProgramAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/File/org-intsys16-programActions-UndoProgramAction.instance"/>
+            </file>
+            <file name="org-intsys16-programActions-RedoProgramAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/File/org-intsys16-programActions-RedoProgramAction.instance"/>
+            </file>
+            <file name="org-intsys16-programActions-StepProgramAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/File/org-intsys16-programActions-StepProgramAction.instance"/>
+            </file>
+        </folder>
         <folder name="File">
             <file name="org-openide-actions-SaveAllAction.shadow_hidden"/>
             <file name="org-openide-actions-SaveAllAction.shadow_hidden">

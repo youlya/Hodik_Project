@@ -24,6 +24,7 @@ public class ProgramNode extends AbstractProgram implements Serializable, Lookup
     private String progName;
     private StringProperty progText = new SimpleStringProperty(this, "programText", "");
     private String path;
+    private Boolean state;
     private Lookup lookup;
     TopComponent editor;
     
@@ -31,6 +32,7 @@ public class ProgramNode extends AbstractProgram implements Serializable, Lookup
         this.progName = progName;
         this.progText.set(progText);
         this.path = path;
+        this.state = false;
         lookup = Lookups.singleton(this);
     }
     public ArrayList<String> getSequence(){ //пробуем создать последовательность команд
@@ -46,6 +48,14 @@ public class ProgramNode extends AbstractProgram implements Serializable, Lookup
     @Override
     public String getProgramPath() {
         return path;
+    }
+        @Override
+    public void setDebugStat(Boolean state){
+        this.state = state;
+    }
+    @Override
+    public Boolean getDebugStat(){
+        return state;
     }
     @Override
     public void setProgramPath(String path) {
