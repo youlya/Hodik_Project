@@ -25,7 +25,7 @@ import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.Interpretator.Interpretator;
 import org.intsys16.gamelogic.Interpretator.Parser;
 import org.intsys16.gamelogic.RobotsControl.Scores;
-import org.intsys16.gamelogic.RobotsControl.good_robot;
+import org.intsys16.gamelogic.RobotsControl.robot;
 import org.intsys16.gamelogic.XMLParser.Info;
 import org.intsys16.gamelogic.XMLParser.loadLevel;
 import org.intsys16.gamelogic.XMLParser.mobInfo;
@@ -61,7 +61,7 @@ public class HodikIntegratorImpl extends Integrator {
     private final loadLevel load = new loadLevel(); 
     private int level;
 
-    private good_robot currRobot;
+    private robot currRobot;
     private Interpretator interp = new Interpretator(); //???????
    // private Parser pars = new Parser("", currRobot);
 
@@ -236,7 +236,7 @@ public class HodikIntegratorImpl extends Integrator {
         }
     }
     @Override
-    public good_robot getCurrentRobot() {
+    public robot getCurrentRobot() {
         if (!units.isEmpty())
             return units.get(0).getAvatar(fields.get(0));
         else {

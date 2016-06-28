@@ -7,7 +7,7 @@ package org.intsys16.gamelogic.Interpretator;
 
 import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.intsys16.gamelogic.FieldControl.Direction;
-import org.intsys16.gamelogic.RobotsControl.good_robot;
+import org.intsys16.gamelogic.RobotsControl.robot;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,7 +34,7 @@ public class Parser {
     Coordinate c=new Coordinate(2,3);
     Direction d;
     private static final Logger log = Logger.getLogger(Parser.class.getName());
-    good_robot currRobot;
+    robot currRobot;
 
     public static ArrayList<String> alphabet = new ArrayList();
     ArrayList<String> readedText = new ArrayList();
@@ -44,7 +44,7 @@ public class Parser {
     File file = null;
 
     
-    public Parser(String Url, good_robot robot) {
+    public Parser(String Url, robot robot) {
         currRobot=robot;
         this.d = Direction.UP;
         initAlphabet();
@@ -53,7 +53,7 @@ public class Parser {
         Parse();
     }
     
-       public Parser(String[]cmd, good_robot robot) {
+       public Parser(String[]cmd, robot robot) {
         currRobot=robot;
         this.d = Direction.UP;
         initAlphabet();

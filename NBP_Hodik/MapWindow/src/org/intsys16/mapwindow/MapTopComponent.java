@@ -21,7 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import org.intsys16.gamelogic.FieldControl.Field;
-import org.intsys16.gamelogic.RobotsControl.good_robot;
+import org.intsys16.gamelogic.RobotsControl.robot;
 import org.intsys16.integrator.api.Integrator;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
@@ -105,7 +105,7 @@ public final class MapTopComponent extends TopComponent {
        Scene scene = new Scene(map);
        fxPanel.setScene(scene);
        map.setParameters(fieldWidthPx, fieldCellNumber, 
-               (good_robot) integrator.getCurrentRobot(), (Field) integrator.getCurrentField());
+               (robot) integrator.getCurrentRobot(), (Field) integrator.getCurrentField());
        
        scene.widthProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) -> {
             map.setPrefWidth((double) newSceneWidth);

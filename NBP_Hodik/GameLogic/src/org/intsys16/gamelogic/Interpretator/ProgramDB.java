@@ -5,7 +5,7 @@
  */
 package org.intsys16.gamelogic.Interpretator;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
-import org.intsys16.gamelogic.RobotsControl.good_robot;
+import org.intsys16.gamelogic.RobotsControl.robot;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,10 +17,10 @@ import java.util.HashMap;
 //TEST
 public class ProgramDB {
 
-    HashMap<good_robot, ArrayList<Program>> test;
+    HashMap<robot, ArrayList<Program>> test;
     Parser parser;
 
-    public ArrayList<CMD> find(good_robot robot, String programName) {
+    public ArrayList<CMD> find(robot robot, String programName) {
         ArrayList<Program> get = test.get(robot);
         for (Program get1 : get) {
             if (get1.name.equals(programName)) {
@@ -36,7 +36,7 @@ public class ProgramDB {
      * @param url
      * @param robot
      */
-    public void translate(String name, String url, good_robot robot) {
+    public void translate(String name, String url, robot robot) {
         if (test.get(robot) != null) {
             parser = new Parser(url, robot);
             ArrayList<CMD> list = parser.getList();

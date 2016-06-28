@@ -27,7 +27,7 @@ public class healthBonus extends Field_object {
     };
     
     @Override
-    public void interact (good_robot gr)
+    public void interact (robot gr)
     { 
           gr.score.setEat_sc(gr.score.getEat_sc() + 1);
           GraphicMapAPI.getGraphicMap().setEaten(gr.score.getEat_sc());

@@ -59,5 +59,5 @@ public abstract class Field_object {
     abstract public int getDamage();
     abstract public XMLobject toXML(XMLobject obj);
     
-    public void interact(good_robot gr){};
+    public void interact(robot gr){};
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ROBOTS>
+<ROB type = "1">
+<CMD> Right </CMD>
+<CMD> Left </CMD>
+</ROB>
+<ROB type = "2">
+<CMD> Le </CMD>
+<CMD> Ri </CMD>
+<CMD> Le </CMD>
+</ROB>
+</ROBOTS>

@@ -43,7 +43,7 @@ import org.intsys16.gamelogic.Interpretator.Program;
 import org.intsys16.gamelogic.Interpretator.Rotate;
 import org.intsys16.gamelogic.Interpretator.Step;
 import org.intsys16.gamelogic.RobotsControl.bad_robot;
-import org.intsys16.gamelogic.RobotsControl.good_robot;
+import org.intsys16.gamelogic.RobotsControl.robot;
 import org.intsys16.gamelogic.RobotsControl.Pit;
 import org.intsys16.gamelogic.RobotsControl.Liquid;
 import org.intsys16.gamelogic.RobotsControl.Stone;
@@ -176,7 +176,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         Yaxis.setStyle("-fx-background-color: #ffffff;");
         main.setStyle("-fx-background-color: #ffffff;");
         this.setStyle("-fx-background-color: #ffffff;");
-        map = new Map(height - 30, r, (good_robot) gr, (Field) f);
+        map = new Map(height - 30, r, (robot) gr, (Field) f);
         map.setLayoutX(25);
         map.setLayoutY(25);
 
@@ -233,7 +233,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         gMap = this;
     }
 
-    public GraphicMap(double height, int r, good_robot gr, Field f) {
+    public GraphicMap(double height, int r, robot gr, Field f) {
         super();
         Xaxis = new Pane();
         Yaxis = new Pane();
@@ -321,7 +321,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         private ImageView gr_iv = null;
         private final int rows;
         private final Coordinate gr_pos;
-        private good_robot good_r;
+        private robot good_r;
         private boolean robot_moving = false, move_from_key = false;
         private int dirx = 0, diry = 0;
         private boolean running = false;
@@ -362,12 +362,12 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
 
         private Objects getTypeOfObject(Coordinate c) {
             Field_object obj = field.getHex().get(c);
-            if (obj instanceof good_robot) {
+            if (obj instanceof robot) {
                 //good_r = (good_robot) obj;
                 return Objects.GOOD_ROBOT;
-            } else if (obj instanceof bad_robot) {
+            } /*else if (obj instanceof bad_robot) {
                 return Objects.BAD_ROBOT;
-            } else if (obj instanceof Liquid) {
+            }*/ else if (obj instanceof Liquid) {
                 return Objects.LIQUID;
             } else if (obj instanceof Stone) {
                 return Objects.STONE;
@@ -458,7 +458,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             }
         }
 
-        private Map(double w, int r, good_robot gr, Field f) {
+        private Map(double w, int r, robot gr, Field f) {
             super();
             width = w;
             rows = r;

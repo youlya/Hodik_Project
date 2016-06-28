@@ -22,7 +22,7 @@ import org.intsys16.gamelogic.XMLParser.Info;
 public class Unit {
     String name;
     Map<String, Algorithm> progs;
-    ArrayList <good_robot> robots;
+    ArrayList <robot> robots;
     
     public Unit(String n)
     {
@@ -39,9 +39,9 @@ public class Unit {
         return name;
     }
     
-    public good_robot getAvatar(Field a)
+    public robot getAvatar(Field a)
     {
-        for (good_robot i : robots)
+        for (robot i : robots)
         {
             if (i.getField()==a)
                 return i;
@@ -51,7 +51,7 @@ public class Unit {
     
     public void add_robot(Field a, Interpretator in, Coordinate coord, Direction d,  int hp, Scores s){
         //Scores s = new Scores();
-        good_robot r=new good_robot(a, in, coord, hp, d, this, s);
+        robot r=new robot(a, in, coord, hp, d, this, s);
         robots.add(r);
     }
     boolean check_if_prog_exists(String path)
@@ -86,7 +86,7 @@ public class Unit {
     {
         System.out.println("Launching program '"+ n+"'...");
         Algorithm alg=progs.get(n);
-        good_robot cur=robots.get(rob);
+        robot cur=robots.get(rob);
         // Interpretator in=cur.getInterpr();
         alg.translate(alg.getname(), alg.getPath(), cur);
     }  
