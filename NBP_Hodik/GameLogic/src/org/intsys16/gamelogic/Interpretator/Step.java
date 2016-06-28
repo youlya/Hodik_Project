@@ -27,29 +27,19 @@ public class Step implements CMD {
         dir=currRobot.dir;
     }
     
-//    public Step(Coordinate C, Direction DIR,int n)
-//    {
-//        c=C;
-//        dir=DIR;
-//        num=n;
-//    }
-
     @Override
     public String toString() {
         return "step";
     }
-
     @Override
     public String Run() {
         return Step();
     }
-
     public String Step() {
         int X = currRobot.getCoord().getX() + currRobot.dir.deltaX();
         int Y = currRobot.getCoord().getY() + currRobot.dir.deltaY();
         currRobot.score.set_Stepsc(currRobot.score.get_Stepsc() + 1);
         GraphicMapAPI.getGraphicMap().setStepScore(currRobot.score.get_Stepsc());
         return "stepTo " + X + " " + Y + " " + dir.name();
-   
     }
 }

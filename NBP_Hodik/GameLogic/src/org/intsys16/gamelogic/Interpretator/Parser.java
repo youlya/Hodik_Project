@@ -28,7 +28,7 @@ import org.openide.windows.InputOutput;
  *
  * @author micen
  */
-@NbBundle.Messages("ERR_NoCommand=Error: no such command:")
+//@NbBundle.Messages("ERR_NoCommand=Error: no such command:")
 public class Parser {
 
     Coordinate c=new Coordinate(2,3);
@@ -55,8 +55,6 @@ public class Parser {
         Parse();
     }
     
- 
-       
        public Parser(String[]cmd, good_robot robot) {
         currRobot=robot;
         this.d = Direction.UP;
@@ -117,6 +115,7 @@ public class Parser {
 
         }
     }
+    
    ArrayList<String> prepare() {
         ArrayList<String> buffer = new ArrayList();
         for (String readedText1 : readedText) {
@@ -139,7 +138,7 @@ public class Parser {
                     cmdList.add(result);
                     continue;
                 }
-                if (buffer.get(i).equals("Rotate")) {
+                if (buffer.get(i).equals("Rotate") || (buffer.get(i).equals("Turn"))) {
                     String tag = buffer.get(i + 1);
                     if (tag.toLowerCase().equals("left")) {
                         result = new Rotate("left",currRobot);
@@ -154,14 +153,16 @@ public class Parser {
                         //continue;
                     }
                 }
-            } else {
-                log.log(Level.SEVERE, i+"no such command:", buffer.get(i));
+            } 
+            else {
+                result = new UnknownCommand(currRobot, buffer.get(i));
+               /* log.log(Level.SEVERE, i+"no such command:", buffer.get(i));
                 InputOutput io =  IOProvider.getDefault().getIO(Bundle.LBL_Running(), false);
                 io.getErr().println(Bundle.ERR_NoCommand() + " "+buffer.get(i));
-                io.getOut().close();
-                //JOptionPane.showMessageDialog(null, "no such command: "+buffer.get(i));
-                status="Syntax error "+i+buffer.get(i);
-                break;
+                io.getOut().close(); */
+                //JOptionPane.showMessageDialog(null, "no such command: "+buffer.get(i)); 
+                //status="Syntax error "+i+buffer.get(i);
+                //break;
             }
         }
         status="success";
