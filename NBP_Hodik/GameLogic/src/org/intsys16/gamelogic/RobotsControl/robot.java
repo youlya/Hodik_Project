@@ -34,7 +34,7 @@ import org.w3c.dom.*;
  * alyx; good_robot - abstract class after changes
  */
 public class robot extends Field_object{
-   // private static final String FILENAME = "robots.xml";
+   private static final String FILENAME = "robots.xml";
     public int HP;
     public Direction dir;
     public Scores score;
@@ -86,7 +86,7 @@ public class robot extends Field_object{
         
             try {
             // Строим объектную модель исходного XML файла
-            File xmlFile = new File("robots.xml");
+            File xmlFile = new File("GameLogic\\src\\org\\intsys16\\gamelogic\\RobotsControl\\robots.xml");
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(xmlFile);
