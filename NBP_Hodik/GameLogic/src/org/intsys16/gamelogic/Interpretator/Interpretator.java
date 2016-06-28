@@ -8,7 +8,7 @@ package org.intsys16.gamelogic.Interpretator;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
-import org.intsys16.gamelogic.RobotsControl.good_robot;
+import org.intsys16.gamelogic.RobotsControl.robot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,7 +37,7 @@ public class Interpretator implements ActionListener{
 
     Parser parser;
     Boolean debugMode = false;
-    good_robot currRobot;
+    robot currRobot;
     ArrayList<CMD> cmdList = new ArrayList<>();
     Iterator<CMD> iterator = cmdList.iterator();
     private static final Logger log = Logger.getLogger(Interpretator.class.getName());
@@ -52,7 +52,7 @@ public class Interpretator implements ActionListener{
         return debugMode;
     }
 
-    public String translate(String url, good_robot robot) {
+    public String translate(String url, robot robot) {
         currRobot = robot;
         parser = new Parser(url, currRobot);
         if(parser.getStatus().equals("success")){
@@ -66,7 +66,7 @@ public class Interpretator implements ActionListener{
         }
     }
     
-    public String translate(String[] cmd, good_robot robot) {
+    public String translate(String[] cmd, robot robot) {
         currRobot = robot;
         parser = new Parser(cmd, currRobot);
         if (parser.getStatus().equals("success")) {

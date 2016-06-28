@@ -6,7 +6,7 @@
 package org.intsys16.gamelogic.Interpretator;
 
 import org.intsys16.gamelogic.FieldControl.Direction;
-import org.intsys16.gamelogic.RobotsControl.good_robot;
+import org.intsys16.gamelogic.RobotsControl.robot;
 
 /**
  *
@@ -15,9 +15,9 @@ import org.intsys16.gamelogic.RobotsControl.good_robot;
 public class Rotate implements CMD 
 {
     String direction;
-    good_robot currRobot;
+    robot currRobot;
     
-    public Rotate(String d, good_robot robot)
+    public Rotate(String d, robot robot)
     {
         currRobot=robot;
         direction=d;

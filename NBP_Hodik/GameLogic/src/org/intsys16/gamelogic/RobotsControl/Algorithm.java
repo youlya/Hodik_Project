@@ -18,7 +18,7 @@ import org.intsys16.gamelogic.Interpretator.Program;
 public class Algorithm {
     String name;
     String path;
-    HashMap<good_robot, ArrayList<Program>> test;
+    HashMap<robot, ArrayList<Program>> test;
     Parser parser;
     public Algorithm(String p)
     {
@@ -52,7 +52,7 @@ public class Algorithm {
         return name + "(" + path + ")";
     }
     
-    public ArrayList<CMD> find(good_robot robot, String programName) {
+    public ArrayList<CMD> find(robot robot, String programName) {
         ArrayList<Program> get = test.get(robot);
         for (Program get1 : get) {
             if (get1.name.equals(programName)) {
@@ -67,7 +67,7 @@ public class Algorithm {
      * @param url
      * @param robot
      */
-    public void translate(String name, String url, good_robot robot) {
+    public void translate(String name, String url, robot robot) {
         if (test.get(robot) != null) {
             parser = new Parser(url, robot);
             ArrayList<CMD> list = parser.getList();

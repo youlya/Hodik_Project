@@ -5,7 +5,9 @@
  */
 package org.intsys16.gamelogic.RobotsControl;
 
+import java.util.ArrayList;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
+import org.intsys16.gamelogic.FieldControl.Direction;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Field_object;
 import org.intsys16.gamelogic.Interpretator.Interpretator;
@@ -14,29 +16,18 @@ import org.w3c.dom.*;
 
 /**
  *
- * @author jbenua
+ * @author alyx
  */
-public class bad_robot extends Field_object{
-    String act_type;
-    int damage=0;
-    public bad_robot(Field f, Interpretator in, Coordinate coord, String type)
+public class bad_robot extends robot{
+        
+    String type;
+    ArrayList<String> cmd;
+    
+    public bad_robot(Field a, Interpretator in, Coordinate coord, int hp, Direction d, Scores sc, Unit r)
     {
-        super(f, in, coord);
-        act_type=type;
-        this.setDamage();
-    }
-    @Override
-    public String getActtype(){
-        return act_type;
-    }
-    @Override
-    public int getDamage(){
-        return damage;
-    }
-    private void setDamage()
-    {
-        //
-        //switch(act_type)...
+        super(a,in,coord,hp,d,r,sc);
+        type = "bad_robot"; 
+        cmd = this.getComm();
     }
     
     
@@ -44,43 +35,84 @@ public class bad_robot extends Field_object{
     public void show_info()
     {
         super.show_info();
-        System.out.println("damage: " + damage);
-    }
-
-    @Override
-    public String getType() {
-        return "mob";
+        System.out.println("Type: "+ type);
     }
     
-    /**
-    *
-    * @author Rinaly
-    */
     @Override
+    public String getType() {
+        return type;
+    }
+    
+    @Override
+    public int getDamage() {
+        return 0;
+    }
+    private void setDamage()
+    {
+        //
+        //switch(act_type)...
+    }
+    //добавление и удаление команд нам может понадобиться только при изменении КОНКРЕТНОГО типа
+    public void addComm(String comm)//добавление одной команды 
+    {
+        ArrayList l = new ArrayList();
+            l = TC.get(type);
+            l.add(comm);
+            TC.put(type, l);
+          
+    };
+
+    public void addComm(ArrayList<String> comm)//добавление списка команд
+    {
+        ArrayList l = new ArrayList();
+ 
+            l = TC.get(type);
+            l.addAll(comm);
+            TC.put(type, l);
+    
+    };
+    public void delComm(int n)//удаление команды по номеру
+    {
+        ArrayList l = TC.get(type);
+        l.remove(n);
+        System.out.println("Command '"+n+"' deleted");
+    };
+    public void delComm(String n)
+    {
+        ArrayList l = TC.get(type);
+        l.remove(n);
+        System.out.println("Command '"+n+"' deleted");
+    }
+    
+    public ArrayList<String> getComm()
+    {
+        ArrayList l = TC.get(type); 
+        
+        return l;
+    }
+    
+   @Override
     public XMLobject toXML(XMLobject obj)
     {
-        //act_type
-        Element mob = obj.doc.createElement("mob");
-        Attr attr1 = obj.doc.createAttribute("type");
-        attr1.setValue(1+"");                           //как определять тип моба???
-        mob.setAttributeNode(attr1);
-        Attr attr2 = obj.doc.createAttribute("name");
-        attr2.setValue(act_type);
-        mob.setAttributeNode(attr2);
-        //координаты
-        obj = this.c.toXML(obj);
-        Element coords = obj.getcurrCoord();
-        mob.appendChild(coords);
-        //заглушка для однородности файла XML
-        Element hp = obj.doc.createElement("hp");
-        Attr at = obj.doc.createAttribute("life");
-        at.setValue(100+"");
-        hp.setAttributeNode(at);
-        mob.appendChild(hp);
+        //тип
+        Element r = obj.doc.createElement("ROBOTS");
+        Element t = obj.doc.createElement("ROB");
+        Attr attr = obj.doc.createAttribute("type");
+        attr.setValue(type);              
+        t.setAttributeNode(attr);
+        //команды
+        Element cmd = obj.doc.createElement("CMD");
         
-        //добавить моба в список
-        obj.addMob(mob);
-        
+        for(String key : TC.keySet())
+            for(int i=0; i<TC.get(key).size(); i++)
+            {
+                cmd.setTextContent(TC.get(key).get(i));
+                t.appendChild(cmd);
+            }
+        r.appendChild(t);
+ 
+        //сохранить робота 
+        obj.setcurrRobot(r);
         return obj;
     }
 }

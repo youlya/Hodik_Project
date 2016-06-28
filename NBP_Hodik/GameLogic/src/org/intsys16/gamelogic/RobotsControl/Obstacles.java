@@ -24,7 +24,7 @@ public class Obstacles extends Field_object {
     }
     
     @Override
-    public void interact(good_robot gr)
+    public void interact(robot gr)
     {
         gr.score.setObs_sc(gr.score.getObs_sc() + 1);
         GraphicMapAPI.getGraphicMap().setBumbedInto(gr.score.getObs_sc());
