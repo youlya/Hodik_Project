@@ -5,6 +5,8 @@
  */
 package org.intsys16.gamelogic.JSONparser;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -14,10 +16,10 @@ public class mobsInfo {
     private String actType;
     private int damage;
     private Coordinate coords;
-    mobsInfo(){
+    public mobsInfo(){
         
     }
-    mobsInfo(String aT, int d, Coordinate c){
+    public mobsInfo(String aT, int d, Coordinate c){
         actType = aT;
         damage = d;
         coords = c;
@@ -39,5 +41,15 @@ public class mobsInfo {
     }
     public void setMobCoords(Coordinate c){
         coords = c;
+    }
+    public JSONObject toJSON(){
+        JSONObject obj = new JSONObject();
+        obj.put("mobActType", this.getMobActType());
+        obj.put("hp", this.getMobDamage());
+        JSONArray coordinates = new JSONArray();
+        coordinates.add(this.getMobCoords().getX());
+        coordinates.add(this.getMobCoords().getY());
+        obj.put("coordinates", coordinates);
+        return obj;
     }
 }

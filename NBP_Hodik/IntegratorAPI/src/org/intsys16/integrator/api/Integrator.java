@@ -36,8 +36,8 @@ public abstract class Integrator {
     // with or without opening selected programs (available for that robot) 
     public abstract void loadNewSession(String robotName, /*ObservableList<String> selectedPrograms,*/ int planetId);
     public abstract ObservableList<String> getSelectedPrograms(); // programs selected when loading new session (for the Editor Window to open)
-    public abstract void loadSavedSession(String xmlMapName); // xml file from Rina
-    public abstract void saveCurrentSession(String xmlPathNameToSave); //save session to XML file
+    public abstract void loadSavedSession(String xmlMapName); 
+    public abstract void saveCurrentSession(); 
     public abstract int getLevel();
     public abstract void launchProgram(String programName);
     public abstract Object getCurrentField();
@@ -140,7 +140,7 @@ public abstract class Integrator {
                         xmlMapName); 
         }
         @Override
-        public void saveCurrentSession(String xmlPathNameToSave)
+        public void saveCurrentSession()
         {
             //заглушка от Рины. доделать
         }

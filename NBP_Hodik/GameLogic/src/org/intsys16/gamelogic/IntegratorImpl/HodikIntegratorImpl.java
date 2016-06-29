@@ -37,6 +37,11 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import org.intsys16.gamelogic.JSONparser.mobsInfo;
+import org.intsys16.gamelogic.JSONparser.obstaclesInfo;
+import org.intsys16.gamelogic.JSONparser.robotsInfo;
+import org.intsys16.gamelogic.JSONparser.saveSessionJSON;
+import org.intsys16.gamelogic.JSONparser.loadSessionJSON;
 /**
  *
  * @author Julia
@@ -216,14 +221,33 @@ public class HodikIntegratorImpl extends Integrator {
         }
     }
     @Override
-    public void saveCurrentSession(String xmlPathNameToSave)
+    public void saveCurrentSession()
     {
-        XMLobject obj = new XMLobject();
-        obj.setcurrLevel(level);
-        obj = this.getCurrentRobot().toXML(obj);        //good_robot
-        obj = this.getCurrentField().toXML(obj);        //собрать мобов и препятствия
-        obj = this.getCurrentRobot().score.toXML(obj);  //забрать счет
-        obj.toXMLfile(xmlPathNameToSave);
+        int map = level;
+        
+        Coordinate coordinates = new Coordinate();
+        coordinates.setX(0);
+        coordinates.setY(0);
+        
+        List<mobsInfo> mobList = new ArrayList();
+        mobsInfo mob = new mobsInfo("actType", 100, coordinates);
+        mobList.set(0, mob);
+        
+        List<obstaclesInfo> obstacleList = new ArrayList();
+        obstaclesInfo obstacle = new obstaclesInfo(100, coordinates);
+        obstacleList.set(0, obstacle);
+        
+        List<robotsInfo> robotList = new ArrayList();
+        robotsInfo robot = new robotsInfo("hodik", coordinates, getCurrentRobot().dir, getCurrentRobot().HP, getCurrentRobot().score);
+        robotList.set(0, robot);
+        
+        saveSessionJSON obj = new saveSessionJSON (map, mobList, obstacleList, robotList);
+        obj.saveSession();
+//        XMLobject obj = new XMLobject();
+//        obj.setcurrLevel(level);
+//        obj = this.getCurrentRobot().toXML(obj);        //good_robot
+//        obj = this.getCurrentField().toXML(obj);        //собрать мобов и препятствия
+//        obj = this.getCurrentRobot().score.toXML(obj);  //забрать счет
         //сохранение программ для робота?
     }
     @Override

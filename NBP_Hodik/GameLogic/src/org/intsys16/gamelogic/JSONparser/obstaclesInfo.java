@@ -5,6 +5,8 @@
  */
 package org.intsys16.gamelogic.JSONparser;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -14,10 +16,10 @@ public class obstaclesInfo {
     private int damage;
     private Coordinate coords;
     
-    obstaclesInfo (){
+    public obstaclesInfo (){
         
     }
-    obstaclesInfo (int d, Coordinate c){
+    public obstaclesInfo (int d, Coordinate c){
         damage = d;
         coords = c;
     }
@@ -32,5 +34,14 @@ public class obstaclesInfo {
     }    
     public void setObsCoords (Coordinate c){
         coords = c;
+    }
+    public JSONObject toJSON(){
+        JSONObject obj = new JSONObject();
+        obj.put("health", this.getObsDamage());
+        JSONArray coordinstes = new JSONArray();
+        coordinstes.add(this.getObsCoords().getX());
+        coordinstes.add(this.getObsCoords().getY());
+        obj.put("coordinates", coordinstes);
+        return obj;
     }
 }

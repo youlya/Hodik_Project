@@ -20,10 +20,10 @@ public class robotsInfo {
     private Direction direction;
     private int health;
     private Scores score;
-    robotsInfo(){
+    public robotsInfo(){
         
     }
-    robotsInfo(String n, Coordinate c, Direction d, int hp, Scores s){
+    public robotsInfo(String n, Coordinate c, Direction d, int hp, Scores s){
         rName = n;
         coords = c;
         direction = d;
@@ -60,18 +60,18 @@ public class robotsInfo {
     public void setRobotScore(Scores s){
         score = s;
     }  
-    public JSONObject toJSON(robotsInfo r){
+    public JSONObject toJSON(){
         JSONObject obj = new JSONObject();
-        obj.put("robotName", r.getRobotName());
-        obj.put("steps", r.getRobotScore().get_Stepsc());
-        obj.put("bum", r.getRobotScore().getObs_sc());
-        obj.put("nyam", r.getRobotScore().getEat_sc());
-        obj.put("health", r.getRobotHealth());
-        obj.put("direction", r.getRobotDirection());
-        JSONArray coords = new JSONArray();
-        coords.add(r.getRobotCoords().getX());
-        coords.add(r.getRobotCoords().getY());
-        obj.put("coordinates", coords);
+        obj.put("robotName", this.getRobotName());
+        obj.put("steps", this.getRobotScore().get_Stepsc());
+        obj.put("bum", this.getRobotScore().getObs_sc());
+        obj.put("nyam", this.getRobotScore().getEat_sc());
+        obj.put("health", this.getRobotHealth());
+        obj.put("direction", this.getRobotDirection());
+        JSONArray coordinates = new JSONArray();
+        coordinates.add(this.getRobotCoords().getX());
+        coordinates.add(this.getRobotCoords().getY());
+        obj.put("coordinates", coordinates);
         return obj;
     }
 }

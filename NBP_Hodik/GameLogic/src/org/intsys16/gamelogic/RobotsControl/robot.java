@@ -38,7 +38,7 @@ public class robot extends Field_object{
     public int HP;
     public Direction dir;
     public Scores score;
-    Unit robo;
+    public Unit robo;
     Map <String, ArrayList<String>> TC; //TC: type-commands
     
     
