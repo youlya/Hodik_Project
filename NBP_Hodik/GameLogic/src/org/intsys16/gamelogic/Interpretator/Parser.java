@@ -38,7 +38,8 @@ public class Parser {
 
     public static ArrayList<String> alphabet = new ArrayList();
     ArrayList<String> readedText = new ArrayList();
-    ArrayList<CMD> cmdList = new ArrayList();
+    ArrayList<CMD> cmdList = new ArrayList(); //команды на выполнение
+    ArrayList<CMD> commands = new ArrayList<CMD>(); //все возможные команды
     String status="";
     BufferedReader br = null;
     File file = null;
@@ -65,11 +66,36 @@ public class Parser {
        public static void initAlphabet() {
             alphabet.add("Step");
             alphabet.add("Rotate");
-             alphabet.add("Left");
+            alphabet.add("Left");
             alphabet.add("Right");
             alphabet.add("Forward"); 
             alphabet.add("Turn");
-           
+            alphabet.add("Help");
+       }
+       
+       
+       public static void initRobotAlphabet(robot robot){
+           //в теории должно работать
+           //на будущее для разных наборов команд для разных роботов
+           //пропишите, кто там роботами занимается, им toString()
+           //или еще что-нибудь, что можно будет достать и точно определить тип робота
+           switch(robot.toString()) {
+               case "Hodik":
+                   initAlphabet();
+                   break;
+               case "Something else":
+                   initAlphabet();
+                   alphabet.add("1");
+                   alphabet.add("2");
+                   break;
+               case "One more type":
+                   initAlphabet();
+                   alphabet.add("3");
+                   alphabet.add("4");
+                   break;
+               default:
+                   initAlphabet();             
+           }
        }
  
     public static ArrayList<String> getAlphabet()
@@ -77,8 +103,20 @@ public class Parser {
         initAlphabet();
         return alphabet;
     }
+    
     public ArrayList<CMD> getList(){
         return cmdList;
+    }
+    
+    public ArrayList<CMD> getCommands()
+    {//отсутствие изначально задуманных единых конструкторов для команд 
+     //не позволяет нормально реализовать через приведение типов
+     //так что как есть
+        commands.add(new Step(currRobot));
+        commands.add(new Rotate("left", currRobot));
+        commands.add(new Help());
+        commands.add(new UnknownCommand());    
+        return commands;
     }
     
     final void openFile(String filePath) {
@@ -138,7 +176,10 @@ public class Parser {
                     cmdList.add(result);
                     continue;
                 }
-                
+                if (buffer.get(i).equals("Help")){
+                    result = new Help();
+                    cmdList.add(result);
+                } 
                 if (buffer.get(i).equals("Rotate") || (buffer.get(i).equals("Turn"))) {
                     String tag = buffer.get(i + 1);
                     

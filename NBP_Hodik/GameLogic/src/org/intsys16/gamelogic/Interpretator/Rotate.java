@@ -72,5 +72,9 @@ public class Rotate implements CMD
         }
         return "TURN_"+direction.toUpperCase();
     }
+    public String Help()
+    {
+        return "%Rotate% + %direction% + %angle% - rotation by a predetermined angle";
+    }
 }
    

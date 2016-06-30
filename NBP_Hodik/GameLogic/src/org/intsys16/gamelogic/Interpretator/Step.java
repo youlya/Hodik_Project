@@ -42,4 +42,8 @@ public class Step implements CMD {
         GraphicMapAPI.getGraphicMap().setStepScore(currRobot.score.get_Stepsc());
         return "stepTo " + X + " " + Y + " " + dir.name();
     }
+    public String Help()
+    {
+        return "%Step% - takes a step in the current direction";
+    }
 }
