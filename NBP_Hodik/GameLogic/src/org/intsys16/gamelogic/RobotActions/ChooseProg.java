@@ -5,6 +5,7 @@
  */
 package org.intsys16.gamelogic.RobotActions;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.*;
@@ -36,7 +37,7 @@ public final class ChooseProg implements ActionListener  {
 
     private final AbstractProgram context;
     private final ImageIcon icon = createImageIcon("robot.png","ROBOT");
-  //  private final ImageIcon item = createImageIcon("Item.png","Item");
+ // private final ImageIcon item = createImageIcon("Item.png","Item");
     public ChooseProg(AbstractProgram context) {
         this.context = context;
     }
@@ -45,9 +46,10 @@ public final class ChooseProg implements ActionListener  {
     public void actionPerformed(ActionEvent ev) {
           try{
               String[] choices = { "A", "B", "C", "D", "E", "F" };
-
+ 
     String input = (String) JOptionPane.showInputDialog(null, "Choose",
         "Program choosing", JOptionPane.QUESTION_MESSAGE, icon,  choices, choices[0]); 
+ 
         } 
          catch (Exception err) {
       
@@ -69,15 +71,7 @@ public final class ChooseProg implements ActionListener  {
 }
 }
     
-//private class GeneratingItems extends LayerGeneratingProcessor {
-//   // @Override
-//    //protected boolean handleProcess(Set set, RoundEnvironment env) 
-//        //    throws LayerGenerationException {
-//        //Elements elements = processingEnv.getElementUtils();
-//        //File f = layer(env).file();   
-//        
-//        return true;
-//    }
+
 
     
 

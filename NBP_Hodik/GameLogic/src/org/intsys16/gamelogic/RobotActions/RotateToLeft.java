@@ -46,8 +46,7 @@ public final class RotateToLeft implements ActionListener {
         //throw new ExceptionA("I am Exception Alpha!");
         } 
          catch (Exception err) {
-           //Exceptions.printStackTrace(err);
-           java.util.logging.Logger.getLogger(getClass().getName()).log(Level.SEVERE, 
+            java.util.logging.Logger.getLogger(getClass().getName()).log(Level.SEVERE, 
                 err.getMessage(), getClass().getName());
         }
     }

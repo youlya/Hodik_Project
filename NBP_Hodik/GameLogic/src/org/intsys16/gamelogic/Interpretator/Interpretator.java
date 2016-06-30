@@ -138,7 +138,7 @@ public class Interpretator implements ActionListener{
                 else if(result.startsWith("Unknown")){
                     //log.log(Level.SEVERE,"no such command:");
                     //InputOutput io =  IOProvider.getDefault().getIO(Bundle.LBL_Running(), false);
-                    io.getOut().println(Bundle.ERR_NoCommand() + result + "...");
+                    io.getOut().println(/*Bundle.ERR_NoCommand() + */result + "...");
                     //io.getOut().close();
                     //runNextCMD();
                 }
