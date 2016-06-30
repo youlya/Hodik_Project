@@ -95,8 +95,7 @@ public class loadSessionJSON {
                 robotsInfo robot = new robotsInfo();
                 JSONObject robotJSON = (JSONObject) robots.get(i);
                 robot.setRobotName((String) robotJSON.get("robotName"));
-                robot.setRobotDirection(UP);
-//                robot.setRobotDirection((Direction) robotJSON.get("direction"));
+                robot.setRobotDirection((Direction) robotJSON.get("direction"));
                 robot.setRobotHealth((int) robotJSON.get("health"));
                 Scores score = new Scores();
                 score.setEat_sc((int) robotJSON.get("nyam"));
