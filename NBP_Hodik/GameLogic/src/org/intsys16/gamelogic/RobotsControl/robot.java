@@ -67,6 +67,9 @@ public class robot extends Field_object{
         System.out.println("HP: " + HP);
     };
 
+    
+    //геттеры всего, чего только можно
+    
     @Override
     public String getActtype() {
         return robo.name;
@@ -75,18 +78,54 @@ public class robot extends Field_object{
     @Override
     public int getDamage() { return 0;}//по умолчанию урон = 0
     
+    @Override
+    public Coordinate getCoord()
+    {
+        return super.getCoord();
+    }
+    
+    
+    public String getName(){
+        
+        return robo.name;
+    }
+    
+    
+    public int getHP(){
+        return HP;
+    }
+    
+    
+    public Direction getDir(){
+        return dir;
+    }
+    
+    
+    public Scores getScore(){
+        return score;
+    }
+    
+    public Map getTypes(){
+        return TC;
+    }
+    
+    public ArrayList getAllRobots(){
+        return robo.robots;
+    }
     
      public String getType(){
         return "base";
     }//по умолчанию вернем базовый тип, в котором нет установленных команд
     
+     
+     
     public void formate(){
         
         ArrayList<String> com;
         
             try {
             // Строим объектную модель исходного XML файла
-            File xmlFile = new File("GameLogic\\src\\org\\intsys16\\gamelogic\\RobotsControl\\robots.xml");
+            File xmlFile = new File("GameLogic\\src\\org\\intsys16\\gamelogic\\RobotsControl\\robots.xml"); 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(xmlFile);
