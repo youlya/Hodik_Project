@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -32,8 +33,13 @@ public class Rotate implements CMD
         return Rotate();
     }
     
+    public String firstUpperCase(String word){ //забейте, так надо
+        if(word == null || word.isEmpty()) return "";//или return word;
+        return word.substring(0, 1).toUpperCase() + word.substring(1);
+}
     public String Rotate()
     {
+        direction = firstUpperCase(direction);
         switch(direction){
 //            case "up":
 //                dir=Direction.UP;
@@ -71,6 +77,10 @@ public class Rotate implements CMD
 //                break;
         }
         return "TURN_"+direction.toUpperCase();
+    }
+    public String Help()
+    {
+        return "%Rotate% + %direction% + %angle% - rotation by a predetermined angle";
     }
 }
    
