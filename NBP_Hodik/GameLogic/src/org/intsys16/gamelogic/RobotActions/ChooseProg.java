@@ -9,7 +9,10 @@ package org.intsys16.gamelogic.RobotActions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.intsys16.GameObjectUtilities.AbstractProgram;
+import org.intsys16.integrator.api.Integrator;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
@@ -45,10 +48,13 @@ public final class ChooseProg implements ActionListener  {
     @Override
     public void actionPerformed(ActionEvent ev) {
           try{
-              String[] choices = { "A", "B", "C", "D", "E", "F" };
+              ObservableList<String> programs = FXCollections.observableArrayList( 
+                Integrator.getIntegrator().getRobotProgramsTitles(""));//robot name in this integrator method is not used
  
     String input = (String) JOptionPane.showInputDialog(null, "Choose",
-        "Program choosing", JOptionPane.QUESTION_MESSAGE, icon,  choices, choices[0]); 
+        "Run program", JOptionPane.QUESTION_MESSAGE, icon,  programs.toArray(), programs.toArray()[0]); 
+    Integrator.getIntegrator().launchProgram("_resources\\robots\\programs\\"+ 
+            input.substring(1, input.length()));
  
         } 
          catch (Exception err) {
