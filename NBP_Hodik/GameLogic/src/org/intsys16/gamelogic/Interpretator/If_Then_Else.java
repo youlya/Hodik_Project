@@ -25,6 +25,9 @@ public class If_Then_Else implements CMD {
     public String Run() {
         return If_Then_Else();
     }
+    public String Help(){
+        return "if_then_else";
+    }
     public String If_Then_Else(){
         if(_if){
             String res1=_then.Run();

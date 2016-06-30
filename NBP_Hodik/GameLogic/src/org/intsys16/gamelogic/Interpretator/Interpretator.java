@@ -128,6 +128,13 @@ public class Interpretator implements ActionListener{
                             result.substring(6, result.length()-4).toLowerCase() + "...");   
                     //move(MOVE_+currRobot.dir.name());
                 }
+                else if(result.startsWith("Help")){
+                    ArrayList<CMD> helpList = parser.getCommands();
+                    Iterator<CMD> helpIterator = helpList.iterator();
+                    for(int i = 0; i<helpList.size(); i++){
+                        io.getOut().println(helpIterator.next().Help());
+                    }
+                }
                 else if(result.startsWith("Unknown")){
                     //log.log(Level.SEVERE,"no such command:");
                     //InputOutput io =  IOProvider.getDefault().getIO(Bundle.LBL_Running(), false);

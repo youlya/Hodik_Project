@@ -10,8 +10,8 @@ package org.intsys16.gamelogic.Interpretator;
  * @author micen
  */
 public interface CMD {
-    
     public String Run();
+    public String Help();
 }
 //аргументы для RUN
 //контексты выполнения

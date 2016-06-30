@@ -83,4 +83,5 @@ public class Rotate implements CMD
         return "%Rotate% + %direction% + %angle% - rotation by a predetermined angle";
     }
 }
+
    
