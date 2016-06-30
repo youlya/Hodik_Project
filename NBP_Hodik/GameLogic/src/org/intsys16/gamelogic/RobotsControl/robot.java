@@ -219,5 +219,10 @@ public class robot extends Field_object{
         
         return obj;
     }
+
+    @Override
+    public ArrayList<Field_object> getObjects() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
 

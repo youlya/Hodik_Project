@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package org.intsys16.gamelogic.RobotsControl;
+import java.util.ArrayList;
 import org.intsys16.gamelogic.FieldControl.Field_object;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
@@ -92,6 +93,11 @@ public class Obstacles extends Field_object {
         obj.addObst(obstacle);
         
         return obj;
+    }
+
+    @Override
+    public ArrayList<Field_object> getObjects() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
 

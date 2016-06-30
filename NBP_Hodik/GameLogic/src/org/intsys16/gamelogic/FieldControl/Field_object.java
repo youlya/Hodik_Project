@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package org.intsys16.gamelogic.FieldControl;
+import java.util.ArrayList;
 import org.intsys16.gamelogic.Interpretator.Interpretator;
 import org.intsys16.integrator.api.Integrator;
 import org.intsys16.gamelogic.XMLParser.XMLobject;
@@ -58,6 +59,7 @@ public abstract class Field_object {
     abstract public String getActtype();
     abstract public int getDamage();
     abstract public XMLobject toXML(XMLobject obj);
+    abstract public ArrayList<Field_object> getObjects();
     
     public void interact(robot gr){};
 }

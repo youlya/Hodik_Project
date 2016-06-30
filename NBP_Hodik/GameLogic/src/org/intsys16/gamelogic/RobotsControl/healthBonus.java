@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package org.intsys16.gamelogic.RobotsControl;
+import java.util.ArrayList;
 import org.intsys16.gamelogic.Interpretator.Interpretator;
 import org.intsys16.gamelogic.FieldControl.Field_object;
 import org.intsys16.gamelogic.FieldControl.Field;
@@ -63,6 +64,11 @@ public class healthBonus extends Field_object {
     {
         //доделать
         return obj;
+    }
+
+    @Override
+    public ArrayList<Field_object> getObjects() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
 

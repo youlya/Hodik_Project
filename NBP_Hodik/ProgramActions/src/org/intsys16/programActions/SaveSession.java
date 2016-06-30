@@ -12,6 +12,7 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
+import org.intsys16.integrator.api.Integrator;
 
 @ActionID(
         category = "Edit",
@@ -33,6 +34,6 @@ public final class SaveSession implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent ev) {
-        // TODO use context
+        Integrator.getIntegrator().saveCurrentSession();
     }
 }

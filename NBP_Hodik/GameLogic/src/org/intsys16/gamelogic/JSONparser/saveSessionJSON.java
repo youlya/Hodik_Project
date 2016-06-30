@@ -52,10 +52,7 @@ public class saveSessionJSON {
         mapNumber = m;
     }
     public void saveSession (){
-//        Date date = new Date() ;
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-//        sessionName = dateFormat.format(date);
-        File file = new File("_resources\\sessions" + sessionName + ".json");
+        File file = new File("_resources\\sessions\\" + sessionName + ".json");
         JSONObject session = new JSONObject();
         session.put("sessionName", sessionName);
         session.put("mapName", mapNumber);

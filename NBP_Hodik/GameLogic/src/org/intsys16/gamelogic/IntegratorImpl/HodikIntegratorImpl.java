@@ -37,11 +37,14 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import javax.swing.JOptionPane;
+import org.intsys16.gamelogic.FieldControl.Field_object;
 import org.intsys16.gamelogic.JSONparser.mobsInfo;
 import org.intsys16.gamelogic.JSONparser.obstaclesInfo;
 import org.intsys16.gamelogic.JSONparser.robotsInfo;
 import org.intsys16.gamelogic.JSONparser.saveSessionJSON;
 import org.intsys16.gamelogic.JSONparser.loadSessionJSON;
+import org.intsys16.gamelogic.RobotsControl.Obstacles;
 /**
  *
  * @author Julia
@@ -116,12 +119,19 @@ public class HodikIntegratorImpl extends Integrator {
     }
         @Override
     
-    public ObservableList<String> getSessionTitles() { 
-        Random rand = new Random(currentTimeMillis());
-        ObservableList<String> sessions = FXCollections.observableArrayList(); 
-        String session = Bundle.CTL_Session();
-            for (int i = 0; i < 3; i++)
-                sessions.add(session + currentTimeMillis()/ (rand.nextInt(20) + 10));
+    public ObservableList<String> getSessionTitles() {
+        File f = new File("_resources\\sessions");
+        ObservableList<String> sessions = FXCollections.observableArrayList();
+        MyFileFilter filter = new MyFileFilter();
+        try {
+            String program = Bundle.CTL_Program();
+            File[] list = f.listFiles();
+            for(int i = 0; i<list.length; i++) {
+                sessions.add(" " + list[i].toString().substring(list[i].toString().lastIndexOf("\\")+1, list[i].toString().length()));
+            }            
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
         return sessions;
     }  
      /* public ObservableList<String> getRobotProgramsTitles(String robotName) { // составление рандомных названий для программ, оставлю на всякий случай
@@ -198,26 +208,36 @@ public class HodikIntegratorImpl extends Integrator {
         
     }
     @Override
-    public void loadSavedSession(String xmlMapName) {
-        try {
-            logger.log(Level.INFO, "Loading saved session [{0}]...", 
-                    xmlMapName);
-            load.getDocument(xmlMapName);
-            Info i= load.getInfo();
-            level = i.levelNumber;
-            List<mobInfo> mob = new ArrayList();
-            mob=i.getMobs();
-            Unit u = new Unit(i.robotName);
+    public void loadSavedSession(String JSONfileName) {
+        loadSessionJSON obj = new loadSessionJSON();
+        obj.loadSession(JSONfileName);
+        level = obj.getMapNumber();
+        List<mobsInfo> mobList = new ArrayList();
+        List<obstaclesInfo> obstacleList = new ArrayList();
+        List<robotsInfo> robotList = new ArrayList();
+        mobList = obj.getMobs();
+        obstacleList = obj.getObstacles();
+        robotList = obj.getRobots();
+        Field F = new Field();
+        fields.add(F);
+        for (int i = 0; i < robotList.size(); i++) {
+            Unit u = new Unit(robotList.get(i).getRobotName());
             units.add(u);
-            Coordinate c = new Coordinate(i.getX(), i.getY());
-            Direction d=Direction.UP;
-            Field F = new Field();
-            fields.add(F);
-            Scores s = i.score;
-            units.get(0).add_robot(F, interp, c, d, i.HP, s);
-        } catch (Exception ex) {
-            //Exceptions.printStackTrace(ex);
-            logger.log(Level.SEVERE, "ERROR: failed to load document", ex);
+            Coordinate coords = new Coordinate();
+            coords = robotList.get(i).getRobotCoords();
+            Direction dir = robotList.get(i).getRobotDirection();
+            Scores score = robotList.get(i).getRobotScore();
+            int health = robotList.get(i).getRobotHealth();
+            units.get(i).add_robot(F, interp, coords, dir, health, score);
+        }
+        for (int i = 0; i < obstacleList.size(); i++) {
+            Coordinate coords = new Coordinate();
+            coords = obstacleList.get(i).getObsCoords();
+            int damage = obstacleList.get(i).getObsDamage();
+            Obstacles obs = new Obstacles (F, coords, damage);
+        }
+        for (int i = 0; i < mobList.size(); i++) {
+            //заглушка для добавления плохих роботов
         }
     }
     @Override
@@ -228,27 +248,42 @@ public class HodikIntegratorImpl extends Integrator {
         Coordinate coordinates = new Coordinate();
         coordinates.setX(0);
         coordinates.setY(0);
-        
         List<mobsInfo> mobList = new ArrayList();
-        mobsInfo mob = new mobsInfo("actType", 100, coordinates);
-        mobList.set(0, mob);
-        
         List<obstaclesInfo> obstacleList = new ArrayList();
-        obstaclesInfo obstacle = new obstaclesInfo(100, coordinates);
-        obstacleList.set(0, obstacle);
-        
         List<robotsInfo> robotList = new ArrayList();
-        robotsInfo robot = new robotsInfo("hodik", coordinates, getCurrentRobot().dir, getCurrentRobot().HP, getCurrentRobot().score);
-        robotList.set(0, robot);
+        Field fieldObj = getCurrentField();
+        List <Field_object> objects = fieldObj.getObjects();
+        for (int i = 0; i < objects.size(); i++){
+            /*
+            эта хрень с if-ами ужасна. 
+            она такая для того, чтобы отделить мобов от препятствий. 
+            в будущем сделайте ровно, плизки 
+            */
+            if (!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("robot")){
+                if ((!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("obstacles")) &&
+                    (!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("Stone")) &&
+                    (!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("Liquid")) &&
+                    (!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("Pit"))){
+                        mobsInfo mob = new mobsInfo(objects.get(i).getActtype(), objects.get(i).getDamage(), objects.get(i).getCoord());
+                        mobList.add(mob);
+                }
+                else {
+                    obstaclesInfo obstacle = new obstaclesInfo(objects.get(i).getDamage(), objects.get(i).getCoord());
+                    obstacleList.add(obstacle);
+                }                
+            }
+            else {
+//                robotsInfo robot = new robotsInfo(getCurrentRobot().getName(), getCurrentRobot().getCoord(), getCurrentRobot().getDir(), getCurrentRobot().getHP(), getCurrentRobot().getScore());
+//                robotList.add(robot);
+            }
+        }              
+        robotsInfo robot = new robotsInfo(getCurrentRobot().getName(), getCurrentRobot().getCoord(), getCurrentRobot().getDir(), getCurrentRobot().getHP(), getCurrentRobot().getScore());
+        robotList.add(robot);
         
         saveSessionJSON obj = new saveSessionJSON (map, mobList, obstacleList, robotList);
         obj.saveSession();
-//        XMLobject obj = new XMLobject();
-//        obj.setcurrLevel(level);
-//        obj = this.getCurrentRobot().toXML(obj);        //good_robot
-//        obj = this.getCurrentField().toXML(obj);        //собрать мобов и препятствия
-//        obj = this.getCurrentRobot().score.toXML(obj);  //забрать счет
-        //сохранение программ для робота?
+        
+        JOptionPane.showMessageDialog(null, "Session saved");
     }
     @Override
     public Field getCurrentField() {

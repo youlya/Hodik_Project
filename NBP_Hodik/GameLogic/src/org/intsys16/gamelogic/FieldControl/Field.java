@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package org.intsys16.gamelogic.FieldControl;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import org.intsys16.gamelogic.XMLParser.XMLobject;
 /**
  *
@@ -60,6 +62,14 @@ public class Field
     public int getHeight()
     {
         return this.height;
+    }
+    public List<Field_object> getObjects(){
+        List <Field_object> objects = new ArrayList();
+        for (Field_object o : hex.values()) 
+        {
+            objects.add(o);
+        }
+        return objects;
     }
     
     public XMLobject toXML(XMLobject obj)
