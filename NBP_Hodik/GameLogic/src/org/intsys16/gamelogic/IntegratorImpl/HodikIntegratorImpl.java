@@ -95,28 +95,27 @@ public class HodikIntegratorImpl extends Integrator {
         return robotsNames;
     }
      @Override
-       public ObservableList<String> getRobotProgramsTitles(String robotName) { 
-            /*class MyFileFilter implements FileFilter {
-            public boolean accept(File pathname) 
-            {
-                // проверям, что это файл и что он заканчивается на .txt 
-               return pathname.isFile() && pathname.getName().endsWith(".txt");
-            }
-        } */
-        File f = new File("_resources\\robots\\programs");
-        ObservableList<String> programs = FXCollections.observableArrayList();
-        MyFileFilter filter = new MyFileFilter();
-        try {
-            String program = Bundle.CTL_Program();
-            File[] list = f.listFiles(filter);
-            for(int i = 0; i<list.length; i++) {
-                programs.add(program + " " + list[i]);
-            }            
-        } catch (Exception ex) {
-            Exceptions.printStackTrace(ex);
+       public ObservableList<String> getRobotProgramsTitles(String robotName) {  
+        class MyFileFilter implements FileFilter { 
+        public boolean accept(File pathname) 
+        { 
+        // проверям, что это файл и что он заканчивается на .txt 
+        return pathname.isFile() && pathname.getName().endsWith(".txt"); 
+        } 
+        } 
+        File f = new File("_resources\\robots\\programs"); 
+        ObservableList<String> programs = FXCollections.observableArrayList(); 
+        String program = Bundle.CTL_Program(); 
+        MyFileFilter filter = new MyFileFilter(); 
+        File[] list = f.listFiles(filter);  
+        for(int i = 0; i<list.length; i++) { 
+
+        programs.add( " " + list[i].toString().substring(list[i].toString().lastIndexOf("\\")+1, list[i].toString().length())); 
+
+        } 
+
+        return programs; 
         }
-        return programs;
-    }
         @Override
     
     public ObservableList<String> getSessionTitles() {

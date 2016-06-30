@@ -31,7 +31,7 @@ public class UnknownCommand implements CMD {
         return Error();
     }
     public String Error() {
-        String Error = ("Unknown" + errorLog + missedArgument + sep);
+        String Error = ("Unknown" + " Command: " + errorLog + missedArgument + sep);
         return Error;
     }
     public String Help() {
