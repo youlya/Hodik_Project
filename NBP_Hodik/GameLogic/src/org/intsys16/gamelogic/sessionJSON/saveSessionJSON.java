@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.intsys16.gamelogic.JSONparser;
+package org.intsys16.gamelogic.sessionJSON;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -81,7 +81,7 @@ public class saveSessionJSON {
             writer.close();
             System.out.println("Файл сохранен!");
         } catch (IOException ex) {
-            Logger.getLogger(org.intsys16.gamelogic.JSONparser.saveSessionJSON.class.getName())
+            Logger.getLogger(org.intsys16.gamelogic.sessionJSON.saveSessionJSON.class.getName())
                     .log(Level.SEVERE, null, ex);
         }
     }    

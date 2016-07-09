@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.intsys16.gamelogic.JSONparser;
+package org.intsys16.gamelogic.sessionJSON;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

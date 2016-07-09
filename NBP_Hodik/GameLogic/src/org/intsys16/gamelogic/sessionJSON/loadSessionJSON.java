@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.intsys16.gamelogic.JSONparser;
+package org.intsys16.gamelogic.sessionJSON;
 
 import java.io.File;
 import java.io.FileReader;
@@ -58,9 +58,9 @@ public class loadSessionJSON {
         return robotList;
     }
     public void loadSession(String JSONfileName){
-        JSONParser parser = new JSONParser();
-        Object obj;
         try {
+            JSONParser parser = new JSONParser();
+            Object obj;
             FileReader f = new FileReader("_resources\\sessions\\" + JSONfileName.substring(1, JSONfileName.length()));
             obj = parser.parse(f);
             JSONObject session = (JSONObject) obj;

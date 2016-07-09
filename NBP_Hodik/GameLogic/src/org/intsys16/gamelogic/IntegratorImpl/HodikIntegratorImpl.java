@@ -39,11 +39,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import org.intsys16.gamelogic.FieldControl.Field_object;
-import org.intsys16.gamelogic.JSONparser.mobsInfo;
-import org.intsys16.gamelogic.JSONparser.obstaclesInfo;
-import org.intsys16.gamelogic.JSONparser.robotsInfo;
-import org.intsys16.gamelogic.JSONparser.saveSessionJSON;
-import org.intsys16.gamelogic.JSONparser.loadSessionJSON;
+import org.intsys16.gamelogic.sessionJSON.mobsInfo;
+import org.intsys16.gamelogic.sessionJSON.obstaclesInfo;
+import org.intsys16.gamelogic.sessionJSON.robotsInfo;
+import org.intsys16.gamelogic.sessionJSON.saveSessionJSON;
+import org.intsys16.gamelogic.sessionJSON.loadSessionJSON;
 import org.intsys16.gamelogic.RobotsControl.Obstacles;
 /**
  *
