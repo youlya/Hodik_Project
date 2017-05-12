@@ -113,7 +113,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
     }
 
     @Override
-    public void setBumbedInto(int num) {
+    public void setBumpedInto(int num) {
         Platform.setImplicitExit(false);
         Platform.runLater(() -> {
             gMap.textBI.setText(Bundle.Text_Obstacles() + ": " + num);
