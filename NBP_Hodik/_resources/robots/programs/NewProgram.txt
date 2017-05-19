@@ -1,4 +1,7 @@
  
 Step
+Rotate Left 90
 Step
 Step
+Rotate Left 90
+Rotate Right 90

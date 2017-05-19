@@ -321,6 +321,9 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         private ImageView gr_iv = null;
         private final int rows;
         private final Coordinate gr_pos;
+        //20170505 IrinaLapshina
+       //private final Direction gr_direction;
+        ///
         private robot good_r;
         private boolean robot_moving = false, move_from_key = false;
         private int dirx = 0, diry = 0;
@@ -468,6 +471,8 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             cell_width = (width - (rows + 1) * border_width) / rows;
             int dr = (rows_count_even ? rows / 2 - 1 : rows / 2);
             gr_pos = gr.getCoord();
+            ///20170505 IrinaLapshina 
+            //gr_direction = 
             dx = dr + gr_pos.getX();
             dy = dr + gr_pos.getY();
             f.getHex().put(gr_pos, gr);
