@@ -28,7 +28,7 @@ public class Obstacles extends Field_object {
     public void interact(robot gr)
     {
         gr.score.setObs_sc(gr.score.getObs_sc() + 1);
-        GraphicMapAPI.getGraphicMap().setBumbedInto(gr.score.getObs_sc());
+        GraphicMapAPI.getGraphicMap().setBumpedInto(gr.score.getObs_sc());
         gr.HP-=damage;
     }
     
