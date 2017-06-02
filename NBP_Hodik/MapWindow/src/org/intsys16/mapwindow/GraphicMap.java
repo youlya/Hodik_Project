@@ -93,6 +93,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
     private final double panel_width = 90;
     private final FileChooser fileChooser = new FileChooser();
     private GraphicMap gMap;
+    private int upperBorder = -2, leftBorder = -2, bottomBorder = 2, rightBorder = 2;
 
     static public enum Objects {
 
@@ -552,23 +553,19 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         }
 
         private boolean atUpperEdge() {
-            return (move_from_key ? gr_pos.getY() == 0 - dy :
-                        gr_pos.getY() + 1 == 0 - dy);
+            return(gr_pos.getY()==upperBorder);
         }
 
         private boolean atBottomEdge() {
-            return (move_from_key ? gr_pos.getY() == rows - 1 - dy: 
-                        gr_pos.getY() - 1 == rows - 1 - dy);
+            return(gr_pos.getY()==bottomBorder);
         }
 
         private boolean atLeftEdge() {
-            return (move_from_key ? gr_pos.getX() == 0 - dx :
-                        gr_pos.getX() + 1 == 0 - dx);
+            return(gr_pos.getX()==leftBorder);
         }
 
         private boolean atRightEdge() {
-            return (move_from_key ? gr_pos.getX() == rows - 1 - dx: 
-                        gr_pos.getX() - 1== rows - 1 - dx);
+            return(gr_pos.getX()==rightBorder);
         }
 
         private void drawCells() {
@@ -619,10 +616,13 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     deleteInvisibleCells(dirx, diry);
                 }
                 robot_moving = false;
+                //Далее идут действия-движения - движение происходит без смещения камеры (перемещается Ходик) или с (перемещается само поле) - с robot_moving = true или без соот-но.
+                //Двигайте камеру, а не Ходика, когда он подходит к границам центрального квадрата 3х3 или 4х4 (как решите, я оставляю 3х3), чтоб он всегда был в центре поля или около него (тот самый квадрат).
                 if (act == Actions.MOVE_DOWN) {
                     if ((play_mode && atBottomEdge()) || !play_mode) {
-
                         moveUp();
+                        upperBorder++;
+                        bottomBorder++;
                     } else {
                         robot_moving = true;
                         moveDown();
@@ -630,12 +630,17 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                 } else if (act == Actions.MOVE_UP) {
                     if ((play_mode && atUpperEdge()) || !play_mode) {
                         moveDown();
+                        upperBorder--;
+                        bottomBorder--;
                     } else {
                         robot_moving = true;
                         moveUp();
                     }
                 } else if (act == Actions.MOVE_RIGHT) {
+                    moveLeft();
                     if ((play_mode && atRightEdge()) || !play_mode) {
+                        leftBorder++;
+                        rightBorder++;
                         moveLeft();
                     } else {
                         robot_moving = true;
@@ -643,6 +648,8 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     }
                 } else if (act == Actions.MOVE_LEFT) {
                     if ((play_mode && atLeftEdge()) || !play_mode) {
+                        leftBorder--;
+                        rightBorder--;
                         moveRight();
                     } else {
                         robot_moving = true;
@@ -743,7 +750,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                 }
             });
             moveBoard(0, -1);
-            if (robot_moving) {
+           if (robot_moving) {
                 if (move_from_key) {
                     gr_pos.y--;
                 }
