@@ -35,7 +35,7 @@ public class loadSessionJSON {
     private String sessionName;
     private int mapNumber; //номер планеты
     List<mobsInfo> mobList = new ArrayList();
-    List<obstaclesInfo> obstacleList = new ArrayList();
+    List<FieldObjectsInfoExceptRobot> obstacleList = new ArrayList();
     List<robotsInfo> robotList = new ArrayList();
     public loadSessionJSON(){
         
@@ -55,7 +55,7 @@ public class loadSessionJSON {
     public List<mobsInfo> getMobs() {
         return mobList;
     }
-    public List<obstaclesInfo> getObstacles() {
+    public List<FieldObjectsInfoExceptRobot> getObstacles() {
         return obstacleList;
     }
     public List<robotsInfo> getRobots() {
@@ -101,12 +101,17 @@ public class loadSessionJSON {
             JSONArray obstacles = new JSONArray();            
             obstacles = (JSONArray) session.get("obstacles");
             for (int i = 0; i < obstacles.size(); i++) {
-                obstaclesInfo obstacle = new obstaclesInfo();
+                FieldObjectsInfoExceptRobot obstacle = new FieldObjectsInfoExceptRobot();
                 JSONObject obstacleJSON = (JSONObject) obstacles.get(i);
+<<<<<<< Updated upstream
                 obstacle.setObsDamage((int)(long)obstacleJSON.get("health"));
+=======
+                ///obstacle.setObsDamage((int)(long)obstacleJSON.get("changeHPSize"));
+>>>>>>> Stashed changes
                 JSONArray coordinates = (JSONArray) obstacleJSON.get("coordinates");
                 Coordinate c = new Coordinate ((int) (long) coordinates.get(0), (int)(long)coordinates.get(1));
                 obstacle.setObsCoords(c);
+                obstacle.setClassname((String) obstacleJSON.get("className"));
                 obstacleList.add(obstacle);
             }
             JSONArray robots = new JSONArray();

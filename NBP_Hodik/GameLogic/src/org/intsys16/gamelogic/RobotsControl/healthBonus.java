@@ -26,7 +26,7 @@ public class healthBonus extends Field_object {
         super (a,in,coord);
         this.hp=hp;        
     };
-    
+
     @Override
     public void interact (robot gr)
     { 
@@ -55,6 +55,7 @@ public class healthBonus extends Field_object {
     
     @Override
     public int getDamage() {
+        //return hp; 
         //return -hp;
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
