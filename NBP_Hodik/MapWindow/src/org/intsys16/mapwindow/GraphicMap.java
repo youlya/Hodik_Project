@@ -7,6 +7,8 @@ package org.intsys16.mapwindow;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.TreeSet;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -93,6 +95,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
     private final double panel_width = 90;
     private final FileChooser fileChooser = new FileChooser();
     private GraphicMap gMap;
+    private  ObstaclesAndBonuses ow = new ObstaclesAndBonuses();
 
     static public enum Objects {
 
@@ -103,7 +106,71 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
 
         TURN_RIGHT, TURN_LEFT, STEP, MOVE_LEFT, MOVE_RIGHT, MOVE_UP, MOVE_DOWN
     }
-
+    
+    private class ObjectsAndWeights
+    {
+        int type_number;
+        Objects obj;
+        double weight;
+        TreeSet <Coordinate> cells = new TreeSet();
+        ObjectsAndWeights()
+        {
+            type_number = 0;
+            obj = Objects.EMPTY;
+            weight = 0;
+        }
+        void SetObjectsAndWeights(int tn, Objects o, double w)
+        {
+            type_number = tn;
+            obj = o;
+            weight = w;
+        }
+    }
+    public class ObstaclesAndBonuses
+    {
+        ArrayList <ObjectsAndWeights> info = new ArrayList();
+        ObstaclesAndBonuses()
+        {
+            ObjectsAndWeights ow = new ObjectsAndWeights();
+            ow.SetObjectsAndWeights(0, Objects.EMPTY, 0);
+            info.add(ow);
+            ObjectsAndWeights ow1 = new ObjectsAndWeights();
+            ow1.SetObjectsAndWeights(1, Objects.PIT, 0.3);
+            info.add(ow1);
+            ObjectsAndWeights ow2 = new ObjectsAndWeights();
+            ow2.SetObjectsAndWeights(2, Objects.STONE, 0.3);
+            info.add(ow2);
+            ObjectsAndWeights ow3 = new ObjectsAndWeights();
+            ow3.SetObjectsAndWeights(3, Objects.LIQUID, 0.3);
+            info.add(ow3);
+            ObjectsAndWeights ow4 = new ObjectsAndWeights();
+            ow4.SetObjectsAndWeights(4, Objects.LARGE_BONUS, 0.1);
+            info.add(ow4);
+            ObjectsAndWeights ow5 = new ObjectsAndWeights();
+            ow5.SetObjectsAndWeights(5, Objects.MEDIUM_BONUS, 0.25);
+            info.add(ow5);
+            ObjectsAndWeights ow6 = new ObjectsAndWeights();
+            ow6.SetObjectsAndWeights(6, Objects.SMALL_BONUS, 0.4);
+            info.add(ow6);
+            /*ObjectsAndWeights ow7 = new ObjectsAndWeights();
+            ow7.SetObjectsAndWeights(7, Objects.BAD_ROBOT, 0.15);
+            info.add(ow7);*/
+        }
+        Objects getObjectFromIndex(int Index)
+        {
+            return info.get(Index).obj;
+        }
+        void ChangeWeight(int ObjectType, double NewWeight) 
+        {
+            info.get(ObjectType).weight = NewWeight;
+        }
+        void AddCoordinateToType(int type, Coordinate c)
+        {
+            info.get(type).cells.add(c);
+        }
+    }
+    /////////////////////////////////
+    
     @Override
     public void setEaten(int num) {
         Platform.setImplicitExit(false);
@@ -662,7 +729,94 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         }
         private int count = 0;
 
-        private void turnRobot(double dir) { //поворот робота
+        public class Poisson 
+        {
+            private final int obstaclesNum;
+            private final List<Triple> obstacles;
+            public Poisson(int width, int height, Double p1, Double p2, Double p3)
+            {
+            int coordX;
+            int coordY;
+            int obstacleType;
+            int volume = width*height;
+            double density = 0.1*volume;
+            double sum = 0.0;
+            double summand = Math.exp(-density);
+            int ndx;
+            double proba = Math.random();
+            for (ndx = 0; ndx < volume; ndx++){
+                sum += summand;
+                if (proba <= sum){
+                    break;
+                }                   
+                summand *= (density/(ndx+1));
+            }
+            obstaclesNum = ndx;
+            obstacles = new ArrayList<>();
+            for (ndx = 0; ndx < this.obstaclesNum; ndx++)
+            {
+                coordX = (int)(Math.random()* (width));
+                coordY = (int)(Math.random()* (height));
+                proba = Math.random();
+                if (proba < p1) obstacleType = 1;
+                else if (proba < p1 + p2) obstacleType = 2;
+                else if (proba < p1 + p2 + p3) obstacleType = 3;
+                else obstacleType = 4;
+                obstacles.add(new Triple(coordX, coordY, obstacleType));
+            }               
+        }
+    
+        public int GetObstaclesNum()
+        { 
+            return obstaclesNum; 
+        }
+
+        public int GetXAt(int ndx) 
+        { 
+            Triple obstacle = obstacles.get(ndx);
+            return obstacle.getFirst();
+        }
+
+        public int GetYAt(int ndx) 
+        { 
+            Triple obstacle = obstacles.get(ndx);
+            return obstacle.getSecond();
+        }
+
+        public int GetTypeAt(int ndx) 
+        { 
+            Triple obstacle = obstacles.get(ndx);
+            return obstacle.getThird();
+        }
+
+        private class Triple 
+        {
+            private final int first;
+            private final int second;
+            private final int third;
+
+            public Triple(int first, int second, int third) 
+            {
+                this.first = first;
+                this.second = second;
+                this.third = third;
+            }
+            public int getFirst() 
+            { 
+                return this.first; 
+            }
+            public int getSecond() 
+            {
+                return this.second; 
+            }
+            public int getThird() 
+            { 
+                return this.third; 
+            }
+        }
+    }
+       ///////////////////////////////////////////
+        private void turnRobot(double dir) { 
 
             Timer timer = new Timer();
             double times = 60;
@@ -689,12 +843,13 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             }, 0, 25);
         }
 
-        private void moveDown() throws InterruptedException {
+        private void moveDown() throws InterruptedException { 
             Platform.setImplicitExit(false);
             Platform.runLater(() -> {
                 if (!robot_moving) {
                     ArrayList<Node> na = new ArrayList<>();
-                    for (int j = 0; j < rows; j++) {
+                    for (int j = 0; j < rows; j++) 
+                    {
                         Node r = getCellImage(j, -1);
                         r.setLayoutX(border_width * (j + 1) + cell_width * j);
                         r.setLayoutY(-cell_width);
@@ -705,7 +860,19 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     m.add(0, na);
                     Text t = getNumText(5, -cell_width / 2, "" + getYUp());
                     ya.add(0, t);
-                    Yaxis.getChildren().add(t);
+                    Yaxis.getChildren().add(t);  
+                    Poisson fld = new Poisson(rows,1,0.5,0.25,0.125);
+                    int obstaclesNum = fld.GetObstaclesNum();
+                    int XCoord;
+                    int type;
+                    for (int ndx = 0; ndx < obstaclesNum; ndx++)
+                    {
+                        XCoord = fld.GetXAt(ndx) - dx;
+                        type = fld.GetTypeAt(ndx);
+                        Coordinate c = new Coordinate (XCoord, gr_pos.y);
+                        generateObject_neg(type, c, 0, 1);
+                        ow.AddCoordinateToType(type, c);
+                    }
                 }
             });
             moveBoard(0, 1);
@@ -720,7 +887,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                 }
                 move_from_key = false;
             }
-            reAddGR();
+            reAddGR();            
         }
 
         private void moveUp() throws InterruptedException {
@@ -740,6 +907,18 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     Text t = getNumText(5, width + cell_width / 2, "" + getYDown());
                     ya.add(t);
                     Yaxis.getChildren().add(t);
+                    Poisson fld = new Poisson(rows,1,0.5,0.25,0.125);
+                    int obstaclesNum = fld.GetObstaclesNum();
+                    int XCoord;
+                    int type;
+                    for (int ndx = 0; ndx < obstaclesNum; ndx++)
+                    {
+                        XCoord = fld.GetXAt(ndx) - dx;
+                        type = fld.GetTypeAt(ndx);
+                        Coordinate c = new Coordinate (XCoord, gr_pos.y+1);
+                        generateObject_pos(type, c);
+                        ow.AddCoordinateToType(type, c);
+                    }
                 }
             });
             moveBoard(0, -1);
@@ -751,10 +930,10 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             } else if (play_mode) {
                 if (move_from_key) {
                     gr_pos.y++;
-                }
+                    }
                 move_from_key = false;
             }
-            reAddGR();
+            reAddGR();           
         }
 
         private void moveRight() throws InterruptedException {
@@ -768,12 +947,23 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                         r.setLayoutY(border_width * (i + 1) + cell_width * i);
                         m.get(i).add(0, r);
                         map.getChildren().add(r);
-                        
                     }
                     dx++;
                     Text t = getNumText(-cell_width / 2, 5, "" + getXLeft());
                     xa.add(0, t);
                     Xaxis.getChildren().add(t);
+                    Poisson fld = new Poisson(1,rows,0.5,0.25,0.125);
+                    int obstaclesNum = fld.GetObstaclesNum();
+                    int YCoord;
+                    int type;
+                    for (int ndx = 0; ndx < obstaclesNum; ndx++)
+                    {
+                        YCoord = fld.GetYAt(ndx) - dy;
+                        type = fld.GetTypeAt(ndx);
+                        Coordinate c = new Coordinate (gr_pos.x, YCoord);
+                        generateObject_neg(type, c, 1, 0);
+                        ow.AddCoordinateToType(type, c);
+                    }
                 }
             });
             moveBoard(1, 0);
@@ -788,7 +978,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                 }
                 move_from_key = false;
             }
-            reAddGR();
+            reAddGR();            
         }
 
         private void moveLeft() throws InterruptedException {
@@ -807,6 +997,18 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     Text t = getNumText(width + cell_width / 2, 5, "" + getXRight());
                     xa.add(t);
                     Xaxis.getChildren().add(t);
+                    Poisson fld = new Poisson(1,rows,0.5,0.25,0.125);
+                    int obstaclesNum = fld.GetObstaclesNum();
+                    int YCoord;
+                    int type;
+                    for (int ndx = 0; ndx < obstaclesNum; ndx++)
+                    {
+                        YCoord = fld.GetYAt(ndx) - dy;
+                        type = fld.GetTypeAt(ndx);
+                        Coordinate c = new Coordinate (gr_pos.x+1, YCoord);
+                        generateObject_pos(type, c);
+                        ow.AddCoordinateToType(type, c);
+                    }
                 }
             });
             moveBoard(-1, 0);
@@ -821,7 +1023,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                 }
                 move_from_key = false;
             }
-            reAddGR();
+            reAddGR();            
         }
 
         private void reAddGR() {
@@ -925,6 +1127,31 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             setMapLayout(nw, d.getX(), d.getY());
             getChildren().add(nw);
             Field_object fo = getFieldObject(Objects.valueOf(iv.getId()), c);
+            field.getHex().put(c, fo);
+        }
+        
+        private void generateObject_pos(int type, Coordinate c) {
+            Coordinate d = getLocalCoordFromGR(c.getX(), c.getY());
+            ImageView nw = (ImageView) getCellFromType(ow.getObjectFromIndex(type), c);
+            Node r = m.get(d.getY()).get(d.getX());
+            m.get(d.getY()).remove(r);
+            getChildren().remove(r);
+            m.get(d.getY()).add(d.getX(), nw);
+            setMapLayout(nw, d.getX(), d.getY());
+            getChildren().add(nw);
+            Field_object fo = getFieldObject(ow.getObjectFromIndex(type), c);
+            field.getHex().put(c, fo);
+        }
+        private void generateObject_neg(int type, Coordinate c, int x_toggle, int y_toggle) {
+            Coordinate d = getLocalCoordFromGR(c.getX(), c.getY());
+            ImageView nw = (ImageView) getCellFromType(ow.getObjectFromIndex(type), c);
+            Node r = m.get(d.getY()).get(d.getX());
+            m.get(d.getY()).remove(r);
+            getChildren().remove(r);
+            m.get(d.getY()).add(d.getX(), nw);
+            setMapLayout(nw, d.getX()-x_toggle, d.getY()-y_toggle);
+            getChildren().add(nw);
+            Field_object fo = getFieldObject(ow.getObjectFromIndex(type), c);
             field.getHex().put(c, fo);
         }
 
