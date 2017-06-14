@@ -22,7 +22,7 @@ import org.openide.windows.OutputWriter;
 @TopComponent.Description(
         preferredID = "OutputTopComponent",
         iconBase = "org/intsys16/outputwindow/output24.png",
-        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+        persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "output", openAtStartup = false)
 //@ActionID(category = "Window", id = "org.intsys16.outputwindow.OutputTopComponent")
