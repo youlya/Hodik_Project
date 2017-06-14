@@ -103,11 +103,8 @@ public class loadSessionJSON {
             for (int i = 0; i < obstacles.size(); i++) {
                 FieldObjectsInfoExceptRobot obstacle = new FieldObjectsInfoExceptRobot();
                 JSONObject obstacleJSON = (JSONObject) obstacles.get(i);
-<<<<<<< Updated upstream
-                obstacle.setObsDamage((int)(long)obstacleJSON.get("health"));
-=======
+                ///obstacle.setObsDamage((int)(long)obstacleJSON.get("health"));
                 ///obstacle.setObsDamage((int)(long)obstacleJSON.get("changeHPSize"));
->>>>>>> Stashed changes
                 JSONArray coordinates = (JSONArray) obstacleJSON.get("coordinates");
                 Coordinate c = new Coordinate ((int) (long) coordinates.get(0), (int)(long)coordinates.get(1));
                 obstacle.setObsCoords(c);
