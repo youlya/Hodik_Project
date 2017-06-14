@@ -292,11 +292,20 @@ public class HodikIntegratorImpl extends Integrator {
                 case "robot":
                     break;
                 //если не робот, то препятствие или бонус
-                default:
+                case "liquid":
+                case "pit":
+                case "stone":
+                case "smallhealth":
+                case "mediumhealth":
+                case "largehealth":
                     FieldObjectsInfoExceptRobot obstacle = new FieldObjectsInfoExceptRobot(/*objects.get(i).getDamage(), - потому что зависит только от класса*/
                             objects.get(i).getCoord(), objects.get(i).getClass().getSimpleName());
                     //не используем className, т.к. оно было переведено в нижний регистр (DimaIra)
                     obstacleList.add(obstacle);
+                    break;
+                default: // для мобов нет отдельного названия класса?
+                mobsInfo mob = new mobsInfo(objects.get(i).getActtype(), objects.get(i).getDamage(), objects.get(i).getCoord());
+                mobList.add(mob);
                     break;
             }
 //            /*
