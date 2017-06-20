@@ -6,42 +6,24 @@
 package org.intsys16.editorwindow;
 
 import java.awt.BorderLayout;
-import java.awt.Image;
-import java.io.Serializable;
 import java.util.logging.Level;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
 import org.intsys16.GameObjectUtilities.AbstractProgram;
-import org.intsys16.GameObjectUtilities.ProgramSaveCapability;
-import org.netbeans.api.settings.ConvertAsProperties;
 import org.netbeans.core.spi.multiview.CloseOperationState;
-import org.netbeans.core.spi.multiview.MultiViewDescription;
 import org.netbeans.core.spi.multiview.MultiViewElement;
 import org.netbeans.core.spi.multiview.MultiViewElementCallback;
-import org.openide.awt.ActionID;
-import org.openide.awt.ActionReference;
 import org.openide.awt.UndoRedo;
 //import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
-import org.openide.util.lookup.AbstractLookup;
-import org.openide.util.lookup.InstanceContent;
-import org.openide.util.lookup.Lookups;
-import org.openide.util.lookup.ProxyLookup;
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.*;
-import java.beans.EventHandler;
-import javafx.event.EventType;
 import javax.swing.event.*;//библиотека для событий
 
 
@@ -141,8 +123,8 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
 
        programText.textProperty().bindBidirectional(  
                 getLookup().lookup(AbstractProgram.class).programTextProperty());
- 
-    
+       
+
           //  programText.addEventHandler(EventType.ROOT, EventHandler ); //нужно создать объект eventHandler
     }
     
@@ -183,6 +165,16 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                formAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -195,6 +187,10 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formAncestorAdded
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
     @Override
@@ -206,6 +202,7 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
     @Override
     public void componentClosed() {
         // TODO add custom code on component closing
+        
     }
 
     void writeProperties(java.util.Properties p) {
@@ -246,12 +243,12 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
 
     @Override
     public void componentShowing() {
-        
+        programText.setText(getLookup().lookup(AbstractProgram.class).getProgramText());
     }
 
     @Override
     public void componentHidden() {
-        //
+        
     }
 
     @Override
@@ -261,7 +258,7 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
 
     @Override
     public void componentDeactivated() {
-        //
+        getLookup().lookup(AbstractProgram.class).getProgramText();
     }
 
     @Override
@@ -285,7 +282,10 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
         public void changedUpdate(DocumentEvent e){}
         
         @Override
-        public void insertUpdate(DocumentEvent e){}
+        public void insertUpdate(DocumentEvent e){
+            e.getDocument();
+            
+        }
         
         @Override
         public void removeUpdate(DocumentEvent e){}

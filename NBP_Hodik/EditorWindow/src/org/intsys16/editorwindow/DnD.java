@@ -4,6 +4,7 @@ package org.intsys16.editorwindow;
  * @author grinar
  */
 import java.util.ArrayList;
+import java.util.Arrays;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -27,7 +28,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import org.intsys16.GameObjectUtilities.AbstractProgram;
-import org.openide.util.Lookup;
 import org.intsys16.integrator.api.Integrator;
 
 
@@ -86,8 +86,17 @@ public class DnD extends Pane{
     public void setSequence(ArrayList<String> sequence){
       this.sequence = sequence;
         //todo repaint
-   
-      
+    }
+    public void repaint() {
+        imageseq.clear();
+        sequence.clear();
+        String programtext = graphicTC.getLookup().lookup(AbstractProgram.class).getProgramText();
+//        String programtext = "Step\nRotate Right\nStep\nStep\nRotate Left\nRotate Left\nRotate Right\nStep";
+        ArrayList <String> sequencetemp;
+        sequencetemp = new ArrayList<String>(Arrays.asList(programtext.split("\n")));
+        for (int i=0; i<sequencetemp.size(); i++) {
+                addNewItem(sequencetemp.get(i), i);
+        }
     }
     public boolean isCommand(String command) {
         if(command.equals(integr.getCommandAt(1)+" "+integr.getCommandAt(3)) ||
@@ -266,6 +275,33 @@ public class DnD extends Pane{
         }
         sp1.setVvalue(1.0);
     }
+   
+    private void addNewItem(String src, int n){
+        int size = sequence.size();
+        int y = size / xx, x = size - y * xx;
+//        if (getNFGrid(tt, x, y) == null) {
+            int w = -1;
+            if ("Step".equals(src)) w=2;
+            else {
+                String srcarr[] = src.split(" ");
+                if ("Rotate".equals(srcarr[0])) {
+                    if ("Left".equals(srcarr[1])) w=1;
+                    else if ("Right".equals(srcarr[1])) w = 0;
+                    else return;
+                }
+            }
+            Command c = commands.get(w);
+            sequence.add(c.getCommandName());
+            /////////добавление
+
+            //добавление команды в граф режиме
+            ImageView nw = getPicture(c, false, n);
+//            tt.add(createAnchorPane(nw, n), x, y);
+            grid.add(createAnchorPane(nw, n), x, y);
+            imageseq.add(nw);
+//        }
+        sp1.setVvalue(1.0);
+    }
     private Node getNFGrid(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
@@ -375,12 +411,12 @@ public class DnD extends Pane{
             grid.getChildren().clear();
             
             //String s = sequenceToString();
-            sequence = graphicTC.getLookup().lookup(AbstractProgram.class).getSequence();
-            graphicTC.getLookup().lookup(AbstractProgram.class).setProgramText(" ");
-            graphicTC.getLookup().lookup(AbstractProgram.class).addLineToProgram(sequence.get(0));
-            Command c = commands.get(2);
-            ImageView nw = getPicture(c, false, sequence.size() - 1);
-            imageseq.add(nw);
+            //sequence = graphicTC.getLookup().lookup(AbstractProgram.class).getSequence();
+            //graphicTC.getLookup().lookup(AbstractProgram.class).setProgramText(" ");
+            //graphicTC.getLookup().lookup(AbstractProgram.class).addLineToProgram(sequence.get(0));
+            //Command c = commands.get(2);
+            //ImageView nw = getPicture(c, false, sequence.size() - 1);
+            //imageseq.add(nw);
             for (int i = 0; i<sequence.size();i++){
                 int y = i / (xx+1);
                 int x = i - y*xx;

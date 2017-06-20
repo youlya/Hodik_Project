@@ -35,9 +35,10 @@ public class ProgramNode extends AbstractProgram implements Serializable, Lookup
         this.state = false;
         lookup = Lookups.singleton(this);
     }
+    @Override
     public ArrayList<String> getSequence(){ //пробуем создать последовательность команд
         ArrayList<String> sequence = new ArrayList<>();
-        sequence.add("Step");
+       // sequence.add("Step");
         //System.out.print(sequence.get(0));
         return sequence;
     }
@@ -78,12 +79,12 @@ public class ProgramNode extends AbstractProgram implements Serializable, Lookup
         this.progName = progName;
     }
     @Override
-    public void setProgramText(String progText) {
+    public void  setProgramText(String progText) {
         this.progText.set(progText);
     }
     @Override
     public void addLineToProgram(String line) {
-        this.progText.set(getProgramText() + "\n" + line);
+        this.progText.set(getProgramText() + line + "\n");
         
     }
     @Override

@@ -9,23 +9,21 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javafx.application.Platform;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
-import org.netbeans.api.settings.ConvertAsProperties;
+import org.intsys16.GameObjectUtilities.AbstractProgram;
 import org.netbeans.core.spi.multiview.CloseOperationState;
 import org.netbeans.core.spi.multiview.MultiViewElement;
 import org.netbeans.core.spi.multiview.MultiViewElementCallback;
-import org.openide.awt.ActionID;
-import org.openide.awt.ActionReference;
 import org.openide.awt.UndoRedo;
 import org.openide.util.Lookup;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
-import org.openide.util.lookup.Lookups;
 
 /**
  * Top component which displays something.
@@ -87,7 +85,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
         add(fxPanel, BorderLayout.NORTH);   
         Platform.setImplicitExit(false);
         fxPanel.updateUI();
-        Platform.runLater(() -> createScene());      
+        Platform.runLater(() -> createScene());
     }
     
   
@@ -101,8 +99,9 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
         scene.heightProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) -> {
                 dragNDrop.setPrefHeight((double)newSceneHeight);
             });
-        //setCommandSequence(); // уже что-то есть в text area
- 
+        setCommandSequence(); // уже что-то есть в text area
+        
+        
     }
     public ArrayList<String> getCommandSequence() {
         return dragNDrop.getSequence();
@@ -199,7 +198,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
 
     @Override
     public void componentShowing() {
-        
+     dragNDrop.repaint();
     }
 
     @Override
@@ -214,7 +213,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
 
     @Override
     public void componentDeactivated() {
-        //
+        
     }
 
     @Override
