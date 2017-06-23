@@ -729,42 +729,44 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         }
         private int count = 0;
 
-        public class Poisson 
-        {
-            private final int obstaclesNum;
-            private final List<Triple> obstacles;
-            public Poisson(int width, int height, Double p1, Double p2, Double p3)
-            {
-            int coordX;
-            int coordY;
-            int obstacleType;
-            int volume = width*height;
-            double density = 0.1*volume;
-            double sum = 0.0;
-            double summand = Math.exp(-density);
-            int ndx;
-            double proba = Math.random();
-            for (ndx = 0; ndx < volume; ndx++){
-                sum += summand;
-                if (proba <= sum){
-                    break;
-                }                   
-                summand *= (density/(ndx+1));
-            }
-            obstaclesNum = ndx;
-            obstacles = new ArrayList<>();
-            for (ndx = 0; ndx < this.obstaclesNum; ndx++)
-            {
-                coordX = (int)(Math.random()* (width));
-                coordY = (int)(Math.random()* (height));
-                proba = Math.random();
-                if (proba < p1) obstacleType = 1;
-                else if (proba < p1 + p2) obstacleType = 2;
-                else if (proba < p1 + p2 + p3) obstacleType = 3;
-                else obstacleType = 4;
-                obstacles.add(new Triple(coordX, coordY, obstacleType));
-            }               
+        public class Poisson {
+    private final int obstaclesNum;
+    private final List<Triple> obstacles;
+    
+    public Poisson(int width, int height, List<Double> probabilities){
+        int coordX;
+        int coordY;
+        int obstacleType;
+        int volume = width*height;
+        Double density = 0.3*volume;
+        Double sum = 0.0;
+        Double summand = Math.exp(-density);
+        int ndx;
+        Double proba = Math.random();
+        for (ndx = 0; ndx < volume; ndx++){
+            sum += summand;
+            if (proba <= sum){
+                break;
+            }                   
+            summand *= (density/(ndx+1));
         }
+        obstaclesNum = ndx;
+        obstacles = new ArrayList<>();
+        int indx;
+        for (ndx = 0; ndx < this.obstaclesNum; ndx++){
+            coordX = (int)(Math.random()* (width));
+            coordY = (int)(Math.random()* (height));
+            proba = Math.random();
+            sum = 0.0;
+            for(indx = 0; indx < probabilities.size(); indx++)
+            {
+                sum += probabilities.get(indx);
+                if (proba < sum) break;
+            }
+            obstacleType = indx + 1;
+            obstacles.add(new Triple(coordX, coordY, obstacleType));
+        }               
+    }
     
         public int GetObstaclesNum()
         { 
@@ -861,7 +863,12 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     Text t = getNumText(5, -cell_width / 2, "" + getYUp());
                     ya.add(0, t);
                     Yaxis.getChildren().add(t);  
-                    Poisson fld = new Poisson(rows,1,0.5,0.25,0.125);
+                    List<Double> probabilities;
+                    probabilities = new ArrayList<>();
+                    probabilities.add(0.5);
+                    probabilities.add(0.25);
+                    probabilities.add(0.125);
+                    Poisson fld = new Poisson(2,7,probabilities);
                     int obstaclesNum = fld.GetObstaclesNum();
                     int XCoord;
                     int type;
@@ -907,7 +914,12 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     Text t = getNumText(5, width + cell_width / 2, "" + getYDown());
                     ya.add(t);
                     Yaxis.getChildren().add(t);
-                    Poisson fld = new Poisson(rows,1,0.5,0.25,0.125);
+                    List<Double> probabilities;
+                    probabilities = new ArrayList<>();
+                    probabilities.add(0.5);
+                    probabilities.add(0.25);
+                    probabilities.add(0.125);
+                    Poisson fld = new Poisson(2,7,probabilities);
                     int obstaclesNum = fld.GetObstaclesNum();
                     int XCoord;
                     int type;
@@ -952,7 +964,12 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     Text t = getNumText(-cell_width / 2, 5, "" + getXLeft());
                     xa.add(0, t);
                     Xaxis.getChildren().add(t);
-                    Poisson fld = new Poisson(1,rows,0.5,0.25,0.125);
+                    List<Double> probabilities;
+                    probabilities = new ArrayList<>();
+                    probabilities.add(0.5);
+                    probabilities.add(0.25);
+                    probabilities.add(0.125);
+                    Poisson fld = new Poisson(2,7,probabilities);
                     int obstaclesNum = fld.GetObstaclesNum();
                     int YCoord;
                     int type;
@@ -997,7 +1014,12 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     Text t = getNumText(width + cell_width / 2, 5, "" + getXRight());
                     xa.add(t);
                     Xaxis.getChildren().add(t);
-                    Poisson fld = new Poisson(1,rows,0.5,0.25,0.125);
+                    List<Double> probabilities;
+                    probabilities = new ArrayList<>();
+                    probabilities.add(0.5);
+                    probabilities.add(0.25);
+                    probabilities.add(0.125);
+                    Poisson fld = new Poisson(2,7,probabilities);
                     int obstaclesNum = fld.GetObstaclesNum();
                     int YCoord;
                     int type;

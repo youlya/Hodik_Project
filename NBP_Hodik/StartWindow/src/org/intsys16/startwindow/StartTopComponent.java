@@ -45,7 +45,7 @@ import org.openide.windows.WindowManager;
         displayName = "#CTL_StartAction",
         preferredID = "StartTopComponent"
 )
-@Messages({
+@Messages({  //поддерживает локализацию 
     "CTL_StartAction=Start Window",
     "CTL_StartTopComponent=Start Window",
     "HINT_StartTopComponent=This is a Start window",
