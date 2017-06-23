@@ -183,6 +183,10 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jToolBar1 = new javax.swing.JToolBar();
+
+        jToolBar1.setRollover(true);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -196,6 +200,7 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {

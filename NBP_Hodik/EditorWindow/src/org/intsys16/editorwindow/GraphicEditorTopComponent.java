@@ -107,6 +107,8 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
     public ArrayList<String> getCommandSequence() {
         return dragNDrop.getSequence();
     }
+    
+    //УБРАТЬ GET SEQUENCE 
     public void setCommandSequence() {
         ArrayList<String> commands = new ArrayList<>();
         commands = getLookup().lookup(ProgramNode.class).getSequence(); //в commands запихиваем последовательность команд
@@ -198,8 +200,8 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
     }
 
     @Override
-    public void componentShowing() {
-        
+    public void componentShowing() { //записываать commands 
+        //КОДИТЬ ЗДЕСЬ!!! 
     }
 
     @Override
