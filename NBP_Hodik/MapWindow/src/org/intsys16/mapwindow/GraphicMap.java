@@ -135,22 +135,22 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             ow.SetObjectsAndWeights(0, Objects.EMPTY, 0);
             info.add(ow);
             ObjectsAndWeights ow1 = new ObjectsAndWeights();
-            ow1.SetObjectsAndWeights(1, Objects.PIT, 0.3);
+            ow1.SetObjectsAndWeights(1, Objects.PIT, 0.125);
             info.add(ow1);
             ObjectsAndWeights ow2 = new ObjectsAndWeights();
-            ow2.SetObjectsAndWeights(2, Objects.STONE, 0.3);
+            ow2.SetObjectsAndWeights(2, Objects.STONE, 0.125);
             info.add(ow2);
             ObjectsAndWeights ow3 = new ObjectsAndWeights();
-            ow3.SetObjectsAndWeights(3, Objects.LIQUID, 0.3);
+            ow3.SetObjectsAndWeights(3, Objects.LIQUID, 0.125);
             info.add(ow3);
             ObjectsAndWeights ow4 = new ObjectsAndWeights();
-            ow4.SetObjectsAndWeights(4, Objects.LARGE_BONUS, 0.1);
+            ow4.SetObjectsAndWeights(4, Objects.LARGE_BONUS, 0.125);
             info.add(ow4);
             ObjectsAndWeights ow5 = new ObjectsAndWeights();
-            ow5.SetObjectsAndWeights(5, Objects.MEDIUM_BONUS, 0.25);
+            ow5.SetObjectsAndWeights(5, Objects.MEDIUM_BONUS, 0.125);
             info.add(ow5);
             ObjectsAndWeights ow6 = new ObjectsAndWeights();
-            ow6.SetObjectsAndWeights(6, Objects.SMALL_BONUS, 0.4);
+            ow6.SetObjectsAndWeights(6, Objects.SMALL_BONUS, 0.125);
             info.add(ow6);
             /*ObjectsAndWeights ow7 = new ObjectsAndWeights();
             ow7.SetObjectsAndWeights(7, Objects.BAD_ROBOT, 0.15);
@@ -167,6 +167,10 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         void AddCoordinateToType(int type, Coordinate c)
         {
             info.get(type).cells.add(c);
+        }
+        double getObjWeight(int type)
+        {
+            return info.get(type).weight;
         }
     }
     /////////////////////////////////
@@ -865,20 +869,27 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     Yaxis.getChildren().add(t);  
                     List<Double> probabilities;
                     probabilities = new ArrayList<>();
-                    probabilities.add(0.5);
-                    probabilities.add(0.25);
-                    probabilities.add(0.125);
-                    Poisson fld = new Poisson(2,7,probabilities);
+                    probabilities.add(ow.getObjWeight(1));
+                    probabilities.add(ow.getObjWeight(2));
+                    probabilities.add(ow.getObjWeight(3));
+                    probabilities.add(ow.getObjWeight(4));
+                    probabilities.add(ow.getObjWeight(5));
+                    //probabilities.add(ow.getObjWeight(6));
+                    Poisson fld = new Poisson(rows,rows,probabilities);
                     int obstaclesNum = fld.GetObstaclesNum();
                     int XCoord;
                     int type;
                     for (int ndx = 0; ndx < obstaclesNum; ndx++)
                     {
-                        XCoord = fld.GetXAt(ndx) - dx;
-                        type = fld.GetTypeAt(ndx);
-                        Coordinate c = new Coordinate (XCoord, gr_pos.y);
-                        generateObject_neg(type, c, 0, 1);
-                        ow.AddCoordinateToType(type, c);
+                        if(fld.GetYAt(ndx)==0)
+                        {
+                            XCoord = fld.GetXAt(ndx) - dx;
+                            type = fld.GetTypeAt(ndx);
+                            Coordinate c = new Coordinate (XCoord, gr_pos.y);
+                            generateObject_neg(type, c, 0, 1);
+                            ow.AddCoordinateToType(type, c);
+                            System.out.println("X: " + fld.GetXAt(ndx));                            
+                        }
                     }
                 }
             });
@@ -916,20 +927,27 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     Yaxis.getChildren().add(t);
                     List<Double> probabilities;
                     probabilities = new ArrayList<>();
-                    probabilities.add(0.5);
-                    probabilities.add(0.25);
-                    probabilities.add(0.125);
-                    Poisson fld = new Poisson(2,7,probabilities);
+                    probabilities.add(ow.getObjWeight(1));
+                    probabilities.add(ow.getObjWeight(2));
+                    probabilities.add(ow.getObjWeight(3));
+                    probabilities.add(ow.getObjWeight(4));
+                    probabilities.add(ow.getObjWeight(5));
+                    //probabilities.add(ow.getObjWeight(6));
+                    Poisson fld = new Poisson(rows,rows,probabilities);
                     int obstaclesNum = fld.GetObstaclesNum();
                     int XCoord;
                     int type;
                     for (int ndx = 0; ndx < obstaclesNum; ndx++)
                     {
-                        XCoord = fld.GetXAt(ndx) - dx;
-                        type = fld.GetTypeAt(ndx);
-                        Coordinate c = new Coordinate (XCoord, gr_pos.y+1);
-                        generateObject_pos(type, c);
-                        ow.AddCoordinateToType(type, c);
+                        if(fld.GetYAt(ndx)==0)
+                        {
+                            XCoord = fld.GetXAt(ndx) - dx;
+                            type = fld.GetTypeAt(ndx);
+                            Coordinate c = new Coordinate (XCoord, gr_pos.y);
+                            generateObject_neg(type, c, 0, 1);
+                            ow.AddCoordinateToType(type, c);
+                            System.out.println("X: " + fld.GetXAt(ndx));                            
+                        }
                     }
                 }
             });
@@ -966,20 +984,27 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     Xaxis.getChildren().add(t);
                     List<Double> probabilities;
                     probabilities = new ArrayList<>();
-                    probabilities.add(0.5);
-                    probabilities.add(0.25);
-                    probabilities.add(0.125);
-                    Poisson fld = new Poisson(2,7,probabilities);
+                    probabilities.add(ow.getObjWeight(1));
+                    probabilities.add(ow.getObjWeight(2));
+                    probabilities.add(ow.getObjWeight(3));
+                    probabilities.add(ow.getObjWeight(4));
+                    probabilities.add(ow.getObjWeight(5));
+                    //probabilities.add(ow.getObjWeight(6));
+                    Poisson fld = new Poisson(rows,rows,probabilities);
                     int obstaclesNum = fld.GetObstaclesNum();
                     int YCoord;
                     int type;
                     for (int ndx = 0; ndx < obstaclesNum; ndx++)
                     {
-                        YCoord = fld.GetYAt(ndx) - dy;
-                        type = fld.GetTypeAt(ndx);
-                        Coordinate c = new Coordinate (gr_pos.x, YCoord);
-                        generateObject_neg(type, c, 1, 0);
-                        ow.AddCoordinateToType(type, c);
+                        
+                        if(fld.GetXAt(ndx)==0)
+                        {
+                            YCoord = fld.GetYAt(ndx) - dy;
+                            type = fld.GetTypeAt(ndx);
+                            Coordinate c = new Coordinate (gr_pos.x, YCoord);
+                            generateObject_neg(type, c, 1, 0);
+                            ow.AddCoordinateToType(type, c); 
+                        }           
                     }
                 }
             });
@@ -1016,20 +1041,27 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     Xaxis.getChildren().add(t);
                     List<Double> probabilities;
                     probabilities = new ArrayList<>();
-                    probabilities.add(0.5);
-                    probabilities.add(0.25);
-                    probabilities.add(0.125);
-                    Poisson fld = new Poisson(2,7,probabilities);
+                    probabilities.add(ow.getObjWeight(1));
+                    probabilities.add(ow.getObjWeight(2));
+                    probabilities.add(ow.getObjWeight(3));
+                    probabilities.add(ow.getObjWeight(4));
+                    probabilities.add(ow.getObjWeight(5));
+                    //probabilities.add(ow.getObjWeight(6));
+                    Poisson fld = new Poisson(rows,rows,probabilities);
                     int obstaclesNum = fld.GetObstaclesNum();
                     int YCoord;
                     int type;
                     for (int ndx = 0; ndx < obstaclesNum; ndx++)
                     {
-                        YCoord = fld.GetYAt(ndx) - dy;
-                        type = fld.GetTypeAt(ndx);
-                        Coordinate c = new Coordinate (gr_pos.x+1, YCoord);
-                        generateObject_pos(type, c);
-                        ow.AddCoordinateToType(type, c);
+                        
+                        if(fld.GetXAt(ndx)==0)
+                        {
+                            YCoord = fld.GetYAt(ndx) - dy;
+                            type = fld.GetTypeAt(ndx);
+                            Coordinate c = new Coordinate (gr_pos.x, YCoord);
+                            generateObject_neg(type, c, 1, 0);
+                            ow.AddCoordinateToType(type, c); 
+                        }           
                     }
                 }
             });
