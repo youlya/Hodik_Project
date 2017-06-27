@@ -7,6 +7,7 @@ package org.intsys16.editorwindow;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import org.intsys16.GameObjectUtilities.AbstractProgram;
@@ -36,11 +37,8 @@ public class ProgramNode extends AbstractProgram implements Serializable, Lookup
         lookup = Lookups.singleton(this);
     }
     @Override
-    public ArrayList<String> getSequence(){ //пробуем создать последовательность команд
-        ArrayList<String> sequence = new ArrayList<>();
-       // sequence.add("Step");
-        //System.out.print(sequence.get(0));
-        return sequence;
+    public ArrayList<String> getSequence(){
+        return new ArrayList<String>(Arrays.asList(getProgramText().split("\n")));
     }
     @Override
     public String getProgramName() {
@@ -84,7 +82,7 @@ public class ProgramNode extends AbstractProgram implements Serializable, Lookup
     }
     @Override
     public void addLineToProgram(String line) {
-        this.progText.set(getProgramText() + line + "\n");
+        this.progText.set(getProgramText() + "\n" + line);
         
     }
     @Override

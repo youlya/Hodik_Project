@@ -73,7 +73,6 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
     //private Lookup proxyLookup;
     public Lookup lookup;
     //private ProgramNode progNode;
-    
 
     
     public TextEditorTopComponent() {
@@ -243,7 +242,7 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
 
     @Override
     public void componentShowing() {
-        programText.setText(getLookup().lookup(AbstractProgram.class).getProgramText());
+        
     }
 
     @Override
@@ -258,7 +257,7 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
 
     @Override
     public void componentDeactivated() {
-        getLookup().lookup(AbstractProgram.class).getProgramText();
+
     }
 
     @Override

@@ -99,30 +99,13 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
         scene.heightProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) -> {
                 dragNDrop.setPrefHeight((double)newSceneHeight);
             });
-        setCommandSequence(); // уже что-то есть в text area
-        
-        
     }
     public ArrayList<String> getCommandSequence() {
         return dragNDrop.getSequence();
     }
     public void setCommandSequence() {
-        ArrayList<String> commands = new ArrayList<>();
-        commands = getLookup().lookup(ProgramNode.class).getSequence(); //в commands запихиваем последовательность команд
-        //if(dragNDrop.isCommand(programLine))
-        dragNDrop.setSequence(commands);
-       
-        /* if (dragNDrop.sequence.isEmpty()==true)
-             fxPanel.updateUI(); //очистить панель?
-        
-        else {
-             
-         int i = dragNDrop.commands.size();
-          while(dragNDrop.sequence.isEmpty()==false)
-          {
-              dragNDrop.deleteItem(dragNDrop.getPicture(dragNDrop.commands.get(i), true, i));
-              i--;
-          }}*/ }
+        dragNDrop.setSequence(getLookup().lookup(ProgramNode.class).getSequence());
+    }
         
     public void setMultiPanel(TopComponent multiPanel) {
       this.multiPanel = multiPanel;
@@ -198,7 +181,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
 
     @Override
     public void componentShowing() {
-     dragNDrop.repaint();
+        //setCommandSequence();
     }
 
     @Override
@@ -208,7 +191,8 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
 
     @Override
     public void componentActivated() {
-        //setCommandSequence(); 
+        setCommandSequence();
+        Platform.runLater(() -> {dragNDrop.gridUpdate();});
     }
 
     @Override
