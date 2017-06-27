@@ -45,6 +45,19 @@ import org.intsys16.gamelogic.sessionJSON.robotsInfo;
 import org.intsys16.gamelogic.sessionJSON.saveSessionJSON;
 import org.intsys16.gamelogic.sessionJSON.loadSessionJSON;
 import org.intsys16.gamelogic.RobotsControl.Obstacles;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import java.io.FileReader;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+
+import java.util.regex.Pattern;
+
 /**
  *
  * @author Julia
@@ -94,16 +107,43 @@ public class HodikIntegratorImpl extends Integrator {
         }
         return robotsNames;
     }
+    public JSONObject returnJSONObjectAssociation()
+    {
+        JSONObject jsobj = null;
+        try{
+        JSONParser parser = new JSONParser();
+            Object obj;
+            FileReader fjson = new FileReader("_resources\\robots\\association.json");
+            obj = parser.parse(fjson);
+            jsobj = (JSONObject) obj;
+        }
+        catch(Exception e){}
+        return jsobj;
+    }
+
      @Override
-       public ObservableList<String> getRobotProgramsTitles(String robotName) {  
+       public ObservableList<String> getRobotProgramsTitles(String robotName){  
         class MyFileFilter implements FileFilter { 
+            
         public boolean accept(File pathname) 
         { 
         // проверям, что это файл и что он заканчивается на .txt 
         return pathname.isFile() && pathname.getName().endsWith(".txt"); 
         } 
-        } 
-        File f = new File("_resources\\robots\\programs"); 
+        }
+        ObservableList<String> programs = FXCollections.observableArrayList(); 
+        JSONObject jsobj = returnJSONObjectAssociation();
+        if (jsobj == null) return programs;
+        JSONArray progs = new JSONArray();
+        progs = (JSONArray)jsobj.get(robotName.toLowerCase());
+        if (progs == null) return programs;
+        for (int i = 0; i < progs.size(); i++)
+        {
+            String p = (String) progs.get(i);
+            programs.add("" + p);
+        }
+        
+        /*File f = new File("_resources\\robots\\programs"); 
         ObservableList<String> programs = FXCollections.observableArrayList(); 
         String program = Bundle.CTL_Program(); 
         MyFileFilter filter = new MyFileFilter(); 
@@ -111,10 +151,9 @@ public class HodikIntegratorImpl extends Integrator {
         for(int i = 0; i<list.length; i++) { 
 
         programs.add( " " + list[i].toString().substring(list[i].toString().lastIndexOf("\\")+1, list[i].toString().length())); 
-
-        } 
-
-        return programs; 
+                
+        }*/
+               return programs; 
         }
         @Override
     
@@ -405,9 +444,23 @@ public class HodikIntegratorImpl extends Integrator {
             
 }
 class MyFileFilter implements FileFilter {
+    private static String robot = "robot";
+    private static String program = "program";
+
+    private static String json;
+    private static String robotPrograms;
+    
     public boolean accept(File pathname) 
     {
+//        Path path = Paths.get("_resources\\robots\\programs\\programs.json");//прописать путь
+//       try {
+//           json = new String(Files.readAllBytes(path));
+//       } catch (IOException e) {
+//           e.printStackTrace();
+//       }
+//        boolean robotHasProgram = Pattern.matches('[.+|\n+]?\"' + robotName + '\":[\s+|\n+]?[\\[][.+|\n+]?\"' + pathname.getName() + '\"[.+|\n+]?[\\]][.+|\n+]?', json);
+//        
         // проверям, что это файл и что он заканчивается на .txt 
-       return pathname.isFile() && pathname.getName().endsWith(".txt");
+       return pathname.isFile() && pathname.getName().endsWith(".txt");// && robotHasProgram;
     }
 }

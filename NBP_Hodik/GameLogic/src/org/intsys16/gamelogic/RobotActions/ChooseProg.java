@@ -19,6 +19,8 @@ import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
 import javax.swing.*;
 
+import org.intsys16.gamelogic.RobotsControl.robot;
+
 /**
  *
  * @author Georgiy
@@ -48,13 +50,13 @@ public final class ChooseProg implements ActionListener  {
     @Override
     public void actionPerformed(ActionEvent ev) {
           try{
+              robot currRobot = (robot) Integrator.getIntegrator().getCurrentRobot();
               ObservableList<String> programs = FXCollections.observableArrayList( 
-                Integrator.getIntegrator().getRobotProgramsTitles(""));//robot name in this integrator method is not used
- 
+              Integrator.getIntegrator().getRobotProgramsTitles(currRobot.getName()));//robot name is used now 
     String input = (String) JOptionPane.showInputDialog(null, "Choose",
         "Run program", JOptionPane.QUESTION_MESSAGE, icon,  programs.toArray(), programs.toArray()[0]); 
     Integrator.getIntegrator().launchProgram("_resources\\robots\\programs\\"+ 
-            input.substring(1, input.length()));
+            input.substring(0, input.length()));
  
         } 
          catch (Exception err) {
@@ -76,10 +78,3 @@ public final class ChooseProg implements ActionListener  {
     }
 }
 }
-    
-
-
-    
-
-
-
