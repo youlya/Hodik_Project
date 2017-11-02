@@ -93,8 +93,9 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
     private final double panel_width = 90;
     private final FileChooser fileChooser = new FileChooser();
     private GraphicMap gMap;
-    private int upperBorder = -2, leftBorder = -2, bottomBorder = 2, rightBorder = 2;
-
+    private int upperCameraBorder = -2, leftCameraBorder = -2, bottomCameraBorder = 2, rightCameraBorder = 2; //настройки камеры - на случай, если нужно сделать её прямоугольной (ограниченная видимость с одной стороны, например)
+    private int upperMapBorder = -3, leftMapBorder = 3, bottomMapBorder = 3, rightMapBorder = 3;
+    
     static public enum Objects {
 
         GOOD_ROBOT, BAD_ROBOT, PIT, STONE, LIQUID, LARGE_BONUS, SMALL_BONUS, MEDIUM_BONUS, EMPTY
@@ -114,7 +115,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
     }
 
     @Override
-    public void setBumpedInto(int num) {
+    public void setBumbedInto(int num) {
         Platform.setImplicitExit(false);
         Platform.runLater(() -> {
             gMap.textBI.setText(Bundle.Text_Obstacles() + ": " + num);
@@ -245,7 +246,15 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         Xaxis = new Pane();
         Yaxis = new Pane();
     }
-
+    public int[] getCameraBorders()
+    {
+        int []i = {upperCameraBorder, leftCameraBorder, bottomCameraBorder, rightCameraBorder};
+        return i;
+    }
+    public void setCameraBorders(int Up, int Left, int Bot, int Right)
+    {
+        upperCameraBorder = Up; leftCameraBorder = Left; bottomCameraBorder = Bot; rightCameraBorder = Right;
+    }
     private void setNewHeight(double h) {
         if (this.getWidth() < this.getHeight() + panel_width) {
             h -= 15;
@@ -552,20 +561,39 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             }
         }
 
-        private boolean atUpperEdge() {
-            return(gr_pos.getY()==upperBorder);
+     /*   private boolean atUpperEdge() {
+            return (move_from_key ? gr_pos.getY() == 0 - dy :
+                        gr_pos.getY() + 1 == 0 - dy);
         }
 
         private boolean atBottomEdge() {
-            return(gr_pos.getY()==bottomBorder);
+            return (move_from_key ? gr_pos.getY() == rows - 1 - dy: 
+                        gr_pos.getY() - 1 == rows - 1 - dy);
         }
 
         private boolean atLeftEdge() {
-            return(gr_pos.getX()==leftBorder);
+            return (move_from_key ? gr_pos.getX() == 0 - dx :
+                        gr_pos.getX() + 1 == 0 - dx);
         }
 
         private boolean atRightEdge() {
-            return(gr_pos.getX()==rightBorder);
+            return (move_from_key ? gr_pos.getX() == rows - 1 - dx: 
+                        gr_pos.getX() - 1== rows - 1 - dx);
+        }*/
+        private boolean atUpperEdge(){
+            return(gr_pos.getY()==upperCameraBorder);
+        }
+
+        private boolean atBottomEdge() {
+            return(gr_pos.getY()==bottomCameraBorder);
+        }
+
+        private boolean atLeftEdge() {
+            return(gr_pos.getX()==leftCameraBorder);
+        }
+
+        private boolean atRightEdge() {
+            return(gr_pos.getX()==rightCameraBorder);
         }
 
         private void drawCells() {
@@ -616,31 +644,32 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     deleteInvisibleCells(dirx, diry);
                 }
                 robot_moving = false;
-                //Далее идут действия-движения - движение происходит без смещения камеры (перемещается Ходик) или с (перемещается само поле) - с robot_moving = true или без соот-но.
-                //Двигайте камеру, а не Ходика, когда он подходит к границам центрального квадрата 3х3 или 4х4 (как решите, я оставляю 3х3), чтоб он всегда был в центре поля или около него (тот самый квадрат).
                 if (act == Actions.MOVE_DOWN) {
                     if ((play_mode && atBottomEdge()) || !play_mode) {
                         moveUp();
-                        upperBorder++;
-                        bottomBorder++;
+                        upperCameraBorder=upperCameraBorder++;
+                        bottomCameraBorder=bottomCameraBorder++;
                     } else {
                         robot_moving = true;
                         moveDown();
                     }
                 } else if (act == Actions.MOVE_UP) {
                     if ((play_mode && atUpperEdge()) || !play_mode) {
+                        moveUpatBorder();
+                        upperCameraBorder=upperCameraBorder-2;
+                        bottomCameraBorder=bottomCameraBorder-2;
+                        /* дальше обычное перемещение камеры для отладки других частей проекта, пока версия с централизацией камеры не закончена
                         moveDown();
-                        upperBorder--;
-                        bottomBorder--;
+                        upperCameraBorder--;
+                        bottomCameraBorder--;*/
                     } else {
                         robot_moving = true;
                         moveUp();
                     }
                 } else if (act == Actions.MOVE_RIGHT) {
-                    moveLeft();
                     if ((play_mode && atRightEdge()) || !play_mode) {
-                        leftBorder++;
-                        rightBorder++;
+                        leftCameraBorder++;
+                        rightCameraBorder++;
                         moveLeft();
                     } else {
                         robot_moving = true;
@@ -648,8 +677,8 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     }
                 } else if (act == Actions.MOVE_LEFT) {
                     if ((play_mode && atLeftEdge()) || !play_mode) {
-                        leftBorder--;
-                        rightBorder--;
+                        leftCameraBorder--;
+                        rightCameraBorder--;
                         moveRight();
                     } else {
                         robot_moving = true;
@@ -729,7 +758,30 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             }
             reAddGR();
         }
-
+        private void moveUpatBorder() throws InterruptedException {
+            Platform.setImplicitExit(false);
+            Platform.runLater(() -> {
+                if (!robot_moving) {
+                    ArrayList<Node> na = new ArrayList<>();
+                    for (int j = 0; j < rows; j++) {
+                        Node r = getCellImage(j, -1);
+                        r.setLayoutX(border_width * (j + 1) + cell_width * j);
+                        r.setLayoutY(-cell_width);
+                        na.add(r);
+                        getChildren().add(r);
+                    }
+                    dy=dy+2;
+                    m.add(0, na);
+                    Text t = getNumText(5, -cell_width / 2, "" + getYUp());
+                    ya.add(0, t);
+                    Yaxis.getChildren().add(t);
+                }
+            });
+            moveBoardatBorder();
+            gr_pos.setY(gr_pos.getY()-1);
+            move_from_key = false;
+            reAddGR();
+        }
         private void moveUp() throws InterruptedException {
             Platform.setImplicitExit(false);
             Platform.runLater(() -> {
@@ -750,7 +802,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                 }
             });
             moveBoard(0, -1);
-           if (robot_moving) {
+            if (robot_moving) {
                 if (move_from_key) {
                     gr_pos.y--;
                 }
@@ -858,13 +910,15 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     });
                 }
             }
-            if (!play_mode || robot_moving) {
+            /*if (!play_mode || robot_moving) {
                 gr_iv.setLayoutX(gr_iv.getLayoutX() + ddx);
                 gr_iv.setLayoutY(gr_iv.getLayoutY() + ddy);
-            }
+            }*/
+            gr_iv.setLayoutX(gr_iv.getLayoutX() + ddx);
+            gr_iv.setLayoutY(gr_iv.getLayoutY() + ddy);
         }
         private int count2 = 0;
-
+        private int count3 = 0;
         private void moveBoard(int jj, int ii) throws InterruptedException {
             final Timer timer = new Timer();
             double times = 60;
@@ -881,6 +935,32 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     Platform.runLater(() -> {
                         moveBoardPerInch((double) jj * distance, (double) ii * distance);
                         count2++;
+                        if (count2 == times) {
+                            running = !running;
+                            map.requestFocus();
+                            thread.cancel();
+                        }
+                    });
+                }
+            }, 0, 25);
+        }
+         private void moveBoardatBorder() throws InterruptedException {
+            final Timer timer = new Timer();
+            double times = 60;
+            double distance = (cell_width + border_width) / times;
+            running = !running;
+            count2 = 0;
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.setImplicitExit(false);
+                    TimerTask thread = this;
+                    Platform.runLater(() -> {
+                        robot_moving=false;
+                        moveBoardPerInch((double) 0 * distance, (double) 2 * distance);
+                        count2++;
+                        robot_moving=true;
+                        moveBoardPerInch((double) 0 * distance, (double) -1 * distance);
                         if (count2 == times) {
                             running = !running;
                             map.requestFocus();
