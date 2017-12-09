@@ -43,7 +43,7 @@ import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 @TopComponent.Description(
         preferredID = "MapTopComponent",
         iconBase = "org/intsys16/mapwindow/scatchPlanet24.png",
-        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+        persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "properties_map", openAtStartup = false)
 @ActionID(category = "Window", id = "org.intsys16.mapwindow.MapTopComponent")

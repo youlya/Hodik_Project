@@ -1,1 +1,0 @@
-{"mobs":[{"hp":10,"coordinates":[-1,0],"mobActType":"none"},{"hp":25,"coordinates":[1,0],"mobActType":"none"},{"hp":100,"coordinates":[0,1],"mobActType":"none"}],"sessionName":"2016-06-30 18-31-51","obstacles":[],"mapName":1,"robots":[{"nyam":3,"robotName":"Ходик","coordinates":[0,-3],"health":145,"bum":0,"steps":3,"direction":UP}]}

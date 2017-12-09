@@ -34,4 +34,15 @@ public enum Direction {
                 return 0;
         }
     }
+    public static Direction chooseDirection(String temp)
+    {
+        switch(temp)
+        {
+            case "DOWN": return DOWN;
+            case "UP": return UP;
+            case "RIGHT": return RIGHT;
+            case "LEFT": return LEFT;   
+        }
+        return null;
+    }
 }

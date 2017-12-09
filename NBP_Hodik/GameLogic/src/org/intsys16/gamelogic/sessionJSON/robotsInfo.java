@@ -67,7 +67,9 @@ public class robotsInfo {
         obj.put("bum", this.getRobotScore().getObs_sc());
         obj.put("nyam", this.getRobotScore().getEat_sc());
         obj.put("health", this.getRobotHealth());
-        obj.put("direction", this.getRobotDirection());
+        // 28.04.2017, добавлен toString()
+        obj.put("direction", this.getRobotDirection().toString());
+        //
         JSONArray coordinates = new JSONArray();
         coordinates.add(this.getRobotCoords().getX());
         coordinates.add(this.getRobotCoords().getY());

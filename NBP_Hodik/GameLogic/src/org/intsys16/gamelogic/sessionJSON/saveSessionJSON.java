@@ -25,7 +25,7 @@ public class saveSessionJSON {
     private String sessionName;
     private int mapNumber; //номер планеты
     List<mobsInfo> mobList = new ArrayList();
-    List<obstaclesInfo> obstacleList = new ArrayList();
+    List<FieldObjectsInfoExceptRobot> obstacleList = new ArrayList();
     List<robotsInfo> robotList = new ArrayList();
     public saveSessionJSON(){
         

@@ -40,11 +40,18 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import org.intsys16.gamelogic.FieldControl.Field_object;
 import org.intsys16.gamelogic.sessionJSON.mobsInfo;
-import org.intsys16.gamelogic.sessionJSON.obstaclesInfo;
+import org.intsys16.gamelogic.sessionJSON.FieldObjectsInfoExceptRobot;
 import org.intsys16.gamelogic.sessionJSON.robotsInfo;
 import org.intsys16.gamelogic.sessionJSON.saveSessionJSON;
 import org.intsys16.gamelogic.sessionJSON.loadSessionJSON;
 import org.intsys16.gamelogic.RobotsControl.Obstacles;
+//DimaIra
+import org.intsys16.gamelogic.RobotsControl.Stone;
+import org.intsys16.gamelogic.RobotsControl.Liquid;
+import org.intsys16.gamelogic.RobotsControl.Pit;
+import org.intsys16.gamelogic.RobotsControl.smallHealth;
+import org.intsys16.gamelogic.RobotsControl.mediumHealth;
+import org.intsys16.gamelogic.RobotsControl.largeHealth;
 /**
  *
  * @author Julia
@@ -212,7 +219,7 @@ public class HodikIntegratorImpl extends Integrator {
         obj.loadSession(JSONfileName);
         level = obj.getMapNumber();
         List<mobsInfo> mobList = new ArrayList();
-        List<obstaclesInfo> obstacleList = new ArrayList();
+        List<FieldObjectsInfoExceptRobot> obstacleList = new ArrayList();
         List<robotsInfo> robotList = new ArrayList();
         mobList = obj.getMobs();
         obstacleList = obj.getObstacles();
@@ -232,15 +239,42 @@ public class HodikIntegratorImpl extends Integrator {
         for (int i = 0; i < obstacleList.size(); i++) {
             Coordinate coords = new Coordinate();
             coords = obstacleList.get(i).getObsCoords();
-            int damage = obstacleList.get(i).getObsDamage();
-            Obstacles obs = new Obstacles (F, coords, damage);
+           /// int damage = obstacleList.get(i).getObsDamage();  - размер ущерба/бонуса задан константой при создании класса 
+            String className = obstacleList.get(i).getClassname(); // распознаем тип объекта поля по имени класса
+            Field_object f; // создаем объект поля, куда кладем препятствие/бонус
+            switch(className.toLowerCase())
+            {
+                case "liquid":
+                    f = new Liquid(F, coords);
+                    break;
+                case "stone":
+                    f = new Stone(F, coords);
+                    break;   
+                case "pit":
+                    f = new Pit(F, coords);
+                    break;
+                case "smallhealth":
+                    f = new smallHealth(F, null, coords); // interpretator вообще нужен в конструкторе healthBonus?
+                    break;
+                case "mediumhealth":
+                    f = new mediumHealth(F, null, coords); // interpretator вообще нужен в конструкторе healthBonus?
+                    break;
+                case "largehealth":
+                    f = new largeHealth(F, null, coords); // interpretator вообще нужен в конструкторе healthBonus?
+                    break;
+                default: 
+                    f = null;//чтобы инициализировать f в любом случае -- может вызовет ошибки?
+                    break;
+            }
+            F.getHex().put(coords, f);
+            //Obstacles obs = new Obstacles (F, coords, damage);
         }
         for (int i = 0; i < mobList.size(); i++) {
             //заглушка для добавления плохих роботов
         }
     }
-    @Override
-    public void saveCurrentSession()
+ @Override
+  public void saveCurrentSession()
     {
         int map = level;
         
@@ -248,33 +282,54 @@ public class HodikIntegratorImpl extends Integrator {
         coordinates.setX(0);
         coordinates.setY(0);
         List<mobsInfo> mobList = new ArrayList();
-        List<obstaclesInfo> obstacleList = new ArrayList();
+        List<FieldObjectsInfoExceptRobot> obstacleList = new ArrayList();
         List<robotsInfo> robotList = new ArrayList();
         Field fieldObj = getCurrentField();
         List <Field_object> objects = fieldObj.getObjects();
         for (int i = 0; i < objects.size(); i++){
-            /*
-            эта хрень с if-ами ужасна. 
-            она такая для того, чтобы отделить мобов от препятствий. 
-            в будущем сделайте ровно, плизки 
-            */
-            if (!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("robot")){
-                if ((!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("obstacles")) &&
-                    (!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("Stone")) &&
-                    (!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("Liquid")) &&
-                    (!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("Pit"))){
-                        mobsInfo mob = new mobsInfo(objects.get(i).getActtype(), objects.get(i).getDamage(), objects.get(i).getCoord());
-                        mobList.add(mob);
-                }
-                else {
-                    obstaclesInfo obstacle = new obstaclesInfo(objects.get(i).getDamage(), objects.get(i).getCoord());
+            String className = objects.get(i).getClass().getSimpleName().toLowerCase();
+            switch(className){
+                case "robot":
+                    break;
+                //если не робот, то препятствие или бонус
+                case "liquid":
+                case "pit":
+                case "stone":
+                case "smallhealth":
+                case "mediumhealth":
+                case "largehealth":
+                    FieldObjectsInfoExceptRobot obstacle = new FieldObjectsInfoExceptRobot(/*objects.get(i).getDamage(), - потому что зависит только от класса*/
+                            objects.get(i).getCoord(), objects.get(i).getClass().getSimpleName());
+                    //не используем className, т.к. оно было переведено в нижний регистр (DimaIra)
                     obstacleList.add(obstacle);
-                }                
+                    break;
+                default: // для мобов нет отдельного названия класса?
+                mobsInfo mob = new mobsInfo(objects.get(i).getActtype(), objects.get(i).getDamage(), objects.get(i).getCoord());
+                mobList.add(mob);
+                    break;
             }
-            else {
-//                robotsInfo robot = new robotsInfo(getCurrentRobot().getName(), getCurrentRobot().getCoord(), getCurrentRobot().getDir(), getCurrentRobot().getHP(), getCurrentRobot().getScore());
-//                robotList.add(robot);
-            }
+//            /*
+//            эта хрень с if-ами ужасна. 
+//            она такая для того, чтобы отделить мобов от препятствий. 
+//            в будущем сделайте ровно, плизки 
+//            */
+//            if (!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("robot")){
+//                if ((!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("obstacles")) &&
+//                    (!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("Stone")) &&
+//                    (!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("Liquid")) &&
+//                    (!objects.get(i).getClass().getSimpleName().equalsIgnoreCase("Pit"))){
+//                        mobsInfo mob = new mobsInfo(objects.get(i).getActtype(), objects.get(i).getDamage(), objects.get(i).getCoord());
+//                        mobList.add(mob);
+//                }
+//                else {
+//                    FieldObjectsInfoExceptRobot obstacle = new FieldObjectsInfoExceptRobot(objects.get(i).getDamage(), objects.get(i).getCoord());
+//                    obstacleList.add(obstacle);
+//                }                
+//            }
+//            else {
+////                robotsInfo robot = new robotsInfo(getCurrentRobot().getName(), getCurrentRobot().getCoord(), getCurrentRobot().getDir(), getCurrentRobot().getHP(), getCurrentRobot().getScore());
+////                robotList.add(robot);
+//            }
         }              
         robotsInfo robot = new robotsInfo(getCurrentRobot().getName(), getCurrentRobot().getCoord(), getCurrentRobot().getDir(), getCurrentRobot().getHP(), getCurrentRobot().getScore());
         robotList.add(robot);

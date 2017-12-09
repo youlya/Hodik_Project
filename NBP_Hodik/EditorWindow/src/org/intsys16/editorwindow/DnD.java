@@ -4,6 +4,7 @@ package org.intsys16.editorwindow;
  * @author grinar
  */
 import java.util.ArrayList;
+import java.util.Arrays;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -27,7 +28,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import org.intsys16.GameObjectUtilities.AbstractProgram;
-import org.openide.util.Lookup;
 import org.intsys16.integrator.api.Integrator;
 
 
@@ -83,20 +83,56 @@ public class DnD extends Pane{
     public ArrayList<String> getSequence(){
         return sequence;
     }
-    public void setSequence(ArrayList<String> sequence){
+    public void setSequence(ArrayList<String> sequence){ //обновление последовательности команд и последовательности их картинок
+      imageseq.clear();
       this.sequence = sequence;
-        //todo repaint
-   
-      
+      for (int i=0; i < this.sequence.size(); i++) {
+        if (isCommand(this.sequence.get(i))) {
+          ImageView nw = getPicture(getCommand(this.sequence.get(i)), false, i);
+          imageseq.add(nw);
+        }
+        else {
+            this.sequence.remove(i);
+            i--;
+        }
+      }
+    }
+    public void gridUpdate() { //обновление GridPane. Вызывать в отдельном потоке!! (см. метод componentActivated в классе GraphicEditorTopComponent)
+        grid.getChildren().clear();
+        for (int i =0; i<sequence.size(); i++) {
+            int y = i / (xx+1);
+            int x = i - y*xx;
+            imageseq.get(i).setId(""+i);
+            grid.add(createAnchorPane(imageseq.get(i),i), x, y);
+        }
     }
     public boolean isCommand(String command) {
-        if(command.equals(integr.getCommandAt(1)+" "+integr.getCommandAt(3)) ||
-                command.equals(integr.getCommandAt(1)+" "+integr.getCommandAt(2)) ||
-                command.equals(integr.getCommandAt(0)))
-            return true; 
-        
-        else
-            return false;
+        String commandarr[] = command.split(" ");                
+        if(commandarr[0].equals(integr.getCommandAt(1))) {
+            if (commandarr[1].equals(integr.getCommandAt(3)) || commandarr[1].equals(integr.getCommandAt(2))) {
+                if (commandarr.length == 2) return true; 
+                else {
+                    try {
+                            Integer.parseInt(commandarr[2]);
+                            return true;
+                        } 
+                    catch (NumberFormatException e) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        if (commandarr[0].equals(integr.getCommandAt(0))) return true;
+        return false;
+    }
+    public Command getCommand(String command) { //метод, вытягивающий команды "Step", "Rotate Right"  и "Rotate Left". Можно доработать для извлечения других команд из алфавита.
+        String commandarr[] = command.split(" ");                
+        if(commandarr[0].equals(integr.getCommandAt(1))) {
+            if (commandarr[1].equals(integr.getCommandAt(3))) return commands.get(0);
+            if (commandarr[1].equals(integr.getCommandAt(2))) return commands.get(1);
+        }
+        if (commandarr[0].equals(integr.getCommandAt(0))) return commands.get(2);
+        return null;
     }
     private String sequenceToString() {
         String s = "";
@@ -266,6 +302,7 @@ public class DnD extends Pane{
         }
         sp1.setVvalue(1.0);
     }
+   
     private Node getNFGrid(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
@@ -375,12 +412,12 @@ public class DnD extends Pane{
             grid.getChildren().clear();
             
             //String s = sequenceToString();
-            sequence = graphicTC.getLookup().lookup(AbstractProgram.class).getSequence();
-            graphicTC.getLookup().lookup(AbstractProgram.class).setProgramText(" ");
-            graphicTC.getLookup().lookup(AbstractProgram.class).addLineToProgram(sequence.get(0));
-            Command c = commands.get(2);
-            ImageView nw = getPicture(c, false, sequence.size() - 1);
-            imageseq.add(nw);
+            //sequence = graphicTC.getLookup().lookup(AbstractProgram.class).getSequence();
+            //graphicTC.getLookup().lookup(AbstractProgram.class).setProgramText(" ");
+            //graphicTC.getLookup().lookup(AbstractProgram.class).addLineToProgram(sequence.get(0));
+            //Command c = commands.get(2);
+            //ImageView nw = getPicture(c, false, sequence.size() - 1);
+            //imageseq.add(nw);
             for (int i = 0; i<sequence.size();i++){
                 int y = i / (xx+1);
                 int x = i - y*xx;
