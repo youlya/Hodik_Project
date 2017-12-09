@@ -4,6 +4,14 @@ package org.intsys16.mapwindow;
  *
  * @author grinar
  */
+/*
+    От 3-его курса 2017 года:
+    Мы делали загрузку/запись сессии, но из-за неправильно работающей карты пришлось очень сильно менять 
+    функции в GraphicMap. Нами изменненные функции находятся в соответствующих местах по комментарием
+    с пометкой LapshinaIrina или IrinaLapshina. Если вы хотите адеватно работающую загрузку сессии (чтобы робот
+    работал при любых изначальных координатах, а не только (0,0), можете раскомментировать.
+    Искренне ваши, Лапшина Ирина и Анохин Дмитрий. Удачи в борьбе с проявлениями идиотизма данного проекта!
+*/
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -267,7 +275,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         scoreRect.setArcHeight(5);
         scoreRect.setLayoutX(height);
         scoreRect.setLayoutY(5);
-
+        robot temprobot = (robot) gr; // или лучше прописать getRobot у Map и получить его через map.getGoodRobot()?
         textEaten = new Text(Bundle.Text_Bonus() + ": " + temprobot.getScore().getEat_sc());
         textEaten.setFill(Color.WHITE);
         textEaten.setLayoutX(height + 5);
