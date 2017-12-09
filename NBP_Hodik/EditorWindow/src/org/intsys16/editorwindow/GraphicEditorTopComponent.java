@@ -9,12 +9,14 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javafx.application.Platform;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
+import org.intsys16.GameObjectUtilities.AbstractProgram;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.netbeans.core.spi.multiview.CloseOperationState;
 import org.netbeans.core.spi.multiview.MultiViewElement;
@@ -87,7 +89,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
         add(fxPanel, BorderLayout.NORTH);   
         Platform.setImplicitExit(false);
         fxPanel.updateUI();
-        Platform.runLater(() -> createScene());      
+        Platform.runLater(() -> createScene());
     }
     
   
@@ -101,31 +103,13 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
         scene.heightProperty().addListener((ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) -> {
                 dragNDrop.setPrefHeight((double)newSceneHeight);
             });
-        //setCommandSequence(); // уже что-то есть в text area
- 
     }
     public ArrayList<String> getCommandSequence() {
         return dragNDrop.getSequence();
     }
-    
-    //УБРАТЬ GET SEQUENCE 
     public void setCommandSequence() {
-        ArrayList<String> commands = new ArrayList<>();
-        commands = getLookup().lookup(ProgramNode.class).getSequence(); //в commands запихиваем последовательность команд
-        //if(dragNDrop.isCommand(programLine))
-        dragNDrop.setSequence(commands);
-       
-        /* if (dragNDrop.sequence.isEmpty()==true)
-             fxPanel.updateUI(); //очистить панель?
-        
-        else {
-             
-         int i = dragNDrop.commands.size();
-          while(dragNDrop.sequence.isEmpty()==false)
-          {
-              dragNDrop.deleteItem(dragNDrop.getPicture(dragNDrop.commands.get(i), true, i));
-              i--;
-          }}*/ }
+        dragNDrop.setSequence(getLookup().lookup(ProgramNode.class).getSequence());
+    }
         
     public void setMultiPanel(TopComponent multiPanel) {
       this.multiPanel = multiPanel;
@@ -201,7 +185,7 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
 
     @Override
     public void componentShowing() { //записываать commands 
-        //КОДИТЬ ЗДЕСЬ!!! 
+        //setCommandSequence();
     }
 
     @Override
@@ -211,12 +195,13 @@ public final class GraphicEditorTopComponent extends TopComponent implements Mul
 
     @Override
     public void componentActivated() {
-        //setCommandSequence(); 
+        setCommandSequence();
+        Platform.runLater(() -> {dragNDrop.gridUpdate();});
     }
 
     @Override
     public void componentDeactivated() {
-        //
+        
     }
 
     @Override

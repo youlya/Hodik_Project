@@ -91,7 +91,6 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
     //private Lookup proxyLookup;
     public Lookup lookup;
     //private ProgramNode progNode;
-    
 
     
     public TextEditorTopComponent() {
@@ -141,8 +140,8 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
 
        programText.textProperty().bindBidirectional(  
                 getLookup().lookup(AbstractProgram.class).programTextProperty());
- 
-    
+       
+
           //  programText.addEventHandler(EventType.ROOT, EventHandler ); //нужно создать объект eventHandler
     }
     
@@ -183,9 +182,15 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
-
-        jToolBar1.setRollover(true);
+        addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                formAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -199,6 +204,10 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formAncestorAdded
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
@@ -211,6 +220,7 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
     @Override
     public void componentClosed() {
         // TODO add custom code on component closing
+        
     }
 
     void writeProperties(java.util.Properties p) {
@@ -256,7 +266,7 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
 
     @Override
     public void componentHidden() {
-        //
+        
     }
 
     @Override
@@ -266,7 +276,7 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
 
     @Override
     public void componentDeactivated() {
-        //
+
     }
 
     @Override
@@ -290,7 +300,10 @@ public final class TextEditorTopComponent extends TopComponent implements MultiV
         public void changedUpdate(DocumentEvent e){}
         
         @Override
-        public void insertUpdate(DocumentEvent e){}
+        public void insertUpdate(DocumentEvent e){
+            e.getDocument();
+            
+        }
         
         @Override
         public void removeUpdate(DocumentEvent e){}
