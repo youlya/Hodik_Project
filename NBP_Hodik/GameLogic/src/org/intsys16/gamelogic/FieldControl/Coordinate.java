@@ -12,7 +12,7 @@ import org.w3c.dom.*;
  *
  * @author NS
  */
-public class Coordinate
+public class Coordinate implements Comparable<Coordinate>
 {
     public int x;
     public int y;
@@ -43,6 +43,15 @@ public class Coordinate
     {
         return "("+x+"; "+y+")";
     }
+    @Override
+    public int compareTo(Coordinate cc)
+    {
+        int res;
+        res = x - cc.x;
+        if (res == 0)
+            res = y - cc.y;
+        return res;
+    }
     
     //координаты
     public XMLobject toXML(XMLobject obj)
@@ -58,6 +67,7 @@ public class Coordinate
         obj.setcurrCoord(coord);
         return obj;
     }
+    
 
 @Override
 public int hashCode() 

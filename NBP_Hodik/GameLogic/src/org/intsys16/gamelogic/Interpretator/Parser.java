@@ -113,7 +113,7 @@ public class Parser {
      //не позволяет нормально реализовать через приведение типов
      //так что как есть
         commands.add(new Step(currRobot));
-        commands.add(new Rotate("left", currRobot));
+        commands.add(new Rotate("left", currRobot)); //???????????????? 
         commands.add(new Help());
         commands.add(new UnknownCommand());    
         return commands;
@@ -165,8 +165,28 @@ public class Parser {
         }
         return buffer;
     }
+  private String getAngle(String angle){
+       int angleint = Integer.parseInt(angle) % 360;
+       if(angleint >=0 && angleint <=45)
+           return "0";
+       else if(angleint >45 && angleint <=90)
+           return "90";
+       else if(angleint >90 && angleint <=135)
+           return "90";
+       else if(angleint >135 && angleint <=180)
+           return "180";
+       else if(angleint >180 && angleint <=225)
+           return "180";
+       else if(angleint >225 && angleint <=270)
+           return "270";
+       else if(angleint >270 && angleint <=315)
+           return "270";
+       else if (angleint >315 && angleint <360)
+           return "0";
+       else return null;
+        }
     void Parse() {
-        ArrayList<String> buffer=prepare();
+        ArrayList<String> buffer=prepare(); 
   
         for (int i = 0; i < buffer.size(); i++){
             CMD result = null;
@@ -182,12 +202,12 @@ public class Parser {
                 } 
                 if (buffer.get(i).equals("Rotate") || (buffer.get(i).equals("Turn"))) {
                     String tag = buffer.get(i + 1);
-                    
+                     
                     if (tag.toLowerCase().equals("left")) {
                         /*result = new Rotate("left",currRobot);
                         cmdList.add(result);
                         i++;*/
-                        String angle = buffer.get(i + 2);
+                        String angle = getAngle(buffer.get(i + 2));
                         if((angle.toLowerCase().equals("90"))){
                             result = new Rotate("left",currRobot);
                             cmdList.add(result);
@@ -206,7 +226,7 @@ public class Parser {
                             result = new Rotate("right", currRobot);
                             cmdList.add(result);
                             i=i+2;
-                            continue; 
+                            continue;  
                         }
                         else{
                             result = new UnknownCommand(currRobot, buffer.get(i), "angle");
@@ -219,7 +239,7 @@ public class Parser {
                         /*result = new Rotate("left",currRobot);
                         cmdList.add(result);
                         i++;*/
-                        String angle = buffer.get(i + 2);
+                        String angle = getAngle(buffer.get(i + 2));
                         if((angle.toLowerCase().equals("90"))){
                             result = new Rotate("right",currRobot);
                             cmdList.add(result);
@@ -273,3 +293,5 @@ public class Parser {
         return status;
     }
 }
+
+

@@ -1,8 +1,2 @@
 
-
-
-Step
-Step
-Step
-Step
-Fly
+Rotate Left 90
