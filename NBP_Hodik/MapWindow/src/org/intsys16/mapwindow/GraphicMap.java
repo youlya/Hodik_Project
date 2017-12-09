@@ -39,6 +39,11 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import org.intsys16.GraphicMapAPI.GraphicMapAPI;
 import org.intsys16.gamelogic.FieldControl.Coordinate;
+import org.intsys16.gamelogic.FieldControl.Direction;
+import static org.intsys16.gamelogic.FieldControl.Direction.DOWN;
+import static org.intsys16.gamelogic.FieldControl.Direction.LEFT;
+import static org.intsys16.gamelogic.FieldControl.Direction.RIGHT;
+import static org.intsys16.gamelogic.FieldControl.Direction.UP;
 import org.intsys16.gamelogic.FieldControl.Field;
 import org.intsys16.gamelogic.FieldControl.Field_object;
 import org.intsys16.gamelogic.Interpretator.Program;
@@ -263,15 +268,15 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         scoreRect.setLayoutX(height);
         scoreRect.setLayoutY(5);
 
-        textEaten = new Text(Bundle.Text_Bonus() + ": 0");
+        textEaten = new Text(Bundle.Text_Bonus() + ": " + temprobot.getScore().getEat_sc());
         textEaten.setFill(Color.WHITE);
         textEaten.setLayoutX(height + 5);
         textEaten.setLayoutY(25);
-        textBI = new Text(Bundle.Text_Obstacles() + ": 0");
+        textBI = new Text(Bundle.Text_Obstacles() + ": " + temprobot.getScore().getObs_sc());
         textBI.setFill(Color.WHITE);
         textBI.setLayoutX(height + 5);
         textBI.setLayoutY(50);
-        textSS = new Text(Bundle.Text_Steps() + ": 0");
+        textSS = new Text(Bundle.Text_Steps() + ": " + temprobot.getScore().get_Stepsc());
         textSS.setFill(Color.WHITE);
         textSS.setLayoutX(height + 5);
         textSS.setLayoutY(75);
@@ -403,12 +408,16 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
         private ImageView gr_iv = null;
         private final int rows;
         private final Coordinate gr_pos;
+        //20170505 IrinaLapshina
+        private final Direction gr_direction;
+        private final int dr_shift;
+        ///
         private robot good_r;
         private boolean robot_moving = false, move_from_key = false;
         private int dirx = 0, diry = 0;
         private boolean running = false;
         private ArrayList<ArrayList<Node>> m = new ArrayList<>();
-
+      
         public void deleteObjFromMap(Coordinate local) {
             Node r = m.get(local.y).get(local.x);
             this.getChildren().remove(r);
@@ -426,10 +435,12 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
 
         private Coordinate getTransCoordFromGR(int j, int i) {
             return new Coordinate(j - dx, i - dy);
+            //return new Coordinate(dx - rows + 1 + j, dy - rows + 1 + i); LapshinaIrina
         }
 
         private Coordinate getLocalCoordFromGR(int j, int i) {
             return new Coordinate(j + dx, i + dy);
+            //return new Coordinate(j - (dx - rows + 1), i - (dy - rows + 1)); LapshinaIrina
         }
         private Field_object tt = null;
 
@@ -522,6 +533,13 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             switch (ob) {
                 case GOOD_ROBOT:
                     gr_iv = getCellImageView("field_objects/gr_1.png", c);
+                    switch(gr_direction)
+                    {
+                        case UP: break;
+                        case DOWN: gr_iv.setRotate(180); break;
+                        case LEFT: gr_iv.setRotate(270); break;
+                        case RIGHT: gr_iv.setRotate(90); break;
+                    }
                     return getCellRectangle(0.3, c);
                 case LIQUID:
                     return getCellImageView("field_objects/l_1.png", c);
@@ -550,6 +568,10 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             cell_width = (width - (rows + 1) * border_width) / rows;
             int dr = (rows_count_even ? rows / 2 - 1 : rows / 2);
             gr_pos = gr.getCoord();
+            ///20170505 IrinaLapshina 
+            dr_shift = (rows_count_even ? rows / 2 - 1 : rows / 2);
+            gr_direction = gr.getDir();
+            ///
             dx = dr + gr_pos.getX();
             dy = dr + gr_pos.getY();
             f.getHex().put(gr_pos, gr);
@@ -593,21 +615,25 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             r.setLayoutX(border_width * (j + 1) + cell_width * j);
             r.setLayoutY(border_width * (i + 1) + cell_width * i);
         }
-
+// tempchange - Irina Lapshina, 20170613
         private int getXLeft() {
             return 0 - dx;
+            //return dx - rows + 1; LapshinaIrina 20171209
         }
 
         private int getXRight() {
-            return rows - 1 - dx;
+           return rows - 1 - dx;
+           // return dx; LapshinaIrina
         }
 
         private int getYUp() {
             return 0 - dy;
+            //return dy - rows + 1; LapshinaIrina
         }
 
         private int getYDown() {
             return rows - 1 - dy;
+           //return dy; LapshinaIrina
         }
 
         private void drawCells(int delx, int dely) {
@@ -628,14 +654,38 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                 ya.add(ty);
             }
             if (gr_iv != null) {
-                setMapLayout(gr_iv, gr_pos.x + dx, gr_pos.y + dy);
+                setMapLayout(gr_iv, dr_shift/*gr_pos.x + dx*/, dr_shift/*gr_pos.y + dy*/);
                 getChildren().add(gr_iv);
             }
         }
+/*Lapshina Irina; версии из ветки Save-load-session
+		private boolean atUpperEdge() {
+            return (move_from_key ? gr_pos.getY() == dy - rows + 1 :
+                    gr_pos.getY() + 1 == dy - rows + 1);
+                    
+        }
 
-     /*   private boolean atUpperEdge() {
+        private boolean atBottomEdge() {
+            return (move_from_key ? gr_pos.getY() == dy: 
+                        gr_pos.getY() - 1 == dy);
+        }
+
+        private boolean atLeftEdge() {
+            return (move_from_key ? gr_pos.getX() == dx - rows + 1 :
+                        gr_pos.getX() + 1 == dx - rows + 1);
+        }
+
+        private boolean atRightEdge() {
+            return (move_from_key ? gr_pos.getX() == dx: 
+                        gr_pos.getX() - 1 == dx);
+        }
+
+*/
+     /*Старые версии из master
+     private boolean atUpperEdge() {
             return (move_from_key ? gr_pos.getY() == 0 - dy :
                         gr_pos.getY() + 1 == 0 - dy);
+                        //gr_pos.getY() + 1 == dy - rows + 1); Lapshina
         }
 
         private boolean atBottomEdge() {
@@ -652,6 +702,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
             return (move_from_key ? gr_pos.getX() == rows - 1 - dx: 
                         gr_pos.getX() - 1== rows - 1 - dx);
         }*/
+        
         private boolean atUpperEdge(){
             return(gr_pos.getY()==upperCameraBorder);
         }
@@ -666,6 +717,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
 
         private boolean atRightEdge() {
             return(gr_pos.getX()==rightCameraBorder);
+
         }
 
         private void drawCells() {
@@ -752,6 +804,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                         leftCameraBorder--;
                         rightCameraBorder--;
                         moveRight();
+                        
                     } else {
                         robot_moving = true;
                         moveLeft();
@@ -899,6 +952,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                         getChildren().add(r);
                     }
                     dy++;
+                    //dy--; LapshinaIrina
                     m.add(0, na);
                     Text t = getNumText(5, -cell_width / 2, "" + getYUp());
                     ya.add(0, t);
@@ -980,6 +1034,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                         getChildren().add(r);
                     }
                     dy--;
+                    //dy++; LapshinaIrina
                     m.add(na);
                     Text t = getNumText(5, width + cell_width / 2, "" + getYDown());
                     ya.add(t);
@@ -1038,6 +1093,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                         map.getChildren().add(r);
                     }
                     dx++;
+                    //dx--;LapshinaIrina
                     Text t = getNumText(-cell_width / 2, 5, "" + getXLeft());
                     xa.add(0, t);
                     Xaxis.getChildren().add(t);
@@ -1079,7 +1135,7 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                 }
                 move_from_key = false;
             }
-            reAddGR();            
+            reAddGR();
         }
 
         private void moveLeft() throws InterruptedException {
@@ -1098,6 +1154,31 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
                     Text t = getNumText(width + cell_width / 2, 5, "" + getXRight());
                     xa.add(t);
                     Xaxis.getChildren().add(t);
+					/*IrinaLapshina
+				if (!robot_moving) {
+                    for (int i = 0; i < rows; i++) {
+                        Node r = getCellImage(dx, i);
+                        r.setLayoutX(width);
+                        r.setLayoutY(border_width * (i + 1) + cell_width * i);
+                        m.get(i).add(rows, r);
+                        map.getChildren().add(r);
+                    }
+                    dx--;
+                    Text t = getNumText(width + cell_width / 2, 5, "" + getXRight());
+                 xa.add(t);
+                   Xaxis.getChildren().add(t);
+                    for (int i = 0; i < rows; i++) {
+                        Node r = getCellImage(dx, i);
+                        r.setLayoutX(width);
+                        r.setLayoutY(border_width * (i + 1) + cell_width * i);
+                        m.get(i).add(rows, r);
+                        map.getChildren().add(r);
+                    }
+                    dx++;
+                    Text t = getNumText(width + cell_width / 2, 5, "" + getXRight());
+                     xa.add(t);
+                    Xaxis.getChildren().add(t);
+                    */
                     List<Double> probabilities;
                     probabilities = new ArrayList<>();
                     probabilities.add(ow.getObjWeight(1));
