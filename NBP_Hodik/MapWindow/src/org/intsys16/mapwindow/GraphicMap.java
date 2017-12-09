@@ -319,12 +319,12 @@ public class GraphicMap extends ScrollPane implements GraphicMapAPI {
     }
     public int[] getCameraBorders()
     {
-        int []i = {upperCameraBorder, leftCameraBorder, bottomCameraBorder, rightCameraBorder};
+        int []i = {upperBorder, leftBorder, bottomBorder, rightBorder};
         return i;
     }
     public void setCameraBorders(int Up, int Left, int Bot, int Right)
     {
-        upperCameraBorder = Up; leftCameraBorder = Left; bottomCameraBorder = Bot; rightCameraBorder = Right;
+        upperBorder = Up; leftBorder = Left; bottomBorder = Bot; rightBorder = Right;
     }
     private void setNewHeight(double h) {
         if (this.getWidth() < this.getHeight() + panel_width) {
